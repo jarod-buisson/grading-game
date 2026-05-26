@@ -105,6 +105,71 @@
       "license": "CC BY-NC",
       "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
       "instagram": null
+    },
+    {
+      "id": "009",
+      "title": "Challenge 009",
+      "meta": "—",
+      "cover": "images/challenges/009/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/009/source.raf",
+      "sourceSize": 58885952,
+      "reference": "images/challenges/009/reference.jpg",
+      "photographer": "Hugo Mallat",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": "jarod_buisson"
+    },
+    {
+      "id": "010",
+      "title": "Challenge 010",
+      "meta": "—",
+      "cover": "images/challenges/010/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/010/source.raf",
+      "sourceSize": 29820128,
+      "reference": "images/challenges/010/reference.jpg",
+      "photographer": "Hugo Mallat",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": "jarod_buisson"
+    },
+    {
+      "id": "011",
+      "title": "Challenge 011",
+      "meta": "—",
+      "cover": "images/challenges/011/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/011/source.raf",
+      "sourceSize": 28886912,
+      "reference": "images/challenges/011/reference.jpg",
+      "photographer": "Hugo Mallat",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": "jarod_buisson"
+    },
+    {
+      "id": "012",
+      "title": "Challenge 012",
+      "meta": "—",
+      "cover": "images/challenges/012/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/012/source.raf",
+      "sourceSize": 19169712,
+      "reference": "images/challenges/012/reference.jpg",
+      "photographer": "Hugo Mallat",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": "jarod_buisson"
+    },
+    {
+      "id": "013",
+      "title": "Challenge 013",
+      "meta": "—",
+      "cover": "images/challenges/013/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/013/source.raf",
+      "sourceSize": 22532368,
+      "reference": "images/challenges/013/reference.jpg",
+      "photographer": "Hugo Mallat",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": "jarod_buisson"
     }
   ]
 }

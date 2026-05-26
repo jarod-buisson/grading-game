@@ -61,7 +61,13 @@
             // True so that the OAuth `?code=…&state=…` query string
             // appended on return from Google is detected and exchanged
             // for a session automatically by the SDK.
-            detectSessionInUrl: true
+            detectSessionInUrl: true,
+            // Disable cross-tab auth lock. The default uses navigator.locks
+            // to coordinate sessions across tabs, but if a page unloads
+            // mid-operation the lock can stay held → next page hangs on
+            // getSession() forever. We don't need multi-tab coordination
+            // for grading.game, so we replace the lock with a no-op.
+            lock: (_name, _acquireTimeout, fn) => Promise.resolve(fn())
         },
         realtime: {
             params: { eventsPerSecond: 10 }

@@ -57,16 +57,19 @@
     const supabase = global.supabase.createClient(CONFIG.url, CONFIG.key, {
         auth: {
             persistSession: true,
-            autoRefreshToken: true,
+            // Auto-refresh disabled. The SDK's background refresh task can
+            // interfere with getSession on page navigations (we observed
+            // 5s+ hangs). We rely on Supabase to issue a session that's
+            // good for ~1h after sign-in; if it expires the user simply
+            // re-signs-in. Future improvement: implement manual refresh.
+            autoRefreshToken: false,
             // True so that the OAuth `?code=…&state=…` query string
             // appended on return from Google is detected and exchanged
             // for a session automatically by the SDK.
             detectSessionInUrl: true,
-            // Disable cross-tab auth lock. The default uses navigator.locks
-            // to coordinate sessions across tabs, but if a page unloads
-            // mid-operation the lock can stay held → next page hangs on
-            // getSession() forever. We don't need multi-tab coordination
-            // for grading.game, so we replace the lock with a no-op.
+            // Disable cross-tab auth lock (navigator.locks). Defense in
+            // depth — our actual fix is reading storage directly in
+            // boot(), but no point keeping a known-buggy lock around.
             lock: (_name, _acquireTimeout, fn) => Promise.resolve(fn())
         },
         realtime: {
@@ -123,22 +126,40 @@
 
 
     /* ============================================================
+       Read the Supabase session directly from localStorage.
+       Bypasses the SDK's getSession() which can hang on internal
+       coordination tasks (refresh, lock acquisition, etc.). Returns
+       the session object on success, null if absent or unparseable.
+       ============================================================ */
+    function readSessionFromStorage() {
+        try {
+            // Supabase storage key format: `sb-<projectref>-auth-token`
+            // The projectref is the leading subdomain of the project URL.
+            const projectRef = new URL(CONFIG.url).hostname.split('.')[0];
+            const storageKey = `sb-${projectRef}-auth-token`;
+            const raw = localStorage.getItem(storageKey);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            // The Supabase SDK has shipped a few storage shapes over
+            // versions — try the common ones in order.
+            return parsed?.currentSession || parsed?.session || parsed || null;
+        } catch (e) {
+            console.warn('[gg] could not read session from localStorage:', e.message);
+            return null;
+        }
+    }
+
+    /* ============================================================
        Boot: resume an existing session or sign in anonymously.
+       Reads localStorage DIRECTLY rather than calling
+       supabase.auth.getSession() — that SDK method has caused 5s+
+       hangs on page navigations (likely from inline refresh or lock
+       coordination), even with the lock disabled. Local read is
+       synchronous and never hangs.
        ============================================================ */
     async function boot() {
         try {
-            // Guard getSession with a timeout. If a stale refresh token in
-            // storage hangs the SDK, we wipe the bad state and fall back to
-            // anonymous mode rather than blocking the UI forever.
-            let existingSession = null;
-            try {
-                const res = await withTimeout(supabase.auth.getSession(), 5000, 'getSession');
-                existingSession = res?.data?.session || null;
-            } catch (e) {
-                console.warn('[gg] getSession hung — clearing auth storage and continuing as anon:', e.message);
-                clearSupabaseAuthState();
-                existingSession = null;
-            }
+            const existingSession = readSessionFromStorage();
 
             if (existingSession?.user) {
                 session = existingSession;
@@ -146,12 +167,11 @@
                 isAnon  = !session.user.email;
                 console.log(`[gg] resumed session · ${userId.slice(0, 8)} · ${isAnon ? 'anon' : 'auth'}`);
                 if (!isAnon) {
-                    // loadProfile already wraps its own queries in timeouts; a
-                    // failure here just leaves profile = null and the widget
-                    // re-renders as signed-out (with the sign-in button).
+                    // loadProfile already wraps its own queries in timeouts.
                     await loadProfile();
                 }
             } else {
+                // No session — anonymous sign-in.
                 try {
                     const { data, error } = await withTimeout(
                         supabase.auth.signInAnonymously(), 5000, 'signInAnonymously');

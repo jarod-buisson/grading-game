@@ -306,22 +306,40 @@
             return null;
         }
 
-        let data, error;
-        try {
-            const res = await withTimeout(
-                supabase.from('profile_stats').select('*').eq('id', userId).maybeSingle(),
-                5000, 'loadProfile');
-            data  = res.data;
-            error = res.error;
-        } catch (e) {
-            console.warn('[gg] profile query hung — clearing auth storage so user can re-sign-in:', e.message);
-            clearSupabaseAuthState();
+        // Bypass the Supabase SDK and call PostgREST directly. The SDK has
+        // shown to hang here for 5s+ on page navigations, even with auth
+        // lock and autoRefreshToken disabled. A plain fetch with the JWT
+        // manually attached takes <100ms.
+        const accessToken = session?.access_token;
+        if (!accessToken) {
+            console.warn('[gg] loadProfile: no access_token in session — cannot fetch profile');
             profile = null;
             return null;
         }
 
-        if (error) {
-            console.warn('[gg] profile load failed:', error);
+        let data = null;
+        try {
+            const url = `${CONFIG.url}/rest/v1/profile_stats?id=eq.${encodeURIComponent(userId)}&select=*&limit=1`;
+            const res = await withTimeout(fetch(url, {
+                method: 'GET',
+                headers: {
+                    'apikey':        CONFIG.key,
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Accept':        'application/json'
+                }
+            }), 5000, 'loadProfile');
+
+            if (!res.ok) {
+                console.warn('[gg] loadProfile failed:', res.status, res.statusText);
+                profile = null;
+                return null;
+            }
+
+            const rows = await res.json();
+            data = Array.isArray(rows) ? (rows[0] || null) : (rows || null);
+        } catch (e) {
+            console.warn('[gg] profile fetch hung or failed — clearing auth storage so user can re-sign-in:', e.message);
+            clearSupabaseAuthState();
             profile = null;
             return null;
         }

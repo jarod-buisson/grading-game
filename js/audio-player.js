@@ -10,7 +10,13 @@
 
     const VOL_KEY  = 'gradinggame.audioVolume';
     const MUTE_KEY = 'gradinggame.audioMuted';
-    const SRC      = 'audio/ambient.mp3';
+
+    /* Audio source — hosted on Cloudflare R2 (same bucket as RAW source
+       files). R2 has unlimited bandwidth + zero egress fees, so we don't
+       have to worry about quota even if the track is large or played
+       many times. The file is fetched cross-origin; CORS is configured
+       on the bucket to allow grading-game.com. */
+    const SRC      = 'https://sources.grading-game.com/audio/ambient.mp3';
 
     /* ---------- Inject widget HTML (once per page) ---------- */
     if (document.getElementById('audio-widget')) return;

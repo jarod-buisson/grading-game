@@ -1,0 +1,78 @@
+# =========================================================
+# grading.game · .assetsignore
+# =========================================================
+# Tells Cloudflare Pages / Workers Static Assets which files
+# should NOT be uploaded as servable assets. Each line is a
+# glob pattern relative to the project root.
+#
+# Cloudflare has a hard 25 MiB per-file limit on assets. Without
+# this file, `.git/objects/pack/*.pack` gets included and the
+# deploy fails because Git pack files grow well past 25 MiB.
+# =========================================================
+
+# Git internals — never serve the repo's history as a website asset.
+.git/
+.gitignore
+.gitattributes
+
+# Editor / IDE config
+.vscode/
+.idea/
+.cursor/
+*.code-workspace
+*.swp
+*~
+
+# Cloudflare CLI caches and dev vars
+.wrangler/
+.dev.vars*
+
+# Claude / AI assistant local data
+.claude/
+
+# Python build scripts and caches — used locally only
+__pycache__/
+*.pyc
+*.pyo
+*.py
+*.bat
+
+# Documentation / project notes — not served publicly
+README.md
+*.md
+!images/challenges/README.md
+
+# Supabase migrations — server-side only, not part of the site
+supabase/
+
+# Partials / templates — only consumed by update_head.py locally
+partials/
+
+# Logs and OS noise
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Defense in depth: re-exclude RAW source files. These should
+# already be ignored by .gitignore, but in case one slipped in
+# locally and got uploaded, we skip it. RAWs live on R2 only.
+images/challenges/*/source.dng
+images/challenges/*/source.raw
+images/challenges/*/source.cr2
+images/challenges/*/source.cr3
+images/challenges/*/source.nef
+images/challenges/*/source.arw
+images/challenges/*/source.rw2
+images/challenges/*/source.raf
+images/challenges/*/source.tif
+images/challenges/*/source.tiff
+images/challenges/*/source.orf
+
+# This file itself doesn't need to be served
+.assetsignore

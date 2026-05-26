@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading.game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading.game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=5"></script>
+    <script src="js/auth-ui.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>about · grading.game — how the photo color-grading game works</title>
+    <meta name="description" content="How grading.game works: rules, full workflow, supported file formats, and what to expect from a solo or multiplayer round of photo color grading.">
+
+    <link rel="canonical"            href="https://grading-game.com/about.html">
+    <meta property="og:url"          content="https://grading-game.com/about.html">
+    <meta property="og:title"        content="About · grading.game">
+    <meta property="og:description"  content="Rules, workflow and supported file formats for the photo color-grading game.">
+    <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
+    <meta name="twitter:title"       content="About · grading.game">
+    <meta name="twitter:description" content="Rules, workflow and supported file formats for the photo color-grading game.">
+    <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+    <style>
+        .about-stage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+            gap: 32px;
+        }
+        .about-inner {
+            max-width: 620px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .about-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+        }
+        .about-title {
+            font-family: var(--font-ui);
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            line-height: 1.15;
+        }
+        .about-body p {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .about-body strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .rules-list {
+            list-style: none;
+            counter-reset: rule;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .rules-list li {
+            counter-increment: rule;
+            padding-left: 56px;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .rules-list li::before {
+            content: counter(rule, decimal-leading-zero);
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: var(--tracking-mono);
+            padding-top: 4px;
+            border-left: 1px solid var(--border);
+            padding-left: 12px;
+        }
+        .back-link {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 2px;
+            transition: color var(--t);
+            align-self: flex-start;
+            margin-top: 8px;
+        }
+        .back-link:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <!-- =================== TOP BAR =================== -->
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">.</span>game</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>05</span><span class="sep">·</span><span>about</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="about-stage">
+        <div class="about-inner">
+            <div class="about-eyebrow">05 · concept &amp; rules</div>
+            <h1 class="about-title">A grading duel,<br>photo by photo.</h1>
+            <div class="about-body">
+                <p>
+                    <strong>grading.game</strong> is a photo color-grading game.
+                    You're given an image — a RAW file, a negative scan, a flat
+                    export — and a time limit to develop it in the software of your
+                    choice before re-importing it into the round.
+                </p>
+                <p>
+                    In multiplayer, every submission is then revealed anonymously.
+                    Each player rates the others' grades (except their own).
+                    A winner is declared at the end.
+                </p>
+
+                <ol class="rules-list">
+                    <li>A source image is picked at random and presented to every player.</li>
+                    <li>Download the original (RAW / TIFF / DNG depending on the challenge).</li>
+                    <li>Grade it in the software you prefer — Lightroom, Capture One, DaVinci, Darktable.</li>
+                    <li>Re-import your final JPEG before the timer runs out.</li>
+                    <li>In multiplayer, vote on the other players' anonymous submissions.</li>
+                </ol>
+            </div>
+            <a href="index.html" class="back-link">← back to menu</a>
+        </div>
+    </main>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <script src="js/audio-player.js?v=3"></script>
+</body>
+</html>

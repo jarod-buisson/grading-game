@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading.game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading.game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=5"></script>
+    <script src="js/auth-ui.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>grading.game — photo color-grading game</title>
+    <meta name="description" content="A photo color-grading game. Pick a flat RAW or scan, develop your grade in your favorite software, then compete with other photographers in timed rounds.">
+    <meta name="keywords" content="color grading, photo grading, RAW grading, lightroom, capture one, darktable, davinci resolve, color theory, photography game">
+
+    <!-- Canonical + Open Graph + Twitter -->
+    <link rel="canonical"            href="https://grading-game.com/">
+    <meta property="og:url"          content="https://grading-game.com/">
+    <meta property="og:title"        content="grading.game — photo color-grading game">
+    <meta property="og:description"  content="A photo color-grading game. Develop a RAW or scan in your favorite software, then compete with other photographers in timed rounds.">
+    <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
+    <meta name="twitter:title"       content="grading.game — photo color-grading game">
+    <meta name="twitter:description" content="A photo color-grading game. Develop a RAW or scan, then compete with other photographers in timed rounds.">
+    <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+
+    <!-- Structured data for Google rich snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "grading.game",
+      "url": "https://grading-game.com/",
+      "description": "A photo color-grading game. Develop a RAW or scan in your favorite software, then compete with other photographers in timed rounds.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web · desktop (>= 800px viewport)",
+      "browserRequirements": "Requires JavaScript and a modern browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Organization", "name": "grading.game" }
+    }
+    </script>
+</head>
+
+<body class="bg-graded">
+    <script src="js/mobile-gate.js"></script>
+
+    <!--
+      Background stack (z-index goes from back to front):
+        bg-grade-layer  → dark gradient + SVG LUT filter from the tone curve
+        bg-grade-tint   → mode-dependent hue tint, fades in on menu hover
+      The SVG filter #tone-lut-filter is kept in sync with the bezier curve
+      by js/bezier-curve.js. The hue tint is driven by chromatic-wheel.js
+      via CSS variables --menu-hue + --menu-tint-alpha.
+    -->
+    <div class="bg-grade-layer" aria-hidden="true"></div>
+    <div class="bg-grade-tint"  aria-hidden="true"></div>
+
+    <!-- SVG filter definition — invisible, just a defs container -->
+    <svg class="svg-filter-defs" aria-hidden="true" focusable="false">
+        <defs>
+            <filter id="tone-lut-filter" color-interpolation-filters="sRGB">
+                <feComponentTransfer>
+                    <feFuncR id="lut-r" type="table" tableValues="0 1"/>
+                    <feFuncG id="lut-g" type="table" tableValues="0 1"/>
+                    <feFuncB id="lut-b" type="table" tableValues="0 1"/>
+                </feComponentTransfer>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- =================== TOP BAR =================== -->
+    <header class="top-bar">
+        <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 18 18" width="16" height="16">
+                    <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                </svg>
+            </span>
+            <span class="brand-name">grading<span class="brand-dot">.</span>game</span>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>v0.1</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- =================== MAIN — wheel menu =================== -->
+    <main class="menu-stage">
+        <h1 class="sr-only">grading.game — a photo color-grading game for photographers</h1>
+
+        <!-- LEFT side panel -->
+        <aside class="side-panel side-panel--left">
+            <div class="panel-block">
+                <div class="panel-label">cursor</div>
+                <div class="panel-value-row">
+                    <span class="panel-value panel-value--mono" id="cursor-hue">000°</span>
+                </div>
+            </div>
+            <div class="panel-block">
+                <div class="panel-label">selected</div>
+                <div class="panel-value" id="cursor-mode">—</div>
+            </div>
+            <div class="panel-block">
+                <div class="panel-label">nickname</div>
+                <input
+                    type="text"
+                    class="nickname-input"
+                    id="landing-nickname-input"
+                    maxlength="20"
+                    placeholder="pick a nickname"
+                    autocomplete="off"
+                    spellcheck="false">
+                <div class="panel-hint" id="landing-nickname-hint">saved locally · used in multi</div>
+            </div>
+            <div class="panel-block">
+                <div class="panel-label">grades sent</div>
+                <div class="panel-value panel-value--mono">0000</div>
+            </div>
+        </aside>
+
+        <!-- THE WHEEL -->
+        <div class="wheel-wrap">
+            <div class="wheel">
+                <!-- Layered visual rings -->
+                <div class="wheel-hue-ring" aria-hidden="true"></div>
+                <div class="wheel-darken"   aria-hidden="true"></div>
+                <div class="wheel-outer-ring" aria-hidden="true"></div>
+                <div class="wheel-inner"    aria-hidden="true"></div>
+
+                <!-- SVG overlay: ticks, crosshair, puck, center label -->
+                <svg class="wheel-svg" viewBox="-200 -200 400 400" aria-hidden="true">
+                    <!-- crosshair -->
+                    <line class="wheel-crosshair" x1="-170" y1="0" x2="170" y2="0"/>
+                    <line class="wheel-crosshair" x1="0" y1="-170" x2="0" y2="170"/>
+
+                    <!-- tick marks (generated by JS) -->
+                    <g class="wheel-ticks" id="wheel-ticks"></g>
+
+                    <!-- puck (generated start: top, will be set by JS) -->
+                    <g class="puck" id="puck" transform="translate(0, -122)">
+                        <line class="puck-tether" x1="0" y1="0" x2="0" y2="122"/>
+                        <circle class="puck-ring" r="14"/>
+                        <circle class="puck-fill" r="10"/>
+                        <circle class="puck-dot"  r="2.5"/>
+                    </g>
+
+                    <!-- center card -->
+                    <g class="wheel-center">
+                        <circle class="center-bg"     r="56"/>
+                        <circle class="center-border" r="60"/>
+                        <text class="center-label"    y="-18">choose</text>
+                        <text class="center-value"    id="center-value" y="6">mode</text>
+                        <text class="center-meta"     y="26">— · — h —</text>
+                    </g>
+                </svg>
+
+                <!-- Menu items orbiting the wheel (5 items at 72° intervals)
+                     Position computed by CSS from the inline --angle var. -->
+                <nav class="menu-items">
+                    <button class="menu-item" data-mode="solo"         data-angle="0"   style="--angle: 0deg"   data-href="solo.html">
+                        <span class="item-num">01</span>
+                        <span class="item-label">Solo</span>
+                        <span class="item-desc">free training</span>
+                    </button>
+                    <button class="menu-item" data-mode="multi"        data-angle="72"  style="--angle: 72deg"  data-href="multi.html">
+                        <span class="item-num">02</span>
+                        <span class="item-label">Multiplayer</span>
+                        <span class="item-desc">online lobby</span>
+                    </button>
+                    <button class="menu-item menu-item--coming-soon" data-mode="gallery" data-angle="144" style="--angle: 144deg">
+                        <span class="item-num">03</span>
+                        <span class="item-label">Gallery</span>
+                        <span class="item-desc">community grades</span>
+                    </button>
+                    <button class="menu-item" data-mode="contributors" data-angle="216" style="--angle: 216deg" data-href="contributors.html">
+                        <span class="item-num">04</span>
+                        <span class="item-label">Contributors</span>
+                        <span class="item-desc">project photographers</span>
+                    </button>
+                    <button class="menu-item" data-mode="about"        data-angle="288" style="--angle: 288deg" data-href="about.html">
+                        <span class="item-num">05</span>
+                        <span class="item-label">about</span>
+                        <span class="item-desc">concept &amp; rules</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- RIGHT side panel -->
+        <aside class="side-panel side-panel--right">
+            <div class="panel-block">
+                <div class="panel-label">build</div>
+                <div class="panel-value panel-value--mono">0.1.0 · dev</div>
+            </div>
+            <div class="panel-block">
+                <div class="panel-label">timecode</div>
+                <div class="panel-value panel-value--mono" id="now-date">—</div>
+            </div>
+            <div class="panel-block">
+                <div class="panel-label">color space</div>
+                <div class="panel-value panel-value--mono">sRGB</div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- =================== SCOPE BAR =================== -->
+    <footer class="scope-bar">
+        <div class="scope-group">
+            <div class="scope">
+                <div class="scope-label">waveform · luma</div>
+                <canvas id="scope-waveform" width="280" height="56"></canvas>
+            </div>
+            <div class="scope">
+                <div class="scope-label">histogram · rgb</div>
+                <canvas id="scope-histogram" width="280" height="56"></canvas>
+            </div>
+            <div class="scope">
+                <div class="scope-label">vectorscope</div>
+                <canvas id="scope-vectorscope" width="56" height="56"></canvas>
+            </div>
+            <div class="scope scope--curve">
+                <div class="scope-label">tone curve · interactive</div>
+                <svg class="mini-curve-svg" id="curve-svg" viewBox="0 0 280 280" preserveAspectRatio="none">
+                    <g class="curve-grid" id="curve-grid"></g>
+                    <line class="curve-diagonal" x1="0" y1="280" x2="280" y2="0"/>
+                    <path class="curve-fill" id="curve-fill" d=""/>
+                    <line class="cp-line" id="cp1-line" x1="0" y1="280" x2="84" y2="168"/>
+                    <line class="cp-line" id="cp2-line" x1="280" y1="0" x2="196" y2="112"/>
+                    <path class="curve-path" id="curve-path"
+                          d="M 0 280 C 84 168, 196 112, 280 0"/>
+                    <circle class="cp-endpoint" cx="0" cy="280" r="6"/>
+                    <circle class="cp-endpoint" cx="280" cy="0" r="6"/>
+                    <!-- Invisible larger hit areas for the CPs (must come AFTER decoratives) -->
+                    <circle class="cp-hitbox" id="cp1-hitbox" cx="84" cy="168" r="44"/>
+                    <circle class="cp-hitbox" id="cp2-hitbox" cx="196" cy="112" r="44"/>
+                    <circle class="cp" id="cp1" cx="84" cy="168" r="20"/>
+                    <circle class="cp" id="cp2" cx="196" cy="112" r="20"/>
+                </svg>
+            </div>
+        </div>
+        <div class="scope-cta">
+            <a href="https://buymeacoffee.com/" target="_blank" rel="noopener" class="cta-link cta-link--donate" title="support the project">
+                <span class="cta-icon" aria-hidden="true">♡</span>
+                <span>donate</span>
+            </a>
+            <a href="#" target="_blank" rel="noopener" class="cta-link cta-link--discord" title="join the community">
+                <span class="cta-icon" aria-hidden="true">⌬</span>
+                <span>discord</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Overlays -->
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/bezier-curve.js?v=4"></script>
+    <script src="js/scopes.js?v=2"></script>
+    <script src="js/chromatic-wheel.js?v=4"></script>
+    <script src="js/audio-player.js?v=3"></script>
+</body>
+</html>

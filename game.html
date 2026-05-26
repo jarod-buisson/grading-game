@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading.game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading.game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=5"></script>
+    <script src="js/auth-ui.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>live session · grading.game</title>
+    <meta name="description" content="Live grading session — your timer is running. Download the source, develop in your software, upload the JPEG before time runs out.">
+    <!-- Game in progress is a transient runtime state that needs query params (?duration=…) to make sense. -->
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="css/game.css?v=2">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <!-- =================== TOP BAR =================== -->
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">.</span>game</span>
+            </a>
+        </div>
+        <div class="game-header-pills">
+            <div class="pill pill--live"><span>live · solo</span></div>
+            <div class="pill">challenge <span id="pill-challenge">001</span></div>
+            <button class="pill pill--btn" id="quit-btn" title="abandon this session">✕ quit</button>
+        </div>
+    </header>
+
+    <!-- =================== MAIN — game =================== -->
+    <main class="game-stage">
+
+        <!-- LEFT: Preview area -->
+        <section class="preview-area">
+            <div class="preview-header">
+                <span class="preview-label">source preview · view only</span>
+                <span class="preview-meta" id="preview-meta">— · — · —</span>
+            </div>
+
+            <div class="preview-frame" id="preview-frame">
+                <div class="preview-placeholder" id="preview-placeholder">
+                    <div class="ph-mark">◫</div>
+                    <div>preview not loaded</div>
+                    <div style="opacity:0.5;">add a challenge to images/challenges/</div>
+                </div>
+                <div class="preview-corners" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="timer-bar-wrap">
+                <div class="timer-bar">
+                    <div class="timer-bar-fill" id="timer-bar-fill" style="transform: scaleX(1);"></div>
+                    <div class="timer-bar-ticks" id="timer-bar-ticks"></div>
+                </div>
+                <div class="timer-bar-meta">
+                    <span>00:00</span>
+                    <span id="timer-bar-total">20:00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT: Rail -->
+        <aside class="game-rail">
+
+            <!-- TIME -->
+            <div class="rail-block">
+                <div class="rail-label">time remaining</div>
+                <div class="timer-display" id="timer-display">
+                    <span id="time-min">20</span><span class="colon">:</span><span id="time-sec">00</span>
+                </div>
+                <div class="timer-sub" id="timer-status">session active · grade externally then return</div>
+            </div>
+
+            <!-- CHALLENGE -->
+            <div class="rail-block">
+                <div class="rail-label">challenge</div>
+                <div class="challenge-info">
+                    <div class="challenge-title" id="challenge-title">— no challenge loaded —</div>
+                    <div class="challenge-meta" id="challenge-meta">— · — · —</div>
+                </div>
+                <!-- Photographer attribution + license -->
+                <div class="attribution-mini" id="attribution-mini" style="margin-top: 12px;">
+                    <div class="attribution-mini-row">
+                        <span class="attribution-mini-label">photographer</span>
+                        <span class="attribution-mini-value" id="attr-photographer">—</span>
+                    </div>
+                    <div class="attribution-mini-row">
+                        <span class="attribution-mini-label">license</span>
+                        <span class="attribution-mini-value attribution-mini-value--mono" id="attr-license">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOWNLOAD -->
+            <div class="rail-block">
+                <div class="rail-label">step 1 · download source</div>
+                <button class="action-btn" id="download-btn">
+                    <span><span class="btn-icon">⤓</span> download original</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <div class="file-meta">
+                    <span id="source-name">source.???</span>
+                    <span id="source-size">— mb</span>
+                </div>
+            </div>
+
+            <!-- UPLOAD -->
+            <div class="rail-block">
+                <div class="rail-label">step 2 · upload your grade</div>
+                <label class="drop-zone" id="drop-zone">
+                    <input type="file" id="grade-input" accept="image/*">
+                    <span class="drop-icon" id="drop-icon">⤒</span>
+                    <span class="drop-text" id="drop-text">drop your jpeg here</span>
+                    <span class="drop-sub" id="drop-sub">or click to choose · jpg, png, tif up to 50 mb</span>
+                    <span class="drop-filename" id="drop-filename" style="display:none;"></span>
+                </label>
+                <button class="btn-submit" id="submit-btn" disabled>
+                    <span>submit grade</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/file-io.js"></script>
+    <script src="js/download-confirm.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/audio-player.js?v=3"></script>
+</body>
+</html>

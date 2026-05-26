@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading.game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading.game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=5"></script>
+    <script src="js/auth-ui.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>contributors · grading.game — photographers behind the photos</title>
+    <meta name="description" content="Meet the photographers who contributed their RAWs and scans to grading.game. Each contributor keeps full rights; their license is shown on every download.">
+
+    <link rel="canonical"            href="https://grading-game.com/contributors.html">
+    <meta property="og:url"          content="https://grading-game.com/contributors.html">
+    <meta property="og:title"        content="Contributors · grading.game">
+    <meta property="og:description"  content="The photographers behind the photos. Each contributor keeps full rights on their work.">
+    <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
+    <meta name="twitter:title"       content="Contributors · grading.game">
+    <meta name="twitter:description" content="The photographers behind the photos. Each contributor keeps full rights on their work.">
+    <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+    <link rel="stylesheet" href="css/contributors.css?v=2">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">.</span>game</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>04</span><span class="sep">·</span><span>contributors</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="contributors-stage">
+        <div class="contributors-inner">
+
+            <div>
+                <div class="contributors-eyebrow">04 · contributors</div>
+                <h1 class="contributors-title">The photographers behind the photos</h1>
+            </div>
+
+            <p class="contributors-intro">
+                The game wouldn't exist without these photographers who trusted us
+                with their work for educational use. Each of them keeps
+                <strong>all rights</strong> on their images — the license shown
+                on their card defines what players are allowed to do with the
+                grade once they've finished it.
+            </p>
+
+            <div class="contributors-meta-row" id="contributors-stats">
+                <span><strong>—</strong> photographers</span>
+                <span><strong>—</strong> photos available</span>
+            </div>
+
+            <div class="contributors-grid" id="contributors-grid">
+                <div class="contributors-empty">loading…</div>
+            </div>
+
+            <div class="contributors-cta">
+                <div class="contributors-cta-title">Want to contribute?</div>
+                <div class="contributors-cta-body">
+                    Send us a folder with your <strong>JPEG preview</strong> (cover),
+                    your <strong>source file</strong> (RAW, TIFF, scan…) and
+                    <strong>the license you prefer</strong>. Your rights stay yours —
+                    they're displayed on this page and inside the game, and the
+                    downloaded filename always includes the player's nickname to
+                    discourage leaks.
+                    <br><br>
+                    You can also embed your copyright directly into the RAW with
+                    <code>exiftool -Artist="Your Name" -Copyright="© 2026 Your Name" your-file.dng</code>
+                    before sending it.
+                </div>
+            </div>
+
+            <a href="index.html" class="back-link">← back to menu</a>
+
+        </div>
+    </main>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/contributors.js"></script>
+    <script src="js/audio-player.js?v=3"></script>
+</body>
+</html>

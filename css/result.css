@@ -1,0 +1,421 @@
+/* =========================================================
+   result.css — result / comparison screen
+   ========================================================= */
+
+.result-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 32px;
+    overflow: hidden;
+    position: relative;
+    z-index: 5;
+    min-height: 0;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-faint);
+}
+
+.result-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: 6px;
+}
+
+.result-title {
+    font-family: var(--font-ui);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+.result-meta {
+    display: flex;
+    gap: 24px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.result-meta strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* =========================================================
+   View switcher  (side-by-side / wipe)
+   ========================================================= */
+.view-switcher {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    align-self: flex-start;
+    margin-bottom: 16px;
+}
+
+.view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    cursor: pointer;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.view-btn:hover { color: var(--text-primary); }
+
+.view-btn.is-active {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.view-btn-icon {
+    font-size: 13px;
+    line-height: 1;
+}
+
+/* =========================================================
+   Views container — toggles between side and wipe.
+   The active view is set via data-active="side|wipe" on the
+   parent; the inactive ones are explicitly display:none here
+   (we don't rely on the `hidden` HTML attribute because a child
+   element's `display: flex` would override the user-agent's
+   `[hidden] { display: none; }` rule on equal specificity).
+   ========================================================= */
+.compare-views {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.compare-views > [data-view] {
+    display: none;
+    flex: 1;
+    min-height: 0;
+}
+
+.compare-views[data-active="side"] > [data-view="side"] {
+    display: grid;
+}
+
+.compare-views[data-active="wipe"] > [data-view="wipe"] {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* =========================================================
+   Wipe view — overlaid images with a draggable divider
+   The container's aspect-ratio is set in JS from the
+   reference image's natural dimensions, so the divider
+   matches the actual image bounds (no letterbox overflow).
+   ========================================================= */
+.wipe-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.wipe-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    padding: 0 4px;
+}
+
+.wipe-label-left  { color: var(--accent); }
+.wipe-label-right { color: var(--accent-cool); }
+.wipe-split-pct {
+    color: var(--text-tertiary);
+}
+
+.wipe-container {
+    /* Width and height are set in JS (syncWipeSize) once the reference
+       image has loaded — we compute the largest box that fits inside the
+       wipe-stage while keeping the image's natural aspect ratio. Defaults
+       are placeholders so the box has SOMETHING before JS runs. */
+    width: 0;
+    height: 0;
+    position: relative;
+    background: var(--bg-base);
+    border: 1px solid var(--border-faint);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: ew-resize;
+    user-select: none;
+    touch-action: none;
+    box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.5);
+}
+
+.wipe-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* `contain` preserves each image's natural aspect ratio. If the user's
+       grade was cropped differently than the reference (e.g. portrait vs
+       landscape), it gets letterboxed inside the container instead of
+       being squashed. The container itself is sized to the reference's
+       aspect ratio by syncWipeSize() so the reference image fills it
+       perfectly — only mismatched grades show letterbox bars. */
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+    display: block;
+}
+
+/* The "left" image is drawn ON TOP of the "right" image, but clipped
+   to the left portion of the container. As the divider moves, we
+   update its clip-path to reveal more or less of it. */
+.wipe-img--left {
+    z-index: 2;
+    clip-path: inset(0 50% 0 0);
+}
+
+.wipe-img--right {
+    z-index: 1;
+}
+
+.wipe-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--accent);
+    transform: translateX(-50%);
+    z-index: 3;
+    pointer-events: none;
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.5),
+        0 0 16px rgba(212, 165, 116, 0.45);
+}
+
+.wipe-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border: 3px solid var(--bg-base);
+    border-radius: 50%;
+    color: var(--bg-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    pointer-events: auto;
+    cursor: ew-resize;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+    transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.wipe-container:active .wipe-handle,
+.wipe-handle:active {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.65);
+}
+
+.wipe-empty {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    text-align: center;
+    padding: 24px;
+}
+
+/* ---------- Compare grid ---------- */
+.compare-grid {
+    flex: 1;
+    display: grid;
+    gap: 24px;
+    min-height: 0;
+}
+
+.compare-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.compare-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.compare-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    min-height: 0;
+}
+
+.compare-cell-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.compare-cell-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.compare-cell-label.is-user      { color: var(--accent); }
+.compare-cell-label.is-reference { color: var(--accent-cool); }
+.compare-cell-label.is-original  { color: var(--text-tertiary); }
+
+.compare-cell-num {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-quaternary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.compare-frame {
+    flex: 1;
+    position: relative;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-faint);
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.5);
+    min-height: 0;
+}
+
+.compare-frame.is-user      { border-color: rgba(212, 165, 116, 0.3); }
+.compare-frame.is-reference { border-color: rgba(95, 168, 163, 0.3); }
+
+.compare-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.compare-empty {
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            transparent, transparent 16px,
+            rgba(255,255,255,0.015) 16px, rgba(255,255,255,0.015) 17px
+        ),
+        radial-gradient(ellipse at center, #1a1a20 0%, #0d0d10 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--text-quaternary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.compare-empty .ph-mark {
+    font-size: 32px;
+    opacity: 0.5;
+    margin-bottom: 8px;
+}
+
+/* ---------- Result footer ---------- */
+.result-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-faint);
+}
+
+.result-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.result-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-primary);
+    transition: all var(--t-fast);
+    cursor: pointer;
+}
+
+.result-action:hover {
+    background: var(--bg-elev-2);
+    border-color: var(--border);
+}
+
+.result-action.is-primary {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.result-action.is-primary:hover {
+    background: var(--accent);
+    color: var(--bg-base);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+    .compare-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    .compare-grid.cols-3 .compare-cell:first-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 760px) {
+    .compare-grid.cols-2, .compare-grid.cols-3 { grid-template-columns: 1fr; }
+    .compare-grid.cols-3 .compare-cell:first-child { grid-column: auto; }
+}

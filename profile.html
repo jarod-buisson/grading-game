@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading.game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading.game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=5"></script>
+    <script src="js/auth-ui.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>profile · grading.game — your account & stats</title>
+    <meta name="description" content="Your grading.game profile: nickname, avatar, stats from solo and multiplayer sessions, plus account settings.">
+    <!-- Profile content is user-specific and requires auth — don't index. -->
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="stylesheet" href="css/profile.css?v=2">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">.</span>game</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>06</span><span class="sep">·</span><span>profile</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="profile-stage">
+        <div class="profile-inner">
+
+            <!-- ─── ANONYMOUS state ─────────────────────────── -->
+            <section class="profile-anon" id="profile-anon" hidden>
+                <div class="profile-eyebrow">06 · profile</div>
+                <h1 class="profile-title-big">Sign in to see your profile</h1>
+                <p class="profile-intro">
+                    Your profile keeps track of every game you play — how many
+                    rounds, average score, wins. Stats start counting once you
+                    sign in. Anonymous play stays anonymous: nothing is saved.
+                </p>
+                <button class="profile-cta-signin" id="profile-cta-signin" type="button">
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.26 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/>
+                        <path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.13-1.44.34-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.77.43 3.45 1.18 4.93l3.66-2.83Z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.83C6.71 7.3 9.14 5.38 12 5.38Z"/>
+                    </svg>
+                    <span>continue with google</span>
+                </button>
+                <a href="index.html" class="back-link">← back to menu</a>
+            </section>
+
+            <!-- ─── AUTHENTICATED state ─────────────────────── -->
+            <section class="profile-auth" id="profile-auth" hidden>
+
+                <!-- Hero -->
+                <div class="profile-hero">
+                    <div class="profile-avatar" id="profile-avatar">
+                        <span class="profile-avatar-fallback" id="profile-avatar-fallback">—</span>
+                    </div>
+                    <div class="profile-identity">
+                        <div class="profile-eyebrow">06 · profile</div>
+                        <h1 class="profile-display-name" id="profile-display-name">—</h1>
+                        <div class="profile-handle-row">
+                            <span class="profile-handle" id="profile-handle">@—</span>
+                            <button class="profile-edit-btn" id="profile-edit-btn" type="button" title="edit nickname">edit</button>
+                        </div>
+                        <div class="profile-meta-row">
+                            <span>member since · <strong id="profile-since">—</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats grid -->
+                <div class="profile-section-head">stats</div>
+                <div class="profile-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">total games</div>
+                        <div class="stat-value" id="stat-total">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">multi games</div>
+                        <div class="stat-value" id="stat-multi">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">solo games</div>
+                        <div class="stat-value" id="stat-solo">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">wins</div>
+                        <div class="stat-value stat-value--accent" id="stat-wins">0</div>
+                        <div class="stat-sub">multi · rank 1</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">best score</div>
+                        <div class="stat-value" id="stat-best">0</div>
+                        <div class="stat-sub">votes received</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">avg score</div>
+                        <div class="stat-value" id="stat-avg">0.0</div>
+                        <div class="stat-sub">votes per multi game</div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="profile-section-head">account</div>
+                <div class="profile-settings">
+
+                    <div class="setting-row">
+                        <div>
+                            <div class="setting-title">sign out</div>
+                            <div class="setting-desc">End your session on this device. You can sign back in anytime.</div>
+                        </div>
+                        <button class="setting-btn" id="setting-signout-btn" type="button">sign out</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <div class="setting-title setting-title--danger">delete account</div>
+                            <div class="setting-desc">
+                                Permanently remove your profile and all your game history. This cannot be undone.
+                            </div>
+                        </div>
+                        <button class="setting-btn setting-btn--danger" id="setting-delete-btn" type="button">delete…</button>
+                    </div>
+
+                </div>
+
+                <a href="index.html" class="back-link">← back to menu</a>
+
+            </section>
+
+            <!-- ─── LOADING state (initial) ─────────────────── -->
+            <div class="profile-loading" id="profile-loading">
+                <div class="profile-loading-spinner" aria-hidden="true"></div>
+                <div>loading…</div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Edit nickname modal -->
+    <div class="profile-modal" id="edit-modal" role="dialog" aria-modal="true" hidden>
+        <div class="profile-modal-card">
+            <div class="profile-modal-head">
+                <div class="profile-modal-title">edit nickname</div>
+                <button class="profile-modal-close" id="edit-close" type="button">esc ✕</button>
+            </div>
+            <div class="profile-modal-body">
+                <label class="profile-modal-label">new nickname</label>
+                <input
+                    type="text"
+                    class="profile-modal-input"
+                    id="edit-input"
+                    maxlength="20"
+                    placeholder="your-nickname"
+                    autocomplete="off"
+                    spellcheck="false">
+                <div class="profile-modal-hint" id="edit-hint">
+                    lowercase letters, digits and underscore · max 20 chars · must be unique
+                </div>
+            </div>
+            <div class="profile-modal-actions">
+                <button class="profile-modal-btn profile-modal-btn--ghost" id="edit-cancel" type="button">cancel</button>
+                <button class="profile-modal-btn profile-modal-btn--primary" id="edit-save" type="button" disabled>save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete account modal -->
+    <div class="profile-modal" id="delete-modal" role="dialog" aria-modal="true" hidden>
+        <div class="profile-modal-card">
+            <div class="profile-modal-head">
+                <div class="profile-modal-title profile-modal-title--danger">delete account?</div>
+                <button class="profile-modal-close" id="delete-close" type="button">esc ✕</button>
+            </div>
+            <div class="profile-modal-body">
+                <p class="profile-modal-warning">
+                    This will permanently delete <strong id="delete-confirm-handle">@—</strong>
+                    and every game in your history. There's no undo.
+                </p>
+                <label class="profile-modal-label">type your nickname to confirm</label>
+                <input
+                    type="text"
+                    class="profile-modal-input"
+                    id="delete-confirm-input"
+                    autocomplete="off"
+                    spellcheck="false">
+            </div>
+            <div class="profile-modal-actions">
+                <button class="profile-modal-btn profile-modal-btn--ghost" id="delete-cancel" type="button">cancel</button>
+                <button class="profile-modal-btn profile-modal-btn--danger" id="delete-confirm" type="button" disabled>delete forever</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/profile.js?v=1"></script>
+    <script src="js/audio-player.js?v=3"></script>
+</body>
+</html>

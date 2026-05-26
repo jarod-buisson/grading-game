@@ -1,0 +1,31 @@
+<!-- DO NOT EDIT page heads directly for these lines — edit this partial
+     and run `python update_head.py` (or double-click update-head.bat) to
+     propagate the changes to every *.html page in the project. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0b">
+<meta name="author" content="grading.game">
+<meta name="robots" content="index, follow">
+
+<!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+<meta property="og:site_name" content="grading.game">
+<meta property="og:type"      content="website">
+<meta property="og:locale"    content="en_US">
+<meta name="twitter:card"     content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/theme.css?v=7">
+<link rel="stylesheet" href="css/components.css?v=8">
+<link rel="stylesheet" href="css/grading-ui.css">
+
+<link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+<!-- Supabase client + global auth widget — loaded on every page so the
+     "Sign in / Avatar" widget can mount in the top bar regardless of
+     where the user lands. Order matters: SDK → gg client → auth UI. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js?v=5"></script>
+<script src="js/auth-ui.js?v=2"></script>

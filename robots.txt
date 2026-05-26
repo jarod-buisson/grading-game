@@ -1,0 +1,15 @@
+# grading.game — robots.txt
+
+User-agent: *
+Allow: /
+
+# Don't index runtime-only pages (need session storage / query params to make sense)
+Disallow: /game.html
+Disallow: /result.html
+Disallow: /room.html
+
+# Don't crawl private folders
+Disallow: /partials/
+Disallow: /supabase/
+
+Sitemap: https://grading-game.com/sitemap.xml

@@ -1,0 +1,64 @@
+[build]
+  publish = "."
+
+# ──────────────────────────────────────────────────────────────
+# Site-wide headers — security + good defaults for SEO/perf
+# ──────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Permissions-Policy     = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    # Helps Google's mobile-friendly score even on a desktop-only site
+    X-UA-Compatible        = "IE=edge"
+
+# ──────────────────────────────────────────────────────────────
+# HTML — short cache so updates propagate quickly
+# ──────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+# ──────────────────────────────────────────────────────────────
+# CSS & JS — cache-busted via ?v= query strings so a long max-age is safe
+# ──────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# ──────────────────────────────────────────────────────────────
+# Images — long cache (rarely change, never on a hash basis)
+# ──────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+# ──────────────────────────────────────────────────────────────
+# Audio — even longer cache
+# ──────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/audio/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# ──────────────────────────────────────────────────────────────
+# robots.txt + sitemap.xml — short cache so crawler hints can update
+# ──────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Content-Type  = "application/xml"

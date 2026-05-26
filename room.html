@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading.game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading.game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=5"></script>
+    <script src="js/auth-ui.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>room · grading.game</title>
+    <meta name="description" content="Multiplayer grading-game room — lobby, live session, anonymous voting, results.">
+    <!-- Room URL needs a ?code=XXXXXX param to function — don't index. -->
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="css/game.css?v=2">
+    <link rel="stylesheet" href="css/room.css">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <!-- =================== ROOM BAR =================== -->
+    <header class="room-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">.</span>game</span>
+            </a>
+        </div>
+
+        <div class="room-bar-players" id="player-chips">
+            <!-- Player chips injected by JS -->
+        </div>
+
+        <div class="room-bar-state">
+            <span>state ·</span>
+            <span class="state-val" id="state-label">lobby</span>
+        </div>
+
+        <div class="room-bar-code">
+            <span class="room-bar-code-label">room</span>
+            <span class="room-bar-code-val" id="room-code-display">——————</span>
+        </div>
+
+        <button class="room-bar-quit" id="quit-room">leave</button>
+    </header>
+
+    <!-- =================== STATE PANELS =================== -->
+
+    <!-- ───────── LOBBY ───────── -->
+    <section class="state-panel state-lobby is-active" data-state="lobby">
+        <div class="lobby-eyebrow">02 · waiting room</div>
+        <h1 class="lobby-title" id="lobby-title">Waiting for players to join</h1>
+
+        <div class="lobby-code-display">
+            <div class="lobby-code-label">share this code</div>
+            <div class="lobby-code-big" id="lobby-code-big" title="click to copy">——————</div>
+            <div class="lobby-code-hint" id="lobby-code-hint">click to copy</div>
+        </div>
+
+        <div class="lobby-grid">
+            <!-- Players card -->
+            <div class="lobby-card">
+                <div class="lobby-card-title">players · <span id="lobby-player-count">0/8</span></div>
+                <div class="player-list" id="lobby-player-list"></div>
+            </div>
+
+            <!-- Session card -->
+            <div class="lobby-card">
+                <div class="lobby-card-title">session</div>
+                <div class="session-row">
+                    <span class="session-row-label">duration</span>
+                    <span class="session-row-value" id="sess-duration">20 min</span>
+                </div>
+                <div class="session-row">
+                    <span class="session-row-label">challenge</span>
+                    <span class="session-row-value" id="sess-challenge">random</span>
+                </div>
+                <div class="session-row">
+                    <span class="session-row-label">visibility</span>
+                    <span class="session-row-value" id="sess-visibility">public</span>
+                </div>
+                <div class="session-row">
+                    <span class="session-row-label">min · max</span>
+                    <span class="session-row-value">2 · 8 players</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="lobby-actions">
+            <button class="btn-room-start" id="btn-start" disabled>
+                <span id="btn-start-label">need at least 2 players</span>
+                <span class="btn-arrow">→</span>
+            </button>
+            <div class="waiting-hint" id="waiting-hint" style="display:none;">
+                waiting for host to start…
+            </div>
+        </div>
+    </section>
+
+    <!-- ───────── PLAYING ───────── -->
+    <section class="state-panel state-playing" data-state="playing">
+
+        <div class="play-preview">
+            <div class="preview-header">
+                <span class="preview-label">source preview · view only</span>
+                <span class="preview-meta" id="play-preview-meta">— · — · —</span>
+            </div>
+
+            <div class="play-preview-frame" id="play-preview-frame">
+                <div class="preview-placeholder" id="play-preview-ph">
+                    <div class="ph-mark">◫</div>
+                    <div>preview not loaded</div>
+                </div>
+                <div class="preview-corners" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="timer-bar-wrap">
+                <div class="timer-bar">
+                    <div class="timer-bar-fill" id="play-timer-fill" style="transform: scaleX(1);"></div>
+                    <div class="timer-bar-ticks" id="play-timer-ticks"></div>
+                </div>
+                <div class="timer-bar-meta">
+                    <span>00:00</span>
+                    <span id="play-timer-total">20:00</span>
+                </div>
+            </div>
+        </div>
+
+        <aside class="play-rail">
+
+            <div class="play-block">
+                <div class="rail-label">time remaining</div>
+                <div class="timer-display" id="play-timer-display">
+                    <span id="play-time-min">20</span><span class="colon">:</span><span id="play-time-sec">00</span>
+                </div>
+                <div class="timer-sub">grade externally · upload before timer ends</div>
+            </div>
+
+            <div class="play-block">
+                <div class="rail-label">submissions</div>
+                <div class="submission-status" id="submission-status">
+                    <!-- rows injected -->
+                </div>
+            </div>
+
+            <div class="play-block">
+                <div class="rail-label">step 1 · download source</div>
+                <button class="action-btn" id="play-download-btn">
+                    <span><span class="btn-icon">⤓</span> download original</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <div class="file-meta">
+                    <span id="play-source-name">source.???</span>
+                    <span id="play-source-size">— mb</span>
+                </div>
+            </div>
+
+            <div class="play-block">
+                <div class="rail-label">step 2 · upload your grade</div>
+                <label class="drop-zone" id="play-drop-zone">
+                    <input type="file" id="play-grade-input" accept="image/*">
+                    <span class="drop-icon" id="play-drop-icon">⤒</span>
+                    <span class="drop-text" id="play-drop-text">drop your jpeg here</span>
+                    <span class="drop-sub" id="play-drop-sub">or click to choose</span>
+                    <span class="drop-filename" id="play-drop-filename" style="display:none;"></span>
+                </label>
+                <button class="btn-submit" id="play-submit-btn" disabled>
+                    <span>submit grade</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+
+        </aside>
+    </section>
+
+    <!-- ───────── GALLERY (voting) ───────── -->
+    <section class="state-panel state-gallery" data-state="gallery">
+        <div class="gallery-head">
+            <div>
+                <div class="gallery-eyebrow">02 · anonymous voting</div>
+                <h1 class="gallery-title">Rate the grades</h1>
+                <div class="gallery-sub">1 = weakest · 5 = strongest · you cannot vote on your own</div>
+            </div>
+            <div class="gallery-progress">
+                <span><strong id="votes-done">0</strong> of <strong id="votes-total">0</strong> voted</span>
+            </div>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- submission cards injected -->
+        </div>
+
+        <div class="gallery-footer">
+            <div class="section-meta">votes auto-submit when you've rated every submission</div>
+            <button class="btn-submit" id="finalize-votes" disabled style="width:auto;">
+                <span>finalize my votes</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ───────── RESULT (podium) ───────── -->
+    <section class="state-panel state-result" data-state="result">
+        <div>
+            <div class="result-eyebrow-2">02 · session complete</div>
+            <h1 class="result-title-2">Final scoreboard</h1>
+            <div class="result-winner" id="result-winner">— winner —</div>
+        </div>
+
+        <div class="podium" id="podium-row">
+            <!-- 3 cells injected -->
+        </div>
+
+        <div class="scoreboard">
+            <div class="scoreboard-head">
+                <span>#</span>
+                <span>player</span>
+                <span>avg</span>
+                <span>votes</span>
+            </div>
+            <div id="scoreboard-rows"></div>
+        </div>
+
+        <div class="result-actions">
+            <button class="result-action" id="result-back">← back to lobby</button>
+            <button class="result-action is-primary" id="result-new">↻ new room</button>
+        </div>
+    </section>
+
+    <!-- =================== DEV STATE SWITCHER =================== -->
+    <div class="dev-switcher" id="dev-switcher">
+        <span class="dev-label">dev:</span>
+        <button data-state="lobby">lobby</button>
+        <button data-state="playing">playing</button>
+        <button data-state="gallery">gallery</button>
+        <button data-state="result">result</button>
+    </div>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/file-io.js?v=2"></script>
+    <script src="js/download-confirm.js"></script>
+    <script src="js/room-state.js?v=6"></script>
+    <script src="js/audio-player.js?v=3"></script>
+</body>
+</html>

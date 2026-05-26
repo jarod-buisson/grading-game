@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading.game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading.game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=5"></script>
+    <script src="js/auth-ui.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>multiplayer lobby · grading.game</title>
+    <meta name="description" content="Multiplayer lobby. Create a room or join one — compete with other photographers on the same source image in timed rounds with anonymous voting.">
+
+    <link rel="canonical"            href="https://grading-game.com/multi.html">
+    <meta property="og:url"          content="https://grading-game.com/multi.html">
+    <meta property="og:title"        content="Multiplayer lobby · grading.game">
+    <meta property="og:description"  content="Create or join a multiplayer grading-game room and compete with other photographers in real time.">
+    <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
+    <meta name="twitter:title"       content="Multiplayer lobby · grading.game">
+    <meta name="twitter:description" content="Create or join a multiplayer grading-game room and compete with other photographers in real time.">
+    <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+    <link rel="stylesheet" href="css/multi.css?v=2">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <!-- =================== TOP BAR =================== -->
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">.</span>game</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>02</span><span class="sep">·</span><span>multi lobby</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- =================== MAIN — lobby =================== -->
+    <main class="lobby-stage">
+
+        <!-- Status banner (auth + connection state) -->
+        <div class="demo-banner" id="demo-banner">
+            <span class="demo-tag" id="status-tag">…</span>
+            <span id="status-text">booting · signing in anonymously</span>
+        </div>
+
+        <!-- HERO -->
+        <section class="lobby-hero">
+            <div>
+                <div class="hero-eyebrow">02 · multiplayer</div>
+                <h1 class="hero-title">Lobby</h1>
+                <div class="hero-sub">find an open room · or host your own</div>
+            </div>
+
+            <div class="identity-card">
+                <div class="identity-label">you</div>
+                <input
+                    type="text"
+                    class="identity-input"
+                    id="nickname-input"
+                    maxlength="20"
+                    placeholder="pick a nickname"
+                    autocomplete="off"
+                    spellcheck="false">
+                <div class="identity-meta">
+                    <span class="status-dot status-dot--ok"></span>
+                    <span id="identity-status">anonymous · saved locally</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUBLIC ROOMS -->
+        <section>
+            <div class="section-head">
+                <div class="section-title">
+                    public rooms · <span class="count" id="room-count">—</span> open
+                </div>
+                <div class="section-meta">
+                    <button id="refresh-rooms">refresh ↻</button>
+                </div>
+            </div>
+
+            <div class="room-grid" id="room-grid">
+                <!-- Create card always first -->
+                <div class="room-card room-card--create" id="create-card" tabindex="0">
+                    <div class="create-icon">+</div>
+                    <div class="create-label">new room</div>
+                    <div class="create-sub">host a session</div>
+                </div>
+                <!-- Mocked rooms injected by JS -->
+            </div>
+        </section>
+
+        <!-- JOIN BY CODE -->
+        <section>
+            <div class="section-head">
+                <div class="section-title">join private room by code</div>
+            </div>
+            <div class="join-section">
+                <input
+                    type="text"
+                    class="code-input"
+                    id="code-input"
+                    maxlength="6"
+                    placeholder="XXXXXX"
+                    autocomplete="off"
+                    spellcheck="false">
+                <button class="btn-join" id="join-by-code" disabled>
+                    <span>join</span>
+                    <span>→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Back link -->
+        <div style="margin-top:auto; padding-top:24px;">
+            <a href="index.html" class="back-link">← back to menu</a>
+        </div>
+
+    </main>
+
+    <!-- =================== CREATE-ROOM MODAL =================== -->
+    <div class="modal-overlay" id="create-modal" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <div class="modal-head">
+                <div class="modal-title">Host a new room</div>
+                <div class="modal-close" id="modal-close">esc ✕</div>
+            </div>
+
+            <div class="modal-block">
+                <div class="modal-label">visibility</div>
+                <div class="radio-row" data-radio="visibility">
+                    <button class="radio-option is-selected" data-value="public">
+                        public
+                        <span class="opt-sub">listed in lobby</span>
+                    </button>
+                    <button class="radio-option" data-value="private">
+                        private
+                        <span class="opt-sub">code only</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-block">
+                <div class="modal-label">duration</div>
+                <div class="radio-row" data-radio="duration">
+                    <button class="radio-option" data-value="5">05<span class="opt-sub">quick</span></button>
+                    <button class="radio-option" data-value="10">10<span class="opt-sub">short</span></button>
+                    <button class="radio-option is-selected" data-value="20">20<span class="opt-sub">standard</span></button>
+                    <button class="radio-option" data-value="45">45<span class="opt-sub">long</span></button>
+                </div>
+            </div>
+
+            <div class="modal-block">
+                <div class="modal-label">challenge</div>
+                <div class="radio-row" data-radio="challenge">
+                    <button class="radio-option is-selected" data-value="random">
+                        random
+                        <span class="opt-sub">all categories</span>
+                    </button>
+                    <button class="radio-option" data-value="specific" disabled style="opacity:.4; cursor:not-allowed;">
+                        specific
+                        <span class="opt-sub">soon</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="btn-start" id="modal-create-btn" style="margin-top:8px;">
+                <span>create room</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/file-io.js?v=2"></script>
+    <script src="js/multi-lobby.js?v=3"></script>
+    <script src="js/audio-player.js?v=3"></script>
+</body>
+</html>

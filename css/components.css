@@ -1,0 +1,605 @@
+/* =========================================================
+   components.css — top bar, side panels, scope bar, buttons
+   ========================================================= */
+
+/* ---------- Top bar ---------- */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--border-faint);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-mark {
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+}
+
+.brand-mark svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+}
+
+.brand-name {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+}
+
+.brand-dot {
+    color: var(--accent);
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.version-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.version-tag .sep {
+    color: var(--text-quaternary);
+    margin: 0 6px;
+}
+
+/* ---------- Side panels ---------- */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 24px 28px;
+    width: 220px;
+    flex-shrink: 0;
+}
+
+.side-panel--right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.panel-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.side-panel--right .panel-block {
+    align-items: flex-end;
+}
+
+.panel-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-tertiary);
+}
+
+.panel-value {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-value--mono {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: var(--tracking-mono);
+}
+
+.panel-value--big {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.panel-value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.panel-unit {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nickname-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    padding: 4px 0;
+    outline: none;
+    letter-spacing: var(--tracking-mono);
+    transition: border-color var(--t-fast);
+}
+
+.nickname-input:focus {
+    border-bottom-color: var(--accent);
+}
+
+.nickname-input::placeholder {
+    color: var(--text-quaternary);
+}
+
+.side-panel--right .nickname-input {
+    text-align: right;
+}
+
+.panel-hint {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-quaternary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-top: 6px;
+}
+
+.panel-hint.is-saved   { color: var(--accent-green); }
+.panel-hint.is-error   { color: var(--accent-red);   }
+
+/* ---------- Scope bar (footer) ---------- */
+.scope-bar {
+    display: flex;
+    flex-wrap: wrap;          /* CTAs wrap to a new row if scopes take too much width */
+    align-items: flex-end;
+    gap: 14px 24px;           /* row-gap when wrapped · column-gap inline */
+    padding: 14px 28px 18px;
+    border-top: 1px solid var(--border-faint);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.scope-group {
+    display: flex;
+    gap: 22px;
+    align-items: flex-end;
+    flex-shrink: 0;           /* keep scopes on one row — CTAs wrap below if narrow */
+}
+
+.scope {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.scope-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-tertiary);
+}
+
+.scope canvas {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-faint);
+    border-radius: 2px;
+    display: block;
+}
+
+.scope-meta {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.05em;
+}
+
+.dot-sep {
+    color: var(--text-quaternary);
+}
+
+/* ---------- Scope-bar CTA links (donate / discord) ---------- */
+.scope-cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;        /* push right on its row, whether inline or wrapped */
+    flex-wrap: wrap;          /* if even one button overflows, wrap it too */
+    justify-content: flex-end;
+}
+
+.cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    text-decoration: none;
+    background: var(--bg-elev-1);
+    transition:
+        color var(--t-fast),
+        border-color var(--t-fast),
+        background var(--t-fast),
+        transform var(--t-fast),
+        box-shadow var(--t-fast);
+}
+
+.cta-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px -4px rgba(212, 165, 116, 0.4);
+}
+
+.cta-link .cta-icon {
+    font-size: 15px;
+    line-height: 1;
+}
+
+/* Discord-specific hover colour (the brand blurple) */
+.cta-link--discord:hover {
+    color: #7289da;
+    border-color: rgba(114, 137, 218, 0.5);
+    background: rgba(114, 137, 218, 0.08);
+}
+
+/* ---------- Mini tone curve (landing) ---------- */
+.scope--curve { /* nothing extra — inherits .scope */ }
+
+.mini-curve-svg {
+    width: 80px;
+    height: 80px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-faint);
+    border-radius: 2px;
+    overflow: visible;
+    display: block;
+    user-select: none;
+    touch-action: none;
+}
+
+/* All decorative elements are non-interactive — only the hitboxes capture clicks */
+.mini-curve-svg .curve-grid,
+.mini-curve-svg .curve-grid line,
+.mini-curve-svg .curve-diagonal,
+.mini-curve-svg .curve-path,
+.mini-curve-svg .curve-fill,
+.mini-curve-svg .cp-line,
+.mini-curve-svg .cp-endpoint,
+.mini-curve-svg .cp {
+    pointer-events: none;
+}
+
+.mini-curve-svg .curve-grid line {
+    stroke: rgba(255,255,255,0.04);
+    stroke-width: 1;
+}
+
+.mini-curve-svg .curve-grid line.grid-major {
+    stroke: rgba(255,255,255,0.08);
+}
+
+.mini-curve-svg .curve-diagonal {
+    stroke: rgba(255,255,255,0.10);
+    stroke-width: 1;
+    stroke-dasharray: 4 8;
+}
+
+.mini-curve-svg .curve-path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 4;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px rgba(212, 165, 116, 0.45));
+}
+
+.mini-curve-svg .curve-fill {
+    fill: var(--accent);
+    fill-opacity: 0.06;
+    stroke: none;
+}
+
+.mini-curve-svg .cp-line {
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 2;
+    stroke-dasharray: 3 6;
+}
+
+.mini-curve-svg .cp {
+    fill: var(--bg-elev-2);
+    stroke: var(--accent);
+    stroke-width: 4;
+    transition: fill var(--t-fast);
+}
+
+.mini-curve-svg .cp-hitbox {
+    fill: transparent;
+    cursor: grab;
+    pointer-events: all;        /* the ONLY thing that captures clicks */
+}
+
+.mini-curve-svg .cp-hitbox:hover ~ .cp,
+.mini-curve-svg .cp-hitbox.is-dragging ~ .cp {
+    fill: var(--accent);
+}
+
+.mini-curve-svg .cp-hitbox.is-dragging { cursor: grabbing; }
+
+.mini-curve-svg .cp-endpoint {
+    fill: var(--bg-base);
+    stroke: var(--text-tertiary);
+    stroke-width: 3;
+}
+
+/* ---------- Generic buttons ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-primary);
+    transition: all var(--t-fast);
+}
+
+.btn:hover {
+    background: var(--bg-panel);
+    border-color: var(--border);
+}
+
+.btn-primary {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-primary:hover {
+    background: var(--accent);
+    color: var(--bg-base);
+}
+
+/* =========================================================
+   Generic modal overlay + card  (shared by lobby create-room
+   AND the download-confirm modal in solo/multi)
+   ========================================================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 1100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: gg-modal-fade 220ms ease both;
+}
+
+.modal-overlay.is-open { display: flex; }
+
+@keyframes gg-modal-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal-card {
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    width: 92%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    box-shadow: 0 24px 64px -16px rgba(0,0,0,0.7);
+    animation: gg-modal-rise 240ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes gg-modal-rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.modal-title {
+    font-family: var(--font-ui);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    cursor: pointer;
+    transition: color var(--t-fast);
+}
+
+.modal-close:hover { color: var(--accent-red); }
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+/* =========================================================
+   Attribution card + ToU checkbox (used in download-confirm)
+   ========================================================= */
+.attribution-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 18px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-faint);
+    border-radius: 3px;
+}
+
+.attribution-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.attribution-row--block {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+}
+
+.attribution-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.attribution-value {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: right;
+}
+
+.attribution-value--mono {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: var(--tracking-mono);
+}
+
+.attribution-terms {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.tou-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-faint);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: border-color var(--t-fast);
+}
+
+.tou-checkbox:hover { border-color: var(--border); }
+
+.tou-checkbox input[type="checkbox"] {
+    margin-top: 3px;
+    width: 14px;
+    height: 14px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.tou-text {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.tou-text strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* In-rail attribution mini-block for the game screens */
+.attribution-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--bg-elev-1);
+    border-left: 2px solid var(--accent);
+    border-radius: 2px;
+}
+
+.attribution-mini-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+}
+
+.attribution-mini-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.attribution-mini-value {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: right;
+}
+
+.attribution-mini-value--mono {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+}

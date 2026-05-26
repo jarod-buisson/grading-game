@@ -1,0 +1,39 @@
+# =========================================================
+# grading.game · .gitignore
+# =========================================================
+
+# ─── OS / IDE noise ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# ─── Python ──────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# ─── RAW source files for challenges ─────────────────────────
+# Source files (RAW / scans) live in Cloudflare R2 at
+# `sources.grading-game.com/challenges/{id}/source.*`. The local
+# copies in `images/challenges/{id}/source.*` are kept ONLY to
+# detect challenges and read their size when running
+# `build_manifest.py`. They MUST NOT be deployed to Cloudflare
+# Pages (25 MB per-file hard limit + would blow the asset budget).
+images/challenges/*/source.*
+
+# ─── Background music (large, optional) ─────────────────────
+audio/*.mp3
+audio/*.wav
+
+# ─── Local environment / secrets ────────────────────────────
+.env
+.env.local
+.env.*.local

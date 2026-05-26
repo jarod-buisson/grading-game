@@ -368,12 +368,27 @@
     }
 
 
-    /* ---------- State sync ---------- */
+    /* ---------- State sync ----------
+       Three possible states:
+         - state.isAnon === true                → not signed in → show sign-in
+         - !state.isAnon && state.profile       → fully authenticated → show chip
+         - !state.isAnon && !state.profile      → AUTH PENDING (session resumed,
+                                                   profile still being fetched) →
+                                                   render NOTHING to avoid the
+                                                   "sign in" flicker on page navs.
+       The widget stays empty until profile lands. If profile load fails for some
+       reason, the widget will stay empty rather than mislead the user into
+       clicking "sign in" while they're already signed in. */
     window.gg.onAuthChange((state) => {
-        if (state.isAnon || !state.profile) {
+        if (state.isAnon) {
             renderSignedOut();
-        } else {
+        } else if (state.profile) {
             renderSignedIn(state.profile);
+        } else {
+            // Auth pending — clear any previous render so we don't show stale
+            // data, but DON'T show the sign-in button. The next onAuthChange
+            // call (after loadProfile resolves) will populate properly.
+            widget.innerHTML = '';
         }
     });
 

@@ -21,7 +21,7 @@
                         <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
                         <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
                     </svg>
-                    <span class="mobile-gate-name">grading<span class="mobile-gate-dot">.</span>game</span>
+                    <span class="mobile-gate-name">grading<span class="mobile-gate-dot">-</span>game</span>
                 </div>
                 <div class="mobile-gate-eyebrow">display requirement</div>
                 <h1 class="mobile-gate-title">Desktop only</h1>

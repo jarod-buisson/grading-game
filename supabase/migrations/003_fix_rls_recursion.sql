@@ -1,5 +1,5 @@
 -- =========================================================
--- grading.game · fix RLS recursion · 003
+-- grading-game · fix RLS recursion · 003
 --
 -- The policies in 001_schema.sql reference `players` from within
 -- `players`'s own SELECT policy, which makes Postgres re-evaluate

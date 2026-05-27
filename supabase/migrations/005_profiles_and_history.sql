@@ -1,5 +1,5 @@
 -- =========================================================
--- grading.game · profiles + game history · 005
+-- grading-game · profiles + game history · 005
 -- =========================================================
 -- Adds:
 --   profiles       — per-user profile (nickname, avatar, display name)

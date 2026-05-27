@@ -114,7 +114,7 @@ and most photography formats. From the command line:
 exiftool \
   -Artist="Jane Doe" \
   -Copyright="© 2026 Jane Doe" \
-  -CopyrightNotice="Provided to grading.game for educational use only" \
+  -CopyrightNotice="Provided to grading-game for educational use only" \
   -UsageTerms="Personal grading practice. Do not redistribute or use commercially." \
   -Rights="All rights reserved" \
   source.dng

@@ -1,4 +1,4 @@
-# grading.game — robots.txt
+# grading-game — robots.txt
 
 User-agent: *
 Allow: /

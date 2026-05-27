@@ -1,5 +1,5 @@
 -- =========================================================
--- grading.game · auto-cleanup + lobby with private masking · 004
+-- grading-game · auto-cleanup + lobby with private masking · 004
 --
 -- 1) Trigger: when the LAST player leaves a room, drop the room
 --    (its remaining submissions/votes cascade via FK).

@@ -1,5 +1,5 @@
 -- =========================================================
--- grading.game · storage bucket · 002
+-- grading-game · storage bucket · 002
 -- Run AFTER 001_schema.sql.
 -- Idempotent: safe to re-run.
 -- =========================================================

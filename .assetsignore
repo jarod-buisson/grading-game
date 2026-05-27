@@ -1,5 +1,5 @@
 # =========================================================
-# grading.game · .assetsignore
+# grading-game · .assetsignore
 # =========================================================
 # Tells Cloudflare Pages / Workers Static Assets which files
 # should NOT be uploaded as servable assets. Each line is a

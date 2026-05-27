@@ -1,5 +1,5 @@
 -- =========================================================
--- grading.game · account helpers · 006
+-- grading-game · account helpers · 006
 -- =========================================================
 -- Adds:
 --   * INSERT policy on profiles so a freshly-signed-in user can

@@ -1,5 +1,5 @@
 -- =========================================================
--- grading.game · initial schema · 001
+-- grading-game · initial schema · 001
 -- Paste this entire file into the Supabase SQL Editor and run.
 -- Idempotent: safe to re-run.
 -- =========================================================

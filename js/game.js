@@ -63,6 +63,17 @@
                 ? params.get('challenge')
                 : null);
 
+    // Optional category filter ("negative" / "digital"). Narrows the
+    // random pool to a single capture medium so the player only grades
+    // photos of the kind they picked at setup. Resumed from the active
+    // session on refresh so the filter survives F5.
+    const CATEGORY_FILTER =
+        active?.category != null
+            ? active.category
+            : (params.get('category') && params.get('category') !== 'random'
+                ? params.get('category')
+                : null);
+
     /* ---------- DOM refs ---------- */
     const $ = (id) => document.getElementById(id);
     const timerDisplay = $('timer-display');
@@ -211,16 +222,36 @@
             }
         }
 
-        // ─── Random pick — "discovery mode" for signed-in users ───
-        // For signed-in players, exclude challenges they've already
-        // completed (the ones unlocked in their gallery). They keep
-        // discovering new photos until they've done EVERYTHING; then
-        // the full pool is re-opened for replay.
-        // Anonymous users always get the full pool. So do signed-in
-        // users when the unlocks query fails — graceful degradation.
+        // ─── Random pick — category filter + discovery mode ───
+        // Two layered filters:
+        //   1. Category — narrows to a single capture medium when the
+        //      player chose one at setup (negative / digital). Skipped
+        //      entirely when CATEGORY_FILTER is null ("random · all").
+        //   2. Discovery — for signed-in users, exclude challenges
+        //      they've already completed so they keep discovering new
+        //      photos. Re-opens for replay once everything in the
+        //      filtered pool is unlocked.
+        // Anonymous users always get the full category pool. So do
+        // signed-in users when the unlocks query fails — graceful
+        // degradation.
         if (!challenge) {
-            let pickPool = list;
+            // Step 1: apply category filter
+            let pool = list;
             let mode = 'full pool';
+            if (CATEGORY_FILTER) {
+                const inCat = list.filter(c => c.category === CATEGORY_FILTER);
+                if (inCat.length > 0) {
+                    pool = inCat;
+                    mode = `category=${CATEGORY_FILTER} (${inCat.length} photos)`;
+                } else {
+                    console.warn('[challenge] no photos in category', CATEGORY_FILTER,
+                                 '— falling back to full pool');
+                }
+            }
+
+            // Step 2: apply discovery mode within the (already
+            // category-filtered) pool.
+            let pickPool = pool;
 
             if (window.gg?.isAuthenticated) {
                 try {
@@ -230,17 +261,16 @@
 
                     const unlocked = await window.gg.getUnlockedChallengeIds();
 
-                    if (unlocked.size > 0 && unlocked.size < list.length) {
-                        // Discovery mode — pick only from photos not yet completed
-                        const locked = list.filter(c => !unlocked.has(String(c.id)));
-                        if (locked.length > 0) {
+                    if (unlocked.size > 0) {
+                        const locked = pool.filter(c => !unlocked.has(String(c.id)));
+                        if (locked.length > 0 && locked.length < pool.length) {
+                            // Discovery — pick only from photos not yet completed in this pool
                             pickPool = locked;
-                            mode = `discovery (${locked.length} locked / ${list.length} total)`;
+                            mode += ` · discovery (${locked.length} locked / ${pool.length})`;
+                        } else if (locked.length === 0) {
+                            // Completionist for this pool — re-open for replay
+                            mode += ` · replay (all ${pool.length} unlocked)`;
                         }
-                    } else if (unlocked.size >= list.length) {
-                        // Completionist mode — every photo done at least once.
-                        // Re-open the full pool for replay.
-                        mode = `replay (all ${list.length} unlocked)`;
                     }
                 } catch (e) {
                     console.warn('[challenge] unlock fetch failed, using full pool:', e);
@@ -259,12 +289,16 @@
 
         // ─── Lock this session: persist challenge + start time ───
         // Any subsequent refresh re-uses this entry instead of rolling.
+        // The category is persisted too so F5 doesn't accidentally
+        // widen the pool — though in practice the locked challenge
+        // already constrains it.
         startedAtMs = Date.now();
         saveActiveSession({
             challenge: challenge,
             startedAt: startedAtMs,
             duration:  DURATION_MIN,
-            showRef:   SHOW_REF
+            showRef:   SHOW_REF,
+            category:  CATEGORY_FILTER
         });
 
         renderChallenge(challenge);

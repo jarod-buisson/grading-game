@@ -189,11 +189,29 @@
             </div>
 
             <div class="modal-block">
+                <div class="modal-label">category</div>
+                <div class="radio-row" data-radio="category">
+                    <button class="radio-option is-selected" data-value="random">
+                        random
+                        <span class="opt-sub">all categories</span>
+                    </button>
+                    <button class="radio-option" data-value="negative">
+                        negative
+                        <span class="opt-sub">analog / film</span>
+                    </button>
+                    <button class="radio-option" data-value="digital">
+                        digital
+                        <span class="opt-sub">sensor</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-block">
                 <div class="modal-label">challenge</div>
                 <div class="radio-row" data-radio="challenge">
                     <button class="radio-option is-selected" data-value="random">
                         random
-                        <span class="opt-sub">all categories</span>
+                        <span class="opt-sub">in category</span>
                     </button>
                     <button class="radio-option" data-value="specific" disabled style="opacity:.4; cursor:not-allowed;">
                         specific
@@ -213,7 +231,7 @@
     <div class="grain-overlay"    aria-hidden="true"></div>
 
     <script src="js/file-io.js?v=2"></script>
-    <script src="js/multi-lobby.js?v=3"></script>
+    <script src="js/multi-lobby.js?v=4"></script>
     <script src="js/audio-player.js?v=4"></script>
 </body>
 </html>

@@ -249,9 +249,21 @@
             if (cid && cid !== 'random') {
                 st.challenge = list.find(c => c.id === cid) || list[0] || null;
             } else {
+                // Narrow the random pool by the room's category filter
+                // (set by the host at room creation, NULL = no filter).
+                // Falls back to the full list if the category has no
+                // matching photos — better than picking nothing.
+                const cat = st.room.category;
+                let pool = list;
+                if (cat) {
+                    const inCat = list.filter(c => c.category === cat);
+                    if (inCat.length > 0) pool = inCat;
+                    else console.warn('[room] no photos in category', cat,
+                                      '— falling back to full pool');
+                }
                 // Deterministic pick from room id so all clients see the same challenge
                 const h = Array.from(st.room.id).reduce((s, c) => s + c.charCodeAt(0), 0);
-                st.challenge = list[h % Math.max(list.length, 1)] || null;
+                st.challenge = pool[h % Math.max(pool.length, 1)] || null;
             }
         } catch (e) {
             console.warn('[room] challenge load failed:', e);
@@ -324,6 +336,11 @@
         $('sess-duration').textContent   = r.duration_min + ' min';
         $('sess-challenge').textContent  = r.challenge_id || 'random';
         $('sess-visibility').textContent = r.visibility;
+        // Category — surfaced to all players so they know what kind
+        // of source they'll be grading before the host clicks start.
+        // NULL / undefined = "all" (no filter).
+        const catEl = $('sess-category');
+        if (catEl) catEl.textContent = r.category || 'all';
         $('lobby-player-count').textContent = `${st.players.length}/${r.max_players}`;
 
         const list = $('lobby-player-list');

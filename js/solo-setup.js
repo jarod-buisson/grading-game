@@ -47,14 +47,101 @@
     }
 
 
-    /* ---------- Challenge dropdown ----------
-       Populate with all challenges from the manifest:
-         - Unlocked challenges (already completed) are selectable
-         - Locked challenges are listed but disabled (motivating preview)
-         - "Random pick" is always the default and available to anyone
-       Anonymous users see all challenges as locked. */
+    /* ---------- Category + Challenge dropdowns ----------
+       The challenge dropdown is re-populated every time the category
+       dropdown changes so the player only sees photos that match the
+       chosen capture medium. "Random pick" stays as the default option;
+       below that we list every challenge that matches the category,
+       with unlocked ones selectable and locked ones grayed out. */
+    const categorySelect  = document.getElementById('category-select');
+    const categoryHint    = document.getElementById('category-hint');
     const challengeSelect = document.getElementById('challenge-select');
     const challengeHint   = document.getElementById('challenge-hint');
+
+    // Module-level cache so the category change handler doesn't have
+    // to re-fetch the manifest or re-query unlocks every time.
+    let allChallenges = [];
+    let unlockedSet   = new Set();
+    let isAuth        = false;
+
+    function categoryLabel(cat) {
+        if (cat === 'negative') return 'negative';
+        if (cat === 'digital')  return 'digital';
+        return 'all categories';
+    }
+
+    function getCategoryFilter() {
+        return categorySelect?.value || 'random';
+    }
+
+    function renderChallengeOptions() {
+        if (!challengeSelect) return;
+
+        const catFilter = getCategoryFilter();
+
+        // Remove previously injected options (keep only the default "random")
+        Array.from(challengeSelect.querySelectorAll('option[data-injected="1"]'))
+            .forEach(o => o.remove());
+
+        // Update the default "random pick" option's label to reflect category
+        const defaultOpt = challengeSelect.querySelector('option[value="random"]');
+        if (defaultOpt) {
+            defaultOpt.textContent = 'random pick · ' + categoryLabel(catFilter);
+        }
+
+        // Filter the challenge list by category (unless "random" = no filter)
+        const filtered = catFilter === 'random'
+            ? allChallenges
+            : allChallenges.filter(c => c.category === catFilter);
+
+        // Add per-challenge options
+        filtered.forEach(c => {
+            const idStr = String(c.id);
+            const padded = idStr.padStart(3, '0');
+            const isUnlocked = unlockedSet.has(idStr);
+            const opt = document.createElement('option');
+            opt.value = idStr;
+            opt.dataset.injected = '1';
+            const title = c.title && c.title !== 'Challenge ' + idStr
+                ? ' · ' + c.title
+                : '';
+            opt.textContent = (isUnlocked ? '✓ ' : '🔒 ') + padded + title;
+            opt.disabled = !isUnlocked;
+            challengeSelect.appendChild(opt);
+        });
+
+        // Reset selection to "random" whenever the category changes so
+        // we don't end up with a stale specific-challenge id that's no
+        // longer in the filtered pool.
+        challengeSelect.value = 'random';
+
+        // Update the challenge hint with progress for the current filter
+        if (challengeHint) {
+            const unlockedInPool = filtered.filter(c => unlockedSet.has(String(c.id))).length;
+            if (!isAuth) {
+                challengeHint.textContent = 'sign in to unlock photos by playing & replay them here';
+            } else if (filtered.length === 0) {
+                challengeHint.textContent = 'no challenges in this category yet — try another';
+            } else if (unlockedInPool === 0) {
+                challengeHint.textContent =
+                    'play a few rounds to unlock specific challenges in this category';
+            } else {
+                challengeHint.textContent =
+                    unlockedInPool + ' / ' + filtered.length + ' unlocked in this category';
+            }
+        }
+
+        // Hint for the category dropdown itself
+        if (categoryHint) {
+            if (catFilter === 'random') {
+                categoryHint.textContent = 'pick a capture medium to filter the random pool';
+            } else {
+                const inCat = allChallenges.filter(c => c.category === catFilter).length;
+                categoryHint.textContent =
+                    inCat + ' photo' + (inCat > 1 ? 's' : '') + ' in this category';
+            }
+        }
+    }
 
     async function populateChallengeSelect() {
         if (!challengeSelect) return;
@@ -63,53 +150,25 @@
                                   { cache: 'no-store' });
             if (!r.ok) return;
             const data = await r.json();
-            const challenges = (data && data.challenges) || [];
+            allChallenges = (data && data.challenges) || [];
 
             // Wait for auth client to know whether we have a user
             if (window.gg?.ready) await window.gg.ready;
 
-            let unlocked = new Set();
-            const isAuth = !!window.gg?.isAuthenticated;
-            if (isAuth) {
-                unlocked = await window.gg.getUnlockedChallengeIds();
-            }
+            isAuth = !!window.gg?.isAuthenticated;
+            unlockedSet = isAuth ? await window.gg.getUnlockedChallengeIds() : new Set();
 
-            // Update hint text based on auth + progress
-            if (challengeHint) {
-                if (!isAuth) {
-                    challengeHint.textContent = 'sign in to unlock photos by playing & replay them here';
-                } else if (unlocked.size === 0) {
-                    challengeHint.textContent = 'play a few rounds to unlock specific challenges';
-                } else {
-                    challengeHint.textContent =
-                        unlocked.size + ' / ' + challenges.length + ' challenges unlocked';
-                }
-            }
-
-            // Remove any previously injected options (defensive — should
-            // only happen if this runs more than once)
-            Array.from(challengeSelect.querySelectorAll('option[data-injected="1"]'))
-                .forEach(o => o.remove());
-
-            // Add a visual separator + per-challenge options
-            challenges.forEach(c => {
-                const idStr = String(c.id);
-                const padded = idStr.padStart(3, '0');
-                const isUnlocked = unlocked.has(idStr);
-                const opt = document.createElement('option');
-                opt.value = idStr;
-                opt.dataset.injected = '1';
-                const title = c.title && c.title !== 'Challenge ' + idStr
-                    ? ' · ' + c.title
-                    : '';
-                opt.textContent = (isUnlocked ? '✓ ' : '🔒 ') + padded + title;
-                opt.disabled = !isUnlocked;
-                challengeSelect.appendChild(opt);
-            });
+            renderChallengeOptions();
         } catch (e) {
             console.warn('[solo-setup] could not populate challenge select:', e);
         }
     }
+
+    // Re-render the challenge dropdown when the category changes
+    if (categorySelect) {
+        categorySelect.addEventListener('change', renderChallengeOptions);
+    }
+
     populateChallengeSelect();
 
     /* ---------- Start session ----------
@@ -134,6 +193,15 @@
             const selected = challengeSelect?.value;
             if (selected && selected !== 'random') {
                 params.set('challenge', selected);
+            }
+
+            // Category filter — narrows the random pool to a single
+            // capture medium (negative / digital). Skipped when a
+            // specific challenge id is selected because the category
+            // is implicit in that case.
+            const cat = categorySelect?.value;
+            if (cat && cat !== 'random' && (!selected || selected === 'random')) {
+                params.set('category', cat);
             }
 
             // Brief fade transition before navigation

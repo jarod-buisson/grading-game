@@ -115,6 +115,19 @@
                     </div>
                 </div>
 
+                <!-- CATEGORY -->
+                <div class="control-block">
+                    <div class="control-label">category</div>
+                    <select class="challenge-select" id="category-select">
+                        <option value="random">random · all categories</option>
+                        <option value="negative">negative · analog / film</option>
+                        <option value="digital">digital · sensor</option>
+                    </select>
+                    <div class="challenge-hint" id="category-hint">
+                        pick a capture medium to filter the random pool
+                    </div>
+                </div>
+
                 <!-- CHALLENGE -->
                 <div class="control-block">
                     <div class="control-label">challenge</div>
@@ -163,7 +176,7 @@
     <div class="vignette-overlay" aria-hidden="true"></div>
     <div class="grain-overlay"    aria-hidden="true"></div>
 
-    <script src="js/solo-setup.js?v=3"></script>
+    <script src="js/solo-setup.js?v=4"></script>
     <script src="js/audio-player.js?v=4"></script>
 </body>
 </html>

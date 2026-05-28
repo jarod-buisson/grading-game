@@ -124,6 +124,10 @@ def build_entry(folder: Path) -> dict | None:
         # only keep the bare handle (e.g. "janedoe", not "@janedoe" or
         # "https://instagram.com/janedoe").
         "instagram":    _clean_handle(meta.get("instagram")),
+        # Optional capture-medium category. Used by the solo / multi
+        # category dropdowns to let players filter their pool.
+        # Values: "negative", "digital", or null (uncategorized).
+        "category":     _clean_category(meta.get("category")),
     }
 
 
@@ -146,6 +150,27 @@ def _clean_handle(value):
     if "?" in s: s = s.split("?", 1)[0]
     if "/" in s: s = s.split("/", 1)[0]
     return s.lower() or None
+
+
+def _clean_category(value):
+    """Normalize a category to 'negative' / 'digital' / None.
+
+    Accepts a generous list of synonyms in English and French so
+    contributors can write whatever feels natural in their meta.json:
+        "negative", "film", "analog", "argentique"  → "negative"
+        "digital", "numeric", "numerique", "digi"   → "digital"
+    Anything else logs a warning and returns None (treated as
+    uncategorized — shows up only in "any category" picks).
+    """
+    if not value:
+        return None
+    s = str(value).strip().lower()
+    if s in ("negative", "neg", "film", "analog", "analogue", "argentique"):
+        return "negative"
+    if s in ("digital", "digi", "numeric", "numerique", "numérique", "sensor"):
+        return "digital"
+    print(f"  [warn] unrecognized category '{value}' — leaving as null")
+    return None
 
 
 def collect_entries() -> list[dict]:

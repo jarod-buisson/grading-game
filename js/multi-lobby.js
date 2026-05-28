@@ -326,6 +326,11 @@
         const visibility = getRadio('visibility')  || 'public';
         const duration   = parseInt(getRadio('duration') || '20', 10);
         const challenge  = getRadio('challenge')   || 'random';
+        // Category filter — "random" means no filter, anything else
+        // (negative / digital) constrains the host's random pick to
+        // that capture medium. The RPC normalises "random" → NULL so
+        // we can pass the raw radio value as-is.
+        const category   = getRadio('category')    || 'random';
 
         modalCreateBtn.disabled = true;
         modalCreateBtn.querySelector('span').textContent = 'creating room…';
@@ -334,7 +339,8 @@
             p_visibility: visibility,
             p_duration_min: duration,
             p_challenge_id: challenge,
-            p_nickname: nick
+            p_nickname: nick,
+            p_category: category
         });
 
         if (error) {

@@ -10,10 +10,50 @@
 (function () {
     'use strict';
 
-    /* ---------- Parse params ---------- */
+    /* ============================================================
+       ACTIVE SOLO SESSION — sessionStorage lock against F5/refresh
+       ============================================================
+       Without this, every page load (including a stray F5) would
+       pick a new random challenge AND restart the timer from 0 —
+       letting a player rerolls easy photos or get bonus time. Here
+       we persist the chosen challenge + the moment the timer
+       started so a refresh resumes the EXACT same state.
+
+       The lock is cleared on:
+         - Successful submit (grade saved → result.html)
+         - Timeout auto-submit
+         - Explicit quit (✕ button)
+         - The "Start session" button on solo.html (so a deliberate
+           new session always wipes the previous one)
+       Closing the tab also wipes it (sessionStorage scope = tab).
+       ============================================================ */
+    const ACTIVE_KEY = 'gradinggame.activeSolo';
+
+    function loadActiveSession() {
+        try {
+            return JSON.parse(sessionStorage.getItem(ACTIVE_KEY) || 'null');
+        } catch (e) { return null; }
+    }
+    function saveActiveSession(data) {
+        try { sessionStorage.setItem(ACTIVE_KEY, JSON.stringify(data)); }
+        catch (e) { console.warn('[solo] could not save active session:', e); }
+    }
+    function clearActiveSession() {
+        try { sessionStorage.removeItem(ACTIVE_KEY); } catch (_) {}
+    }
+
+    const active = loadActiveSession();
+
+    /* ---------- Parse params ----------
+       If we have an active session, ITS values win — URL params
+       are advisory only. This prevents a user from extending their
+       remaining time by tweaking ?duration in the address bar. */
     const params = FileIO.getParams();
-    const DURATION_MIN = parseInt(params.get('duration') || '20', 10);
-    const SHOW_REF     = params.get('reference') !== '0';
+    const DURATION_MIN = active?.duration
+        ?? parseInt(params.get('duration') || '20', 10);
+    const SHOW_REF     = active
+        ? !!active.showRef
+        : params.get('reference') !== '0';
 
     /* ---------- DOM refs ---------- */
     const $ = (id) => document.getElementById(id);
@@ -63,6 +103,10 @@
     /* ---------- Load challenge manifest ---------- */
     let challenge = null;
     let gradedFile = null;
+    // Wall-clock timestamp (ms) of when the timer started for this
+    // session. Persisted in the active session so a refresh doesn't
+    // restart the timer.
+    let startedAtMs = active?.startedAt || null;
 
     function demoChallenge(reason) {
         return {
@@ -77,6 +121,18 @@
     }
 
     async function loadChallenge() {
+        // ─── If we have an active session, RESUME — no random pick ───
+        // This is what prevents F5 from rerolling the challenge: when
+        // the user reloads, sessionStorage still has the locked entry,
+        // so we just re-use it (same id, same source, same start time).
+        if (active && active.challenge) {
+            challenge = active.challenge;
+            console.log('[challenge] resumed active solo session ·', challenge.id,
+                        '· started', new Date(active.startedAt).toLocaleTimeString());
+            renderChallenge(challenge);
+            return;
+        }
+
         // Detect file:// up-front — fetch() will throw with a confusing message
         if (location.protocol === 'file:') {
             console.error('[challenge] page opened via file:// — fetch is blocked. ' +
@@ -142,6 +198,17 @@
             '\n  candidates:', list.map(c => c.id).join(', '),
             '\n  pickIdx:', pickIdx, '/', list.length
         );
+
+        // ─── Lock this session: persist challenge + start time ───
+        // Any subsequent refresh re-uses this entry instead of rolling.
+        startedAtMs = Date.now();
+        saveActiveSession({
+            challenge: challenge,
+            startedAt: startedAtMs,
+            duration:  DURATION_MIN,
+            showRef:   SHOW_REF
+        });
+
         renderChallenge(challenge);
     }
 
@@ -300,6 +367,10 @@
             timestamp: Date.now()
         });
 
+        // Session is over — release the lock so the next solo round
+        // can pick a fresh challenge.
+        clearActiveSession();
+
         document.body.style.transition = 'opacity 280ms ease';
         document.body.style.opacity = '0';
         setTimeout(() => { window.location.href = 'result.html'; }, 260);
@@ -311,21 +382,33 @@
     if (quitBtn) {
         quitBtn.addEventListener('click', () => {
             if (confirm('Abandon this session? Your grade will not be saved.')) {
+                // Release both the active solo lock AND any stale
+                // completed-session data, then return to the menu.
+                clearActiveSession();
                 FileIO.clearSession();
                 window.location.href = 'index.html';
             }
         });
     }
 
-    /* ---------- TIMER ---------- */
+    /* ---------- TIMER ----------
+       Uses Date.now() (wall clock) instead of performance.now() so
+       the timer survives page reloads — performance.now() resets to
+       0 on every load, which is exactly the F5 bug we're fixing.
+       The startedAtMs is set once (either resumed from active
+       session OR initialized by loadChallenge when picking fresh)
+       and never moves. */
     const TOTAL_MS = DURATION_MIN * 60 * 1000;
-    let startTs = null;
     let timerRaf = null;
 
     function tick() {
-        const now = performance.now();
-        if (!startTs) startTs = now;
-        const elapsed = now - startTs;
+        // Wait until loadChallenge has set startedAtMs (either from
+        // an active session or by saving a fresh one).
+        if (!startedAtMs) {
+            timerRaf = requestAnimationFrame(tick);
+            return;
+        }
+        const elapsed = Date.now() - startedAtMs;
         const remaining = Math.max(0, TOTAL_MS - elapsed);
 
         const totalSec = Math.ceil(remaining / 1000);

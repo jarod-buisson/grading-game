@@ -46,9 +46,17 @@
         });
     }
 
-    /* ---------- Start session ---------- */
+    /* ---------- Start session ----------
+       Wipe any leftover active-solo state from sessionStorage so
+       game.html boots fresh and picks a brand new random challenge.
+       Without this, hitting Start while a previous game was still
+       locked in the tab's sessionStorage would just resume the old
+       challenge with the old timer — confusing as hell. */
     if (startBtn) {
         startBtn.addEventListener('click', () => {
+            try { sessionStorage.removeItem('gradinggame.activeSolo'); }
+            catch (_) {}
+
             const params = new URLSearchParams({
                 duration:  String(durationMin),
                 reference: showReference ? '1' : '0'

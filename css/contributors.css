@@ -221,6 +221,30 @@
     white-space: nowrap;
 }
 
+/* Compact variant — single row with "challenges · 004, 005, 006…".
+   No more list of per-title rows; everything fits on one line and
+   wraps gracefully if the contributor has many entries. */
+.contributor-title-row--compact {
+    align-items: baseline;
+    gap: 10px;
+}
+.contributor-title-row--compact .ct-id {
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    font-size: 9px;
+}
+.contributor-title-row--compact .ct-title {
+    text-align: right;
+    color: var(--text-primary);
+    font-weight: 500;
+    white-space: normal;          /* let long lists wrap */
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.5;
+    letter-spacing: var(--tracking-mono);
+}
+
 /* Card variant for the "anonymous" bucket */
 .contributor-card.is-anonymous {
     opacity: 0.55;

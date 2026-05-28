@@ -91,17 +91,22 @@
                </div>`
             : '';
 
-        const titlesHTML = group.titles.slice(0, 8).map(t =>
-            `<div class="contributor-title-row">
-                <span class="ct-id">${escHTML(String(t.id).padStart(3, '0'))}</span>
-                <span class="ct-title">${escHTML(t.title)}</span>
-             </div>`
-        ).join('');
+        // Compact challenge list — was one row per title (id + name),
+        // which ate vertical space for very little signal (the name is
+        // often just "Challenge {id}"). Replaced with a single inline
+        // line of comma-separated ids: "challenges · 004, 005, 006…".
+        const idList = group.titles
+            .map(t => String(t.id).padStart(3, '0'))
+            .join(', ');
+        const titlesHTML = `
+            <div class="contributor-title-row contributor-title-row--compact">
+                <span class="ct-id">challenges</span>
+                <span class="ct-title">${escHTML(idList)}</span>
+            </div>`;
 
-        const moreCount = group.titles.length - 8;
-        const moreHTML = moreCount > 0
-            ? `<div class="contributor-title-row"><span class="ct-id">+${moreCount}</span><span class="ct-title">more</span></div>`
-            : '';
+        // moreHTML is no longer needed (everything fits on one line via
+        // wrap) but the variable is still expected below — keep it empty.
+        const moreHTML = '';
 
         const displayName = isAnonymous ? 'Anonymous · not specified yet' : group.name;
         const countLabel = `${group.titles.length} photo${group.titles.length > 1 ? 's' : ''}`;

@@ -1,0 +1,29 @@
+# =========================================================
+# Cloudflare Pages — HTTP response headers
+# =========================================================
+# Cloudflare Pages picks up this file at build time and applies
+# the listed headers on every response that matches the path
+# pattern. Reference:
+#   https://developers.cloudflare.com/pages/configuration/headers/
+# =========================================================
+
+/*
+  # HSTS — tells browsers to ALWAYS use HTTPS for this domain for
+  # the next year (with subdomains and preload-list eligible). After
+  # the first HTTPS visit, the browser will silently upgrade any
+  # `http://grading-game.com` URL before even hitting the network,
+  # so the "Not secure" warning users see when they type
+  # `http://grading-game.com` directly disappears on every browser
+  # they've previously visited.
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # Tell intermediaries (including Brave's privacy heuristics) that
+  # this response is safe to cache as HTTPS-only.
+  Content-Security-Policy: upgrade-insecure-requests
+
+  # Sensible browser hardening — no leaks via Referer, no MIME
+  # sniffing, no clickjacking via iframe.
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Permissions-Policy: interest-cohort=()

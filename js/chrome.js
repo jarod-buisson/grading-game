@@ -27,32 +27,60 @@
     }
 
     function injectChromeLinks() {
-        const mount = document.querySelector('.top-bar-right');
-        if (!mount) return;  // game/room have non-standard headers, leave them alone
-
         injectStyles();
 
-        // Order matters: we insert each link as the FIRST child of
-        // .top-bar-right, so the LAST one we insert ends up leftmost.
-        // Final visual order (left → right): info · legal · …rest.
-        // → insert legal first, then info on top of it.
-        maybeInjectLink({
-            id:    'chrome-legal-link',
-            href:  'legal.html',
-            text:  'legal',
-            title: 'Terms of Service · Privacy Policy · Copyright',
-            mount
-        });
-        maybeInjectLink({
-            id:    'chrome-info-link',
-            href:  'info.html',
-            text:  'info',
-            title: 'Credits & patch notes',
-            mount
-        });
+        // Pick mount + insertion strategy based on viewport.
+        //   Desktop: insert into .top-bar-right (existing behavior — pills sit
+        //            left of the version-tag / auth widget / audio widget).
+        //   Mobile:  inject into a dedicated .mobile-chrome-footer appended
+        //            at the very end of <body>. On the landing page that
+        //            means the pills land right under the donate button.
+        //            On other pages they sit at the bottom of the page.
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 799px)').matches;
+
+        let mount;
+        let insertMode;
+        if (isMobile) {
+            mount = ensureMobileFooter();
+            insertMode = 'append';   // visual order = DOM order
+        } else {
+            mount = document.querySelector('.top-bar-right');
+            if (!mount) return;       // game/room have non-standard headers — desktop only
+            insertMode = 'prepend';   // first-child → ends up leftmost
+        }
+
+        // Order matters: on desktop we prepend, so the LAST one we insert
+        // ends up leftmost. On mobile we append, so order follows insertion.
+        // Final visual order (both): info · legal.
+        if (insertMode === 'prepend') {
+            // Reverse order so the *last* insert is "info" on the left
+            maybeInjectLink({ id: 'chrome-legal-link', href: 'legal.html',
+                              text: 'legal', title: 'Terms · Privacy · Copyright',
+                              mount, insertMode });
+            maybeInjectLink({ id: 'chrome-info-link',  href: 'info.html',
+                              text: 'info',  title: 'Credits & patch notes',
+                              mount, insertMode });
+        } else {
+            maybeInjectLink({ id: 'chrome-info-link',  href: 'info.html',
+                              text: 'info',  title: 'Credits & patch notes',
+                              mount, insertMode });
+            maybeInjectLink({ id: 'chrome-legal-link', href: 'legal.html',
+                              text: 'legal', title: 'Terms · Privacy · Copyright',
+                              mount, insertMode });
+        }
     }
 
-    function maybeInjectLink({ id, href, text, title, mount }) {
+    function ensureMobileFooter() {
+        let footer = document.querySelector('.mobile-chrome-footer');
+        if (!footer) {
+            footer = document.createElement('div');
+            footer.className = 'mobile-chrome-footer';
+            document.body.appendChild(footer);
+        }
+        return footer;
+    }
+
+    function maybeInjectLink({ id, href, text, title, mount, insertMode }) {
         // Already injected on this page? bail
         if (document.getElementById(id)) return;
 
@@ -67,7 +95,11 @@
         link.textContent = text;
         link.setAttribute('title', title);
 
-        mount.insertBefore(link, mount.firstChild);
+        if (insertMode === 'append') {
+            mount.appendChild(link);
+        } else {
+            mount.insertBefore(link, mount.firstChild);
+        }
     }
 
     function injectStyles() {
@@ -99,17 +131,31 @@
                 background: var(--accent-soft);
             }
 
-            /* Two links sit shoulder-to-shoulder; tiny gap between
-               them via margin-left on every chrome-link that follows
-               another chrome-link. */
+            /* Two links sit shoulder-to-shoulder on desktop. */
             .chrome-link + .chrome-link {
                 margin-left: 6px;
             }
 
-            /* Hide on narrow viewports so it doesn't clash with the
-               desktop-only mobile gate. */
+            /* Mobile footer container — appended to <body> on narrow
+               viewports. On the landing page it lands right under the
+               donate button; on other pages it's the very bottom of
+               the page. Two pills, centered, breathing space below
+               so it isn't clipped by the iOS Safari bottom toolbar. */
+            .mobile-chrome-footer {
+                display: none;
+            }
             @media (max-width: 799px) {
-                .chrome-link { display: none; }
+                .mobile-chrome-footer {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                    padding: 18px 16px 32px;
+                }
+                .mobile-chrome-footer .chrome-link {
+                    margin-left: 0;
+                    padding: 8px 18px;
+                    font-size: 11px;
+                }
             }
         `;
         document.head.appendChild(style);

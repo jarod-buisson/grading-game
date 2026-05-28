@@ -8,6 +8,17 @@
 (function () {
     'use strict';
 
+    /* ---------- Skip on mobile ----------
+       Background music on mobile is more annoying than useful:
+         - Browsers throttle / mute audio on tabs in background
+         - The widget itself eats top-bar real estate at < 800 px
+         - Users on data plans don't want extra MP3 transfer
+       The CSS media query that drives the rest of the mobile
+       layout is `(max-width: 799px)` — match the same threshold. */
+    if (window.matchMedia && window.matchMedia('(max-width: 799px)').matches) {
+        return;
+    }
+
     const VOL_KEY  = 'gradinggame.audioVolume';
     const MUTE_KEY = 'gradinggame.audioMuted';
 

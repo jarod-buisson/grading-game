@@ -949,8 +949,47 @@
         justify-content: center;
     }
 
-    /* Gallery grid: cards already auto-fill at 180 px min → 2 col @ 375 px */
-    body.mobile-friendly .gallery-grid { gap: 10px; }
+    /* Gallery grid → vertical list of compact rows on mobile.
+       Desktop's Pokédex (square thumb · id · photographer below) eats
+       ~80% of the viewport for a single card on a 375 px phone, so
+       we flip the card into a row: small 60×60 thumb on the left,
+       id + photographer inline on the right. The whole grid becomes
+       a tighter scrollable list. */
+    body.mobile-friendly .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    body.mobile-friendly .gallery-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 12px 6px 6px;
+    }
+    body.mobile-friendly .gallery-card-frame {
+        flex: none;
+        width: 64px;
+        height: 64px;
+        aspect-ratio: auto;
+        border-radius: 2px;
+    }
+    /* Lock icon scales down to fit the smaller thumbnail */
+    body.mobile-friendly .gallery-card-lock {
+        width: 22px !important;
+        height: 22px !important;
+    }
+    /* Info row sits next to the thumb instead of below it */
+    body.mobile-friendly .gallery-card-info {
+        flex: 1;
+        min-width: 0;
+        padding: 0;
+        border-top: none;
+        gap: 12px;
+    }
+    body.mobile-friendly .gallery-card-id { font-size: 14px; }
+    body.mobile-friendly .gallery-card-photographer {
+        font-size: 10px;
+        max-width: none;
+    }
 }
 
 

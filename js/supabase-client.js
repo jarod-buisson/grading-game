@@ -624,4 +624,37 @@
 
     boot();
 
+
+    /* ============================================================
+       bfcache restore — re-check the auth session
+       ============================================================
+       When the user uses the browser's BACK button, the previous
+       page can come back from the bfcache (the back/forward cache),
+       which means the page state — including our JS variables and
+       the rendered "Sign in" widget — is restored verbatim.
+       If the user signed in AFTER this page went into bfcache (i.e.
+       on the page they just came back from), our state is stale:
+       the avatar should be shown but the cached page still paints
+       the "Sign in" button.
+
+       The fix: on `pageshow` with `event.persisted === true`, compare
+       the auth state our JS thinks we're in vs. what's in
+       localStorage. If they disagree, reload the page so every
+       script (auth-ui, gallery, profile…) re-initialises with the
+       fresh session.
+
+       This also catches the reverse case: user signed out on another
+       page → coming back into bfcache should clear the avatar. */
+    window.addEventListener('pageshow', (event) => {
+        if (!event.persisted) return;
+        const stored = readSessionFromStorage();
+        const storedIsAuth = !!(stored?.user?.email);
+        const cachedIsAuth = !!userId && !isAnon;
+        if (storedIsAuth !== cachedIsAuth) {
+            console.log('[gg] bfcache restore: auth state changed (cached=', cachedIsAuth,
+                        ', stored=', storedIsAuth, ') — reloading');
+            window.location.reload();
+        }
+    });
+
 })(window);

@@ -11,6 +11,25 @@
     <meta name="author" content="grading-game">
     <meta name="robots" content="index, follow">
 
+    <!-- Force HTTPS — runs before any other script so we never load the
+         site over plain HTTP. Cloudflare Pages serves HTTPS by default,
+         but if a user types `http://grading-game.com` or clicks an old
+         link, Brave / Safari / Chrome paint a "Not secure" warning until
+         we redirect. The hostname check skips localhost / 127.x for
+         local development with `python -m http.server`. -->
+    <script>
+        (function () {
+            if (location.protocol === 'http:'
+                && location.hostname !== 'localhost'
+                && !location.hostname.startsWith('127.')) {
+                location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+            }
+        })();
+    </script>
+    <!-- Upgrade any accidental http:// resource references to https:// so
+         a stray hardcoded link can't downgrade the page to mixed content. -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
     <meta property="og:site_name" content="grading-game">
     <meta property="og:type"      content="website">
@@ -31,17 +50,17 @@
          "Sign in / Avatar" widget can mount in the top bar regardless of
          where the user lands. Order matters: SDK → gg client → auth UI. -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js?v=10"></script>
+    <script src="js/supabase-client.js?v=11"></script>
     <script src="js/auth-ui.js?v=5"></script>
     <script src="js/presence.js?v=2"></script>
-    <script src="js/chrome.js?v=2"></script>
+    <script src="js/chrome.js?v=3"></script>
     <!-- :head-common-end: -->
     <title>result · grading-game</title>
     <meta name="description" content="Side-by-side or wipe-mode comparison of your grade with the reference. Available after a solo session.">
     <!-- Result page only makes sense after a session — relies on sessionStorage. -->
     <meta name="robots" content="noindex, follow">
     <link rel="stylesheet" href="css/result.css?v=4">
-    <link rel="stylesheet" href="css/mobile.css?v=2">
+    <link rel="stylesheet" href="css/mobile.css?v=4">
 </head>
 <body class="mobile-friendly">
     <script src="js/mobile-gate.js"></script>
@@ -141,6 +160,6 @@
 
     <script src="js/file-io.js"></script>
     <script src="js/result.js?v=2"></script>
-    <script src="js/audio-player.js?v=4"></script>
+    <script src="js/audio-player.js?v=5"></script>
 </body>
 </html>

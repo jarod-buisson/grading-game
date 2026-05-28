@@ -272,6 +272,241 @@
     border-radius: 2px;
 }
 
+
+/* =========================================================
+   Inline contribution form
+   ========================================================= */
+.contribute-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+/* Honeypot — visually hidden but reachable enough that bots fill it.
+   We keep it focusable but off-screen and zero-sized. */
+.contribute-honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.contribute-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.contribute-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.contribute-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.contribute-label-hint {
+    color: var(--text-quaternary);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 10px;
+    margin-left: 4px;
+}
+
+.contribute-field input,
+.contribute-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-primary);
+    transition: border-color var(--t-fast), background var(--t-fast);
+    resize: vertical;
+    min-height: 0;
+}
+
+.contribute-field textarea {
+    font-family: var(--font-ui);
+    line-height: 1.55;
+    min-height: 70px;
+}
+
+.contribute-field input:focus,
+.contribute-field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.contribute-field input.is-error,
+.contribute-field textarea.is-error {
+    border-color: var(--accent-red, #d96055);
+}
+
+.contribute-field input::placeholder,
+.contribute-field textarea::placeholder {
+    color: var(--text-quaternary);
+}
+
+.contribute-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.contribute-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    cursor: pointer;
+    transition: all var(--t-fast);
+}
+
+.contribute-submit:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--text-primary);
+}
+
+.contribute-submit:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.contribute-arrow {
+    transition: transform var(--t-fast);
+}
+
+.contribute-submit:hover:not(:disabled) .contribute-arrow {
+    transform: translateX(2px);
+}
+
+.contribute-status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: var(--tracking-mono);
+    flex: 1;
+    min-width: 0;
+}
+
+.contribute-status.is-success {
+    color: var(--accent-green, #5fa86d);
+}
+
+.contribute-status.is-error {
+    color: var(--accent-red, #d96055);
+}
+
+/* After successful submit, replace the form with a thank-you panel */
+.contribute-form.is-submitted {
+    display: none;
+}
+
+.contribute-thanks {
+    margin-top: 8px;
+    padding: 20px 22px;
+    background: rgba(95, 168, 109, 0.06);
+    border: 1px solid var(--accent-green, #5fa86d);
+    border-radius: 3px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.contribute-thanks strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+
+/* ---------- ExifTool tip (collapsible details) ---------- */
+.contribute-tip {
+    margin-top: 8px;
+    padding: 10px 0;
+    border-top: 1px solid var(--border-faint);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-tertiary);
+}
+
+.contribute-tip summary {
+    cursor: pointer;
+    list-style: none;
+    color: var(--text-tertiary);
+    transition: color var(--t-fast);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    padding: 4px 0;
+}
+
+.contribute-tip summary:hover {
+    color: var(--accent);
+}
+
+.contribute-tip summary::before {
+    content: "▸ ";
+    color: var(--text-quaternary);
+    transition: transform var(--t-fast);
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.contribute-tip[open] summary::before {
+    content: "▾ ";
+}
+
+.contribute-tip p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.contribute-tip a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+}
+
+.contribute-tip code {
+    display: block;
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: var(--bg-elev-2);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    word-break: break-all;
+    line-height: 1.5;
+}
+
+
 .contributors-empty {
     padding: 48px 24px;
     text-align: center;

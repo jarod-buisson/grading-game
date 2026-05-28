@@ -46,7 +46,7 @@
     <meta name="twitter:title"       content="Contributors · grading-game">
     <meta name="twitter:description" content="The photographers behind the photos. Each contributor keeps full rights on their work.">
     <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
-    <link rel="stylesheet" href="css/contributors.css?v=2">
+    <link rel="stylesheet" href="css/contributors.css?v=3">
 </head>
 <body>
     <script src="js/mobile-gate.js"></script>
@@ -97,18 +97,70 @@
 
             <div class="contributors-cta">
                 <div class="contributors-cta-title">Want to contribute?</div>
-                <div class="contributors-cta-body">
-                    Send us a folder with your <strong>JPEG preview</strong> (cover),
-                    your <strong>source file</strong> (RAW, TIFF, scan…) and
-                    <strong>the license you prefer</strong>. Your rights stay yours —
-                    they're displayed on this page and inside the game, and the
-                    downloaded filename always includes the player's nickname to
-                    discourage leaks.
-                    <br><br>
-                    You can also embed your copyright directly into the RAW with
+                <p class="contributors-cta-body">
+                    Send us your work — we'll review and add it to the game. Use a
+                    <strong>WeTransfer / SwissTransfer / Smash</strong> link with
+                    a JPEG preview, your source file (RAW, TIFF, scan…) and the
+                    license you prefer. Your rights stay yours.
+                </p>
+
+                <form class="contribute-form" id="contribute-form" novalidate>
+                    <!-- Honeypot — bots fill this, humans don't see it -->
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+                           class="contribute-honeypot" aria-hidden="true">
+
+                    <div class="contribute-row">
+                        <label class="contribute-field">
+                            <span class="contribute-label">first name</span>
+                            <input type="text" name="first_name" required maxlength="100"
+                                   autocomplete="given-name" spellcheck="false">
+                        </label>
+                        <label class="contribute-field">
+                            <span class="contribute-label">last name</span>
+                            <input type="text" name="last_name" required maxlength="100"
+                                   autocomplete="family-name" spellcheck="false">
+                        </label>
+                    </div>
+
+                    <label class="contribute-field">
+                        <span class="contribute-label">email</span>
+                        <input type="email" name="email" required maxlength="200"
+                               autocomplete="email" spellcheck="false"
+                               placeholder="name@domain.com">
+                    </label>
+
+                    <label class="contribute-field">
+                        <span class="contribute-label">transfer link</span>
+                        <input type="url" name="transfer_link" required maxlength="500"
+                               autocomplete="off" spellcheck="false"
+                               placeholder="https://we.tl/… · https://www.swisstransfer.com/… · https://fromsmash.com/…">
+                    </label>
+
+                    <label class="contribute-field">
+                        <span class="contribute-label">message <span class="contribute-label-hint">(optional · license preference, Instagram handle, anything we should know)</span></span>
+                        <textarea name="message" rows="3" maxlength="2000"
+                                  spellcheck="false"
+                                  placeholder="e.g. CC BY-NC license · @yourhandle on Instagram"></textarea>
+                    </label>
+
+                    <div class="contribute-actions">
+                        <button type="submit" class="contribute-submit" id="contribute-submit">
+                            <span>send my work</span>
+                            <span class="contribute-arrow">→</span>
+                        </button>
+                        <div class="contribute-status" id="contribute-status" aria-live="polite"></div>
+                    </div>
+                </form>
+
+                <details class="contribute-tip">
+                    <summary>Tip: embed your copyright in the RAW before sending</summary>
+                    <p>
+                        Most pro RAW formats support EXIF copyright fields. Using
+                        <a href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool</a>
+                        you can stamp your name + license once and re-export forever:
+                    </p>
                     <code>exiftool -Artist="Your Name" -Copyright="© 2026 Your Name" your-file.dng</code>
-                    before sending it.
-                </div>
+                </details>
             </div>
 
             <a href="index.html" class="back-link">← back to menu</a>
@@ -119,7 +171,7 @@
     <div class="vignette-overlay" aria-hidden="true"></div>
     <div class="grain-overlay"    aria-hidden="true"></div>
 
-    <script src="js/contributors.js"></script>
+    <script src="js/contributors.js?v=2"></script>
     <script src="js/audio-player.js?v=4"></script>
 </body>
 </html>

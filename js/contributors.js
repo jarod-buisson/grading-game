@@ -142,4 +142,187 @@
         }[c]));
     }
 
+
+    /* =========================================================
+       CONTRIBUTION FORM
+       =========================================================
+       Submits in parallel to:
+         1. Supabase `contributions` table (permanent record)
+         2. Formspree endpoint (real-time email to admin)
+
+       If one fails the other still goes through — we surface
+       success as long as AT LEAST ONE channel succeeded. The
+       admin always has either a DB row or an email (and usually
+       both) for every legit submission.
+
+       ⚠️ REPLACE the Formspree FORM_ID below with yours after
+       signing up at formspree.io. Until you do, only the Supabase
+       half will work and the email half logs a warning.
+       ========================================================= */
+    const FORMSPREE_FORM_ID = 'xjgzjlrn';
+    const FORMSPREE_URL = 'https://formspree.io/f/' + FORMSPREE_FORM_ID;
+
+    const form     = document.getElementById('contribute-form');
+    const submitBtn = document.getElementById('contribute-submit');
+    const statusEl = document.getElementById('contribute-status');
+
+    if (form && submitBtn && statusEl) {
+        form.addEventListener('submit', handleSubmit);
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (submitBtn.disabled) return;
+
+        // Honeypot — bots fill this, real users don't see it.
+        // Silently "succeed" so the bot thinks it worked.
+        const honeypot = form.querySelector('input[name="_gotcha"]');
+        if (honeypot && honeypot.value) {
+            console.log('[contribute] honeypot triggered, ignoring');
+            showThanks();
+            return;
+        }
+
+        // Collect + validate
+        const data = Object.fromEntries(new FormData(form).entries());
+        delete data._gotcha;
+        data.first_name    = (data.first_name   || '').trim();
+        data.last_name     = (data.last_name    || '').trim();
+        data.email         = (data.email        || '').trim();
+        data.transfer_link = (data.transfer_link|| '').trim();
+        data.message       = (data.message      || '').trim() || null;
+
+        const errors = validate(data);
+        if (errors.length) {
+            setStatus('error', errors[0]);
+            return;
+        }
+
+        // UI: loading
+        submitBtn.disabled = true;
+        const btnSpan = submitBtn.querySelector('span');
+        const originalLabel = btnSpan ? btnSpan.textContent : '';
+        if (btnSpan) btnSpan.textContent = 'sending…';
+        setStatus('pending', 'sending your submission…');
+
+        // Fire both in parallel.
+        const [supaResult, mailResult] = await Promise.allSettled([
+            submitToSupabase(data),
+            submitToFormspree(data)
+        ]);
+
+        const supaOk = supaResult.status === 'fulfilled' && supaResult.value === true;
+        const mailOk = mailResult.status === 'fulfilled' && mailResult.value === true;
+
+        if (supaOk || mailOk) {
+            // At least one channel succeeded → consider it a win.
+            console.log('[contribute] supabase:', supaOk, '· email:', mailOk);
+            showThanks();
+        } else {
+            // Both failed
+            console.error('[contribute] both channels failed', supaResult, mailResult);
+            submitBtn.disabled = false;
+            if (btnSpan) btnSpan.textContent = originalLabel;
+            setStatus('error',
+                'could not send — please try again, or email buissonjarod@gmail.com directly');
+        }
+    }
+
+    function validate(d) {
+        const errs = [];
+        if (!d.first_name)    errs.push('please enter your first name');
+        else if (!d.last_name) errs.push('please enter your last name');
+        else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email))
+            errs.push('please enter a valid email address');
+        else if (!/^https?:\/\//i.test(d.transfer_link))
+            errs.push('transfer link must start with http:// or https://');
+        return errs;
+    }
+
+    function setStatus(kind, msg) {
+        statusEl.classList.remove('is-success', 'is-error');
+        if (kind === 'success') statusEl.classList.add('is-success');
+        if (kind === 'error')   statusEl.classList.add('is-error');
+        statusEl.textContent = msg || '';
+    }
+
+    function showThanks() {
+        form.classList.add('is-submitted');
+        const cta = document.querySelector('.contributors-cta');
+        if (cta) {
+            const thanks = document.createElement('div');
+            thanks.className = 'contribute-thanks';
+            thanks.innerHTML = `
+                <strong>Thanks — we got it.</strong>
+                We'll review your work and get back to you within a few days.
+                If we haven't replied after a week, ping us at
+                <a href="mailto:buissonjarod@gmail.com" style="color:var(--accent);">buissonjarod@gmail.com</a>.
+            `;
+            cta.appendChild(thanks);
+        }
+    }
+
+    /* ---------- Channel 1: Supabase ---------- */
+    async function submitToSupabase(d) {
+        if (!window.gg?.supabase) {
+            console.warn('[contribute] supabase client not ready');
+            return false;
+        }
+        try {
+            // Wait so we know whether we have a user_id to attach
+            if (window.gg.ready) await window.gg.ready;
+            const userId = window.gg.userId || null;
+
+            const { error } = await window.gg.supabase
+                .from('contributions')
+                .insert({
+                    first_name:    d.first_name,
+                    last_name:     d.last_name,
+                    email:         d.email,
+                    transfer_link: d.transfer_link,
+                    message:       d.message,
+                    user_id:       userId
+                });
+            if (error) {
+                console.warn('[contribute] supabase insert failed:', error);
+                return false;
+            }
+            return true;
+        } catch (e) {
+            console.warn('[contribute] supabase insert threw:', e);
+            return false;
+        }
+    }
+
+    /* ---------- Channel 2: Formspree ---------- */
+    async function submitToFormspree(d) {
+        if (FORMSPREE_FORM_ID === 'REPLACE_ME_FORMSPREE_ID') {
+            console.warn('[contribute] Formspree FORM_ID not set in contributors.js — skipping email channel');
+            return false;
+        }
+        try {
+            const fd = new FormData();
+            fd.append('first_name',    d.first_name);
+            fd.append('last_name',     d.last_name);
+            fd.append('email',         d.email);
+            fd.append('transfer_link', d.transfer_link);
+            if (d.message) fd.append('message', d.message);
+            // Subject line shown in your inbox
+            fd.append('_subject',
+                `grading-game · new contribution from ${d.first_name} ${d.last_name}`);
+            // Reply-To = the photographer's email so you can reply directly
+            fd.append('_replyto', d.email);
+
+            const res = await fetch(FORMSPREE_URL, {
+                method: 'POST',
+                body: fd,
+                headers: { 'Accept': 'application/json' }
+            });
+            return res.ok;
+        } catch (e) {
+            console.warn('[contribute] formspree submit threw:', e);
+            return false;
+        }
+    }
+
 })();

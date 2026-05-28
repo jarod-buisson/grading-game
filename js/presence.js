@@ -52,15 +52,14 @@
         const style = document.createElement('style');
         style.id = 'online-pill-styles';
         style.textContent = `
+            /* Default: inline chip that lives inside the top bar
+               next to the auth/audio widgets. Same shape as those
+               widgets so it feels native to the layout. */
             .online-pill {
-                position: fixed;
-                bottom: 14px;
-                right: 14px;
-                z-index: 998;
                 display: inline-flex;
                 align-items: center;
                 gap: 8px;
-                padding: 6px 12px;
+                padding: 4px 12px 4px 10px;
                 background: var(--bg-elev-1);
                 border: 1px solid var(--border-subtle);
                 border-radius: 999px;
@@ -69,24 +68,29 @@
                 color: var(--text-tertiary);
                 text-transform: uppercase;
                 letter-spacing: var(--tracking-wide);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
                 opacity: 0;
-                transform: translateY(4px);
                 transition:
                     opacity var(--t-fast),
-                    transform var(--t-fast),
                     border-color var(--t-fast);
                 pointer-events: auto;
                 user-select: none;
+                white-space: nowrap;
             }
-            .online-pill.is-ready {
-                opacity: 1;
-                transform: translateY(0);
+            .online-pill.is-ready { opacity: 1; }
+            .online-pill:hover { border-color: var(--border); }
+
+            /* Fallback for pages where no top-bar mount point exists.
+               Positioned bottom-LEFT (not right) to avoid conflict
+               with the donate/discord buttons and game submit area. */
+            .online-pill--floating {
+                position: fixed;
+                bottom: 14px;
+                left: 14px;
+                z-index: 998;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
             }
-            .online-pill:hover {
-                border-color: var(--border);
-            }
+
             .online-pill-dot {
                 width: 6px;
                 height: 6px;
@@ -104,22 +108,16 @@
             .online-pill-count {
                 color: var(--text-primary);
                 font-weight: 500;
-                min-width: 14px;
+                min-width: 12px;
                 text-align: right;
             }
             @keyframes online-pulse {
-                0%, 100% {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-                50% {
-                    opacity: 0.5;
-                    transform: scale(0.85);
-                }
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50%      { opacity: 0.5; transform: scale(0.85); }
             }
 
-            /* Hide the pill on the mobile gate / narrow viewports
-               so it doesn't clash with the "desktop only" message. */
+            /* Hide on narrow viewports so it doesn't clash with the
+               mobile-only gate. */
             @media (max-width: 799px) {
                 .online-pill { display: none; }
             }
@@ -137,7 +135,31 @@
             <span class="online-pill-count">—</span>
             <span class="online-pill-label">online</span>
         `;
-        document.body.appendChild(pillEl);
+
+        // Pick the best mount point in priority order, mirroring
+        // audio-player.js and auth-ui.js so the pill ends up
+        // alongside them in whatever top-bar variant the page uses.
+        const mount =
+            document.querySelector('.top-bar-right') ||
+            document.querySelector('.game-header-pills') ||
+            document.querySelector('.room-bar');
+
+        if (mount) {
+            // Insert before the audio widget if it's already there
+            // (keeps audio rightmost). Otherwise just append.
+            const audioWidget = mount.querySelector('.audio-widget');
+            if (audioWidget) {
+                mount.insertBefore(pillEl, audioWidget);
+            } else {
+                mount.appendChild(pillEl);
+            }
+        } else {
+            // No top bar on this page — fall back to a floating pill
+            // in the bottom-LEFT corner (less crowded than bottom-right).
+            pillEl.classList.add('online-pill--floating');
+            document.body.appendChild(pillEl);
+        }
+
         // Tiny stagger so the fade-in feels nice
         setTimeout(() => pillEl.classList.add('is-ready'), 50);
     }

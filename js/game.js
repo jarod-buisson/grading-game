@@ -211,15 +211,49 @@
             }
         }
 
-        // Random pick from all entries (used when no specific id
-        // was requested, or the requested id wasn't found).
+        // ─── Random pick — "discovery mode" for signed-in users ───
+        // For signed-in players, exclude challenges they've already
+        // completed (the ones unlocked in their gallery). They keep
+        // discovering new photos until they've done EVERYTHING; then
+        // the full pool is re-opened for replay.
+        // Anonymous users always get the full pool. So do signed-in
+        // users when the unlocks query fails — graceful degradation.
         if (!challenge) {
-            const pickIdx = Math.floor(Math.random() * list.length);
-            challenge = list[pickIdx];
+            let pickPool = list;
+            let mode = 'full pool';
+
+            if (window.gg?.isAuthenticated) {
+                try {
+                    // Make sure boot has finished so isAuthenticated /
+                    // session.access_token are populated.
+                    if (window.gg.ready) await window.gg.ready;
+
+                    const unlocked = await window.gg.getUnlockedChallengeIds();
+
+                    if (unlocked.size > 0 && unlocked.size < list.length) {
+                        // Discovery mode — pick only from photos not yet completed
+                        const locked = list.filter(c => !unlocked.has(String(c.id)));
+                        if (locked.length > 0) {
+                            pickPool = locked;
+                            mode = `discovery (${locked.length} locked / ${list.length} total)`;
+                        }
+                    } else if (unlocked.size >= list.length) {
+                        // Completionist mode — every photo done at least once.
+                        // Re-open the full pool for replay.
+                        mode = `replay (all ${list.length} unlocked)`;
+                    }
+                } catch (e) {
+                    console.warn('[challenge] unlock fetch failed, using full pool:', e);
+                }
+            }
+
+            const pickIdx = Math.floor(Math.random() * pickPool.length);
+            challenge = pickPool[pickIdx];
             console.log(
                 '[challenge] picked', challenge.id, '·', challenge.title,
-                '\n  candidates:', list.map(c => c.id).join(', '),
-                '\n  pickIdx:', pickIdx, '/', list.length
+                '\n  mode:', mode,
+                '\n  candidates:', pickPool.map(c => c.id).join(', '),
+                '\n  pickIdx:', pickIdx, '/', pickPool.length
             );
         }
 

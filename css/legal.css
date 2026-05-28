@@ -1,0 +1,242 @@
+/* =========================================================
+   legal.css — Terms / Privacy / Copyright page.
+   Long-form readable typography with a sticky table-of-contents
+   on the left for desktop.
+   ========================================================= */
+
+.legal-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 48px 32px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 5;
+    min-height: 0;
+}
+
+.legal-inner {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.legal-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.legal-title {
+    font-family: var(--font-ui);
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.15;
+}
+
+.legal-intro {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-tertiary);
+    margin: 0;
+}
+.legal-intro strong {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+.legal-intro a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+}
+
+
+/* ---------- Table of contents (anchor nav) ---------- */
+.legal-toc {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 14px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.legal-toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    text-decoration: none;
+    transition:
+        border-color var(--t-fast),
+        background var(--t-fast),
+        color var(--t-fast);
+}
+
+.legal-toc-item:hover,
+.legal-toc-item.is-active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.legal-toc-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: var(--tracking-mono);
+    flex-shrink: 0;
+}
+
+.legal-toc-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.legal-toc-item.is-active .legal-toc-label {
+    color: var(--text-primary);
+}
+
+
+/* ---------- Sections ---------- */
+.legal-section {
+    padding: 32px 0 8px;
+    border-top: 1px solid var(--border-faint);
+    /* Scroll-margin so anchor jumps don't hide the heading
+       behind the sticky TOC bar */
+    scroll-margin-top: 100px;
+}
+
+.legal-section:first-of-type {
+    border-top: none;
+    padding-top: 8px;
+}
+
+.legal-section-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: 6px;
+}
+
+.legal-section-title {
+    font-family: var(--font-ui);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin: 0 0 18px;
+}
+
+.legal-section-intro {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-faint);
+}
+
+.legal-section h3 {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--text-primary);
+    margin: 24px 0 10px;
+}
+
+.legal-section p,
+.legal-section li {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+}
+
+.legal-section p strong,
+.legal-section li strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.legal-section ul {
+    padding-left: 22px;
+    margin: 0 0 16px;
+}
+
+.legal-section li {
+    margin-bottom: 6px;
+    list-style-type: disc;
+}
+.legal-section li::marker {
+    color: var(--text-quaternary);
+}
+
+.legal-section a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+    transition: color var(--t-fast), border-color var(--t-fast);
+}
+
+.legal-section a:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+.legal-section code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    background: var(--bg-elev-2);
+    padding: 2px 6px;
+    border-radius: 2px;
+    word-break: break-all;
+}
+
+
+/* ---------- Back link ---------- */
+.back-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 2px;
+    transition: color var(--t-fast), border-color var(--t-fast);
+    align-self: flex-start;
+    margin-top: 16px;
+    text-decoration: none;
+}
+.back-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}

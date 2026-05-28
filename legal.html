@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading-game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading-game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=9"></script>
+    <script src="js/auth-ui.js?v=5"></script>
+    <script src="js/presence.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>legal · grading-game — terms, privacy & copyright</title>
+    <meta name="description" content="Terms of Service, Privacy Policy and Copyright Policy for grading-game.com. GDPR-compliant. Last updated May 2026.">
+
+    <link rel="canonical"            href="https://grading-game.com/legal.html">
+    <meta property="og:url"          content="https://grading-game.com/legal.html">
+    <meta property="og:title"        content="Legal · grading-game">
+    <meta property="og:description"  content="Terms of Service, Privacy Policy and Copyright Policy for grading-game.com.">
+    <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
+    <meta name="twitter:title"       content="Legal · grading-game">
+    <meta name="twitter:description" content="Terms of Service, Privacy Policy and Copyright Policy for grading-game.com.">
+    <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+
+    <link rel="stylesheet" href="css/legal.css?v=1">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">-</span>game</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>07</span><span class="sep">·</span><span>legal</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="legal-stage">
+        <div class="legal-inner">
+
+            <div>
+                <div class="legal-eyebrow">07 · legal</div>
+                <h1 class="legal-title">Legal information</h1>
+            </div>
+
+            <p class="legal-intro">
+                Last updated: <strong>28 May 2026</strong>.
+                Questions? Email <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>.
+            </p>
+
+            <!-- Table of contents (sticky on desktop, inline on mobile) -->
+            <nav class="legal-toc" aria-label="legal sections">
+                <a href="#terms" class="legal-toc-item">
+                    <span class="legal-toc-num">01</span>
+                    <span class="legal-toc-label">Terms of Service</span>
+                </a>
+                <a href="#privacy" class="legal-toc-item">
+                    <span class="legal-toc-num">02</span>
+                    <span class="legal-toc-label">Privacy Policy</span>
+                </a>
+                <a href="#copyright" class="legal-toc-item">
+                    <span class="legal-toc-num">03</span>
+                    <span class="legal-toc-label">Copyright &amp; DMCA</span>
+                </a>
+            </nav>
+
+            <!-- ─── SECTION 1 — TERMS OF SERVICE ─────────────── -->
+            <section class="legal-section" id="terms">
+                <div class="legal-section-num">01</div>
+                <h2 class="legal-section-title">Terms of Service</h2>
+
+                <h3>1.1 Acceptance and Eligibility</h3>
+                <p>
+                    By accessing or using grading-game (the "Service") at
+                    <code>grading-game.com</code>, you agree to be bound by these Terms of
+                    Service ("Terms"). If you do not agree, you may not use the Service.
+                </p>
+                <p>
+                    You must be at least 13 years old to use the Service. By creating an
+                    account, you confirm that you meet this age requirement.
+                </p>
+
+                <h3>1.2 Description of Service</h3>
+                <p>
+                    grading-game is a web-based application that lets photographers
+                    practice color grading on real RAW files and scans contributed by
+                    other photographers. The Service supports solo training sessions and
+                    multiplayer rounds where players grade the same photo and vote on
+                    each other's results anonymously.
+                </p>
+
+                <h3>1.3 Accounts</h3>
+                <p>
+                    You may use the Service anonymously with limited features. To save
+                    your progress, view your gallery, and participate in stats tracking,
+                    you may sign in using Google or Discord OAuth. We never store your
+                    password — authentication is handled entirely by your chosen provider.
+                </p>
+                <p>
+                    You are responsible for any activity occurring through your account.
+                    You may delete your account at any time from the Profile page; this
+                    permanently removes your profile and game history.
+                </p>
+
+                <h3>1.4 Acceptable Use</h3>
+                <p>You agree NOT to:</p>
+                <ul>
+                    <li>Use the Service for any unlawful purpose</li>
+                    <li>Harass, threaten, or impersonate other players in multiplayer rooms</li>
+                    <li>Upload or submit content that infringes copyright, contains malware, or violates third-party rights</li>
+                    <li>Attempt to bypass session locks, vote-manipulation safeguards, or any other technical measures</li>
+                    <li>Use automated tools (bots, scrapers) to access the Service without permission</li>
+                </ul>
+                <p>
+                    We reserve the right to suspend or terminate accounts that violate these rules.
+                </p>
+
+                <h3>1.5 User Content</h3>
+                <p>
+                    You retain ownership of the grades (JPEG exports) you submit. By
+                    submitting a grade in multiplayer mode, you grant other players in
+                    the same room a limited, non-exclusive right to view your grade
+                    for the duration of that round and to vote on it.
+                </p>
+
+                <h3>1.6 Third-Party Content</h3>
+                <p>
+                    Source files (RAWs, TIFFs, scans) belong to their original
+                    photographers. The license terms for each challenge are displayed on
+                    the game screen and in the download confirmation modal. You must
+                    respect those terms. See <a href="#copyright">section 03</a> for details.
+                </p>
+
+                <h3>1.7 Disclaimer</h3>
+                <p>
+                    THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES
+                    OF ANY KIND, EXPRESS OR IMPLIED. WE DO NOT GUARANTEE THAT THE SERVICE
+                    WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE.
+                </p>
+
+                <h3>1.8 Limitation of Liability</h3>
+                <p>
+                    To the maximum extent permitted by law, the operator of grading-game
+                    shall not be liable for any indirect, incidental, special, or
+                    consequential damages arising out of or in connection with your use
+                    of the Service.
+                </p>
+
+                <h3>1.9 Modifications</h3>
+                <p>
+                    We may update these Terms at any time. Significant changes will be
+                    announced via the Service. Continued use after changes constitutes
+                    acceptance.
+                </p>
+
+                <h3>1.10 Governing Law</h3>
+                <p>
+                    These Terms are governed by French law. Any disputes shall be
+                    resolved in the competent courts of France.
+                </p>
+
+                <h3>1.11 Contact</h3>
+                <p>
+                    Questions about these Terms? Email
+                    <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>.
+                </p>
+            </section>
+
+            <!-- ─── SECTION 2 — PRIVACY POLICY ───────────────── -->
+            <section class="legal-section" id="privacy">
+                <div class="legal-section-num">02</div>
+                <h2 class="legal-section-title">Privacy Policy</h2>
+
+                <p class="legal-section-intro">
+                    This Privacy Policy explains what data grading-game collects, how we
+                    use it, and your rights under the EU General Data Protection
+                    Regulation (GDPR).
+                </p>
+
+                <h3>2.1 Data Controller</h3>
+                <p>
+                    Jarod Buisson, operator of grading-game.com.<br>
+                    Contact: <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>.
+                </p>
+
+                <h3>2.2 What Data We Collect</h3>
+
+                <p><strong>When you USE the Service:</strong></p>
+                <ul>
+                    <li>Pages you visit (privacy-friendly analytics via Cloudflare — no cookies, no individual tracking)</li>
+                    <li>An anonymous session identifier stored in your browser so you can resume game sessions</li>
+                </ul>
+
+                <p><strong>When you SIGN IN via OAuth:</strong></p>
+                <ul>
+                    <li>Your email address</li>
+                    <li>Your display name (full name from Google, username from Discord)</li>
+                    <li>Your avatar URL (if your provider has one)</li>
+                    <li>A unique provider identifier (Google sub, Discord user ID)</li>
+                </ul>
+
+                <p><strong>When you USE the Service while signed in:</strong></p>
+                <ul>
+                    <li>Your chosen nickname (you can change it on the Profile page)</li>
+                    <li>Your game history: which challenges you played, your score, your rank, when you played</li>
+                    <li>(Optional) A short bio you may set on your profile</li>
+                </ul>
+
+                <p><strong>When you SUBMIT A CONTRIBUTION via the form on the Contributors page:</strong></p>
+                <ul>
+                    <li>Your first and last name</li>
+                    <li>Your email address</li>
+                    <li>The transfer link you provided</li>
+                    <li>The optional message</li>
+                </ul>
+
+                <h3>2.3 Why We Collect This Data</h3>
+                <p>We process your data for the following purposes, with the following legal bases:</p>
+                <ul>
+                    <li><strong>To provide the Service</strong> — legal basis: contract performance</li>
+                    <li><strong>To authenticate you via Google or Discord</strong> — legal basis: your consent</li>
+                    <li><strong>To save your progress, stats, and gallery</strong> — legal basis: contract performance</li>
+                    <li><strong>To improve the Service via aggregated analytics</strong> — legal basis: legitimate interest</li>
+                    <li><strong>To respond to contribution requests</strong> — legal basis: legitimate interest</li>
+                </ul>
+
+                <h3>2.4 Sub-processors (Who Else Sees Your Data)</h3>
+                <p>We use the following services to operate grading-game:</p>
+                <ul>
+                    <li><strong>Supabase</strong> (USA &amp; EU) — authentication, database, storage. <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a></li>
+                    <li><strong>Cloudflare</strong> (USA) — static hosting, R2 object storage for source files, CDN, privacy-friendly analytics. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">cloudflare.com/privacypolicy</a></li>
+                    <li><strong>Google</strong> (USA) — OAuth provider when you sign in with Google. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></li>
+                    <li><strong>Discord</strong> (USA) — OAuth provider when you sign in with Discord. <a href="https://discord.com/privacy" target="_blank" rel="noopener">discord.com/privacy</a></li>
+                    <li><strong>Formspree</strong> (USA) — processes the contribution form submissions and forwards them by email. <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">formspree.io/legal/privacy-policy</a></li>
+                </ul>
+                <p>
+                    Data transferred to the United States is protected under Standard
+                    Contractual Clauses or equivalent safeguards as required by GDPR.
+                </p>
+
+                <h3>2.5 How Long We Keep Your Data</h3>
+                <ul>
+                    <li><strong>Game history and profile:</strong> kept while your account is active</li>
+                    <li><strong>Contribution form submissions:</strong> kept for 12 months</li>
+                    <li><strong>Anonymous analytics:</strong> aggregated and retained indefinitely without identification</li>
+                </ul>
+                <p>
+                    When you delete your account from the Profile page, your profile,
+                    game history, and any submissions linked to your account are
+                    permanently removed within 24 hours (subject to backup retention
+                    periods of sub-processors).
+                </p>
+
+                <h3>2.6 Your Rights Under GDPR</h3>
+                <p>You have the right to:</p>
+                <ul>
+                    <li><strong>Access</strong> the data we hold about you</li>
+                    <li><strong>Rectify</strong> inaccurate data</li>
+                    <li><strong>Delete</strong> your data ("right to be forgotten")</li>
+                    <li><strong>Restrict</strong> processing</li>
+                    <li><strong>Receive your data</strong> in a portable format</li>
+                    <li><strong>Object</strong> to processing</li>
+                    <li><strong>Withdraw your consent</strong> at any time</li>
+                </ul>
+                <p>
+                    To exercise any of these rights, email
+                    <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>.
+                    We will respond within one month.
+                </p>
+                <p>
+                    You also have the right to lodge a complaint with the French data
+                    protection authority (CNIL) at
+                    <a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>.
+                </p>
+
+                <h3>2.7 Cookies and Local Storage</h3>
+                <p>
+                    grading-game does NOT use traditional tracking cookies. We do use:
+                </p>
+                <ul>
+                    <li>Your browser's <code>localStorage</code> to remember your authentication session, your nickname preference, and your audio settings</li>
+                    <li>Your browser's <code>sessionStorage</code> to keep your active solo game session locked against page refreshes</li>
+                </ul>
+                <p>
+                    You can clear this data at any time via your browser settings (which
+                    will sign you out and reset your preferences).
+                </p>
+
+                <h3>2.8 Children</h3>
+                <p>
+                    grading-game is not directed to children under 13. If we learn that
+                    we have collected data from a child under 13 without parental
+                    consent, we will delete it promptly.
+                </p>
+
+                <h3>2.9 Changes to This Policy</h3>
+                <p>
+                    We may update this Privacy Policy. Significant changes will be
+                    announced via the Service.
+                </p>
+
+                <h3>2.10 Contact</h3>
+                <p>
+                    For any privacy question or data request, email
+                    <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>.
+                </p>
+            </section>
+
+            <!-- ─── SECTION 3 — COPYRIGHT POLICY ─────────────── -->
+            <section class="legal-section" id="copyright">
+                <div class="legal-section-num">03</div>
+                <h2 class="legal-section-title">Copyright &amp; DMCA</h2>
+
+                <p class="legal-section-intro">
+                    grading-game respects the intellectual property rights of
+                    photographers and content creators. This section describes our
+                    copyright commitments and how to report infringement.
+                </p>
+
+                <h3>3.1 Source Files Belong to Their Photographers</h3>
+                <p>
+                    All photographs available for grading on grading-game — including
+                    RAWs, TIFFs, and scans — remain the intellectual property of the
+                    original photographer who contributed them. Each photo is displayed
+                    with its contributor's name and the license they chose.
+                </p>
+                <p>The licenses you may encounter include:</p>
+                <ul>
+                    <li><strong>All Rights Reserved</strong> — no redistribution or commercial use is permitted</li>
+                    <li><strong>CC BY-NC</strong> — you may share derivatives for non-commercial purposes with attribution</li>
+                    <li><strong>CC BY-NC-ND</strong> — you may use the file for personal grading but may not redistribute derivatives</li>
+                    <li><strong>Custom terms</strong> — read the per-photo terms displayed in the download confirmation modal</li>
+                </ul>
+                <p>
+                    By downloading any source file, you accept the terms displayed in
+                    that modal. The downloaded filename includes your nickname as a
+                    fingerprint to discourage unauthorized sharing.
+                </p>
+
+                <h3>3.2 Reporting Copyright Infringement</h3>
+                <p>
+                    If you believe that content on grading-game infringes your
+                    copyright, please send a notice to
+                    <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>
+                    containing:
+                </p>
+                <ul>
+                    <li>A description of the copyrighted work you claim is infringed</li>
+                    <li>The exact URL where the alleged infringing content is hosted (e.g. <code>https://sources.grading-game.com/challenges/XXX/source.dng</code>)</li>
+                    <li>Your contact information (full name, address, phone, email)</li>
+                    <li>A statement that you have a good-faith belief that the use is not authorized</li>
+                    <li>A statement, under penalty of perjury, that the information is accurate and that you are the copyright owner or authorized to act on their behalf</li>
+                    <li>Your physical or electronic signature</li>
+                </ul>
+                <p>
+                    We will review the notice within 5 business days and remove the
+                    content if the claim is valid.
+                </p>
+
+                <h3>3.3 Counter-Notification</h3>
+                <p>
+                    If you are a photographer whose work was removed in error, you may
+                    submit a counter-notification to the same email containing the same
+                    information plus a statement explaining your right to use the
+                    content.
+                </p>
+
+                <h3>3.4 DMCA Notice (US Users)</h3>
+                <p>
+                    For users in the United States, the procedure above also serves as
+                    our designated agent notice under the Digital Millennium Copyright
+                    Act (17 U.S.C. § 512). We will respond to valid DMCA notices in
+                    accordance with US law.
+                </p>
+
+                <h3>3.5 Repeat Infringers</h3>
+                <p>
+                    We will terminate the accounts of users who repeatedly infringe
+                    copyrights.
+                </p>
+
+                <h3>3.6 Contact</h3>
+                <p>
+                    For copyright questions or notices, email
+                    <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>.
+                </p>
+            </section>
+
+            <a href="index.html" class="back-link">← back to menu</a>
+
+        </div>
+    </main>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/legal.js?v=1"></script>
+    <script src="js/audio-player.js?v=4"></script>
+</body>
+</html>

@@ -382,6 +382,15 @@
             color: var(--text-secondary);
             font-weight: 500;
         }
+        .auth-login-disclaimer a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent);
+        }
+        .auth-login-disclaimer a:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+        }
     `;
     const styleEl = document.createElement('style');
     styleEl.id = 'auth-widget-styles';
@@ -568,9 +577,11 @@
                     </button>
                 </div>
                 <p class="auth-login-disclaimer">
-                    By signing in you agree to use grading-game for personal
-                    practice. We only read your <strong>name, email and avatar</strong>
-                    from your provider — nothing else.
+                    By signing in you agree to our
+                    <a href="legal.html#terms" target="_blank" rel="noopener">Terms</a>
+                    and <a href="legal.html#privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+                    We only read your <strong>name, email and avatar</strong> from
+                    your provider — nothing else.
                 </p>
             </div>
         `;

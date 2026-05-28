@@ -51,8 +51,12 @@
 @media (max-width: 799px) {
 
     /* The menu-stage was a 3-column flex (panel · wheel · panel)
-       — convert to a vertical stack on mobile. */
+       — convert to a vertical stack on mobile. `flex: none` is the
+       key bit: without it, menu-stage inherits the desktop `flex: 1`
+       and grows to fill the viewport, leaving a tall empty gap
+       between the content and the scope-bar at the bottom. */
     body.mobile-friendly .menu-stage {
+        flex: none;
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
@@ -278,6 +282,318 @@
 
     /* The decorative SVG filter, background layers, overlays —
        keep them for visual continuity, no layout changes needed. */
+}
+
+
+/* ----------------------------------------------------------
+   Solo setup page — solo.html
+   ----------------------------------------------------------
+   The desktop layout is already a single column under 980 px
+   (see setup.css). At < 800 px we just trim padding, scale the
+   giant "20:00" duration display, make the duration ticks
+   touch-friendlier, and stack the back-link + summary footer. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .setup-stage {
+        flex: none;             /* don't expand vertically, see landing notes */
+        padding: 24px 20px 24px;
+        overflow: visible;       /* let the page scroll naturally */
+    }
+
+    body.mobile-friendly .setup-title {
+        font-size: 24px;
+        margin-bottom: 28px;
+    }
+
+    body.mobile-friendly .setup-grid {
+        gap: 0;                  /* single column already on mobile */
+    }
+    body.mobile-friendly .setup-grid--single {
+        grid-template-columns: 1fr;
+    }
+    body.mobile-friendly .setup-controls {
+        max-width: none;
+        gap: 24px;
+    }
+
+    /* Duration display — was 56 px, way too big for narrow viewports. */
+    body.mobile-friendly .duration-display {
+        font-size: 42px;
+    }
+    body.mobile-friendly .duration-display .unit {
+        font-size: 10px;
+        margin-left: 8px;
+    }
+
+    /* Duration ticks — they're flex:1 so they auto-distribute width.
+       At 7 ticks across ~335 px (375 - 2×20 padding) that's ~48 px
+       each, plenty for a touch target. Just bump the label slightly
+       so it stays legible at the small width. */
+    body.mobile-friendly .duration-track {
+        height: 48px;
+    }
+    body.mobile-friendly .dur-tick-label {
+        font-size: 11px;
+    }
+
+    /* Native <select>s on iOS Safari zoom the viewport on focus when
+       the font-size is < 16 px — explicit 16 px prevents that. */
+    body.mobile-friendly .challenge-select {
+        font-size: 16px;
+        padding: 12px 36px 12px 14px;
+        max-width: none;
+    }
+
+    /* Toggle — slightly bigger tap target on the slider itself */
+    body.mobile-friendly .toggle {
+        gap: 14px;
+        padding: 6px 0;
+    }
+    body.mobile-friendly .toggle-text {
+        font-size: 14px;
+        flex: 1;
+    }
+
+    /* Start button — full width is fine on desktop already; just
+       bump the touch target on mobile. */
+    body.mobile-friendly .btn-start {
+        padding: 20px 22px;
+        font-size: 13px;
+    }
+
+    /* Footer — stack "back to menu" and the summary chips instead
+       of fighting for width on a narrow row. */
+    body.mobile-friendly .setup-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-top: 28px;
+    }
+    body.mobile-friendly .setup-summary {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        font-size: 11px;
+    }
+    body.mobile-friendly .setup-summary .dot-sep {
+        display: none;   /* the wrap takes care of separation */
+    }
+}
+
+
+/* ----------------------------------------------------------
+   Game / session page — game.html
+   ----------------------------------------------------------
+   Desktop is a 2-column grid (preview · 360 px rail). On mobile
+   we collapse to a single column and let the page scroll
+   naturally: preview → timer bar → time + challenge + download
+   + upload, all stacked. The preview frame gets a fixed
+   aspect ratio so it doesn't try to fill the full viewport
+   height (which would push everything else below the fold). */
+@media (max-width: 799px) {
+
+    /* Top-bar pills on game.html — squeeze them so they fit at 375 px.
+       The "challenge XXX" pill is hidden because the same id is shown
+       again in the challenge rail block below — no info lost, and
+       the row stays on a single line with the brand. */
+    body.mobile-friendly .game-header-pills {
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    body.mobile-friendly .game-header-pills .pill {
+        padding: 5px 9px;
+        font-size: 9px;
+        gap: 6px;
+    }
+    body.mobile-friendly .game-header-pills #pill-challenge,
+    body.mobile-friendly .game-header-pills .pill:has(#pill-challenge) {
+        display: none;
+    }
+
+    /* On pages with a dense pill row (game.html / room.html), the
+       brand text + pills + auth widget + audio widget no longer fit
+       on a 375 px row and the brand wraps onto two lines. Hide the
+       text part — the logo mark is enough identity once the user is
+       inside a session. Other pages keep the full "grading-game"
+       wordmark. */
+    body.mobile-friendly .top-bar:has(.game-header-pills) .brand-name {
+        display: none;
+    }
+    body.mobile-friendly .top-bar .brand-mark svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Game stage: grid → single column, scroll naturally */
+    body.mobile-friendly .game-stage {
+        flex: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 16px 24px;
+        overflow: visible;
+        min-height: 0;
+    }
+
+    /* Preview area — fixed aspect ratio frame so it doesn't eat
+       the whole viewport on a tall phone. 4:3 is a good fit for
+       most landscape RAWs without over-cropping. */
+    body.mobile-friendly .preview-area {
+        gap: 10px;
+    }
+    body.mobile-friendly .preview-frame {
+        flex: none;
+        aspect-ratio: 4 / 3;
+        min-height: 200px;
+    }
+    body.mobile-friendly .preview-header {
+        flex-wrap: wrap;
+        gap: 4px 12px;
+    }
+    body.mobile-friendly .preview-meta { font-size: 9px; }
+
+    /* Timer bar — keep, just trim a touch */
+    body.mobile-friendly .timer-bar-wrap { height: 40px; }
+
+    /* Right rail collapses into a normal column */
+    body.mobile-friendly .game-rail {
+        gap: 20px;
+        overflow-y: visible;
+    }
+    body.mobile-friendly .rail-block {
+        padding-bottom: 18px;
+        gap: 8px;
+    }
+
+    /* Time remaining — reduce to keep it from dominating */
+    body.mobile-friendly .timer-display {
+        font-size: 36px;
+    }
+
+    /* Action buttons (download + submit) — keep them touch-friendly */
+    body.mobile-friendly .action-btn,
+    body.mobile-friendly .btn-submit {
+        padding: 16px 18px;
+        font-size: 12px;
+    }
+
+    /* Drop zone — slightly more compact on mobile */
+    body.mobile-friendly .drop-zone {
+        padding: 22px 16px;
+    }
+    body.mobile-friendly .drop-icon { font-size: 28px; }
+    body.mobile-friendly .drop-text { font-size: 13px; }
+    body.mobile-friendly .drop-sub  { font-size: 10px; }
+
+    /* Challenge title gets cramped on a small viewport — drop the
+       size a bit so it doesn't wrap awkwardly. */
+    body.mobile-friendly .challenge-title { font-size: 15px; }
+    body.mobile-friendly .challenge-meta  { font-size: 10px; }
+
+    /* Attribution mini block — stack rows tighter */
+    body.mobile-friendly .attribution-mini { gap: 4px; }
+}
+
+
+/* ----------------------------------------------------------
+   Result / comparison page — result.html
+   ----------------------------------------------------------
+   Desktop is a side-by-side 2-column grid OR a wipe overlay. On
+   mobile we stack the two images vertically in side-by-side mode
+   (each gets a 4:3 frame), keep the wipe layout intact (the
+   container already aspect-locks), and stack the footer rows. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .result-stage {
+        flex: none;
+        padding: 16px 16px 24px;
+        overflow: visible;
+    }
+
+    /* Header: stack title above meta on a narrow row */
+    body.mobile-friendly .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+    }
+    body.mobile-friendly .result-title { font-size: 22px; }
+    body.mobile-friendly .result-meta {
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        font-size: 10px;
+    }
+    body.mobile-friendly .result-meta .dot-sep { display: none; }
+
+    /* View switcher — slightly bigger tap targets */
+    body.mobile-friendly .view-switcher {
+        align-self: stretch;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+    body.mobile-friendly .view-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 10px 12px;
+        font-size: 11px;
+    }
+
+    /* Side-by-side: stack the two images vertically (single col) */
+    body.mobile-friendly .compare-views {
+        flex: none;
+    }
+    body.mobile-friendly .compare-grid.cols-2,
+    body.mobile-friendly .compare-grid.cols-3 {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    body.mobile-friendly .compare-cell {
+        gap: 8px;
+    }
+    /* Without an explicit height the flex:1 collapses on a column
+       grid — pin each frame to a 4:3 aspect ratio for a clean stack. */
+    body.mobile-friendly .compare-frame {
+        flex: none;
+        aspect-ratio: 4 / 3;
+        min-height: 200px;
+    }
+
+    /* Wipe view — the container already centers via aspect-lock.
+       Just bump the handle slightly so it's easier to touch-drag. */
+    body.mobile-friendly .wipe-stage {
+        flex: none;
+        min-height: 240px;
+    }
+    body.mobile-friendly .wipe-labels {
+        flex-wrap: wrap;
+        gap: 4px 12px;
+        font-size: 10px;
+    }
+    body.mobile-friendly .wipe-handle {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    /* Footer: stack back-link above the two action buttons */
+    body.mobile-friendly .result-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        margin-top: 20px;
+    }
+    body.mobile-friendly .result-actions {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    body.mobile-friendly .result-action {
+        flex: 1;
+        min-width: 140px;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 11px;
+    }
 }
 
 

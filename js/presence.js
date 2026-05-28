@@ -116,10 +116,16 @@
                 50%      { opacity: 0.5; transform: scale(0.85); }
             }
 
-            /* Hide on narrow viewports so it doesn't clash with the
-               mobile-only gate. */
+            /* Mobile: pill is moved into the .mobile-chrome-footer
+               (where info + legal already live), so we want it to
+               look at home there — slightly tighter padding, kept
+               horizontally aligned with the chrome pills. */
             @media (max-width: 799px) {
-                .online-pill { display: none; }
+                .mobile-chrome-footer .online-pill {
+                    padding: 4px 10px 4px 8px;
+                    font-size: 10px;
+                    border-radius: 999px;
+                }
             }
         `;
         document.head.appendChild(style);
@@ -136,13 +142,24 @@
             <span class="online-pill-label">online</span>
         `;
 
-        // Pick the best mount point in priority order, mirroring
-        // audio-player.js and auth-ui.js so the pill ends up
-        // alongside them in whatever top-bar variant the page uses.
-        const mount =
-            document.querySelector('.top-bar-right') ||
-            document.querySelector('.game-header-pills') ||
-            document.querySelector('.room-bar');
+        // Pick the best mount point in priority order. On mobile we
+        // join the chrome footer (info + legal) at the bottom of the
+        // page so the pill is actually visible — the desktop top-bar
+        // is too cramped under 800 px. On desktop we keep the existing
+        // top-bar behavior so the pill sits next to the auth + audio
+        // widgets.
+        const isMobile = window.matchMedia
+            && window.matchMedia('(max-width: 799px)').matches;
+
+        let mount;
+        if (isMobile) {
+            mount = ensureMobileChromeFooter();
+        } else {
+            mount =
+                document.querySelector('.top-bar-right') ||
+                document.querySelector('.game-header-pills') ||
+                document.querySelector('.room-bar');
+        }
 
         if (mount) {
             // Insert before the audio widget if it's already there
@@ -170,6 +187,21 @@
         const num   = pillEl.querySelector('.online-pill-count');
         if (num) num.textContent = count;
         if (dot) dot.classList.toggle('is-offline', count === 0);
+    }
+
+    /* Ensure the mobile footer container exists. chrome.js also
+       creates this element (for the info + legal pills) but
+       presence.js loads BEFORE chrome.js in head-common, so we
+       can't assume it's already in the DOM. Idempotent — both
+       scripts can call this safely. */
+    function ensureMobileChromeFooter() {
+        let footer = document.querySelector('.mobile-chrome-footer');
+        if (!footer) {
+            footer = document.createElement('div');
+            footer.className = 'mobile-chrome-footer';
+            document.body.appendChild(footer);
+        }
+        return footer;
     }
 
 

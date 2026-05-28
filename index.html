@@ -52,8 +52,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js?v=11"></script>
     <script src="js/auth-ui.js?v=5"></script>
-    <script src="js/presence.js?v=2"></script>
-    <script src="js/chrome.js?v=3"></script>
+    <script src="js/presence.js?v=3"></script>
+    <script src="js/chrome.js?v=4"></script>
     <!-- :head-common-end: -->
     <title>grading-game — photo color-grading game</title>
     <meta name="description" content="A photo color-grading game. Pick a flat RAW or scan, develop your grade in your favorite software, then compete with other photographers in timed rounds.">
@@ -128,7 +128,9 @@
         </div>
         <div class="top-bar-right">
             <div class="version-tag">
-                <span>v0.1</span>
+                <!-- chrome.js rewrites the text to "v{SITE_VERSION}" on load,
+                     so this fallback only shows if JS is disabled. -->
+                <span id="gg-version-tag">v1.5.1</span>
             </div>
         </div>
     </header>

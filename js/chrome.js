@@ -16,6 +16,14 @@
 (function () {
     'use strict';
 
+    /* Single source of truth for the visible site version.
+       Bump this string when releasing a new patch-card in info.html
+       so the "v…" pill in the index.html top bar stays in sync.
+       The pill is updated client-side so we don't need a build step.
+       Exposed on window for potential future read-only consumers. */
+    const SITE_VERSION = '1.5.1';
+    window.GG_VERSION = SITE_VERSION;
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init, { once: true });
     } else {
@@ -24,6 +32,15 @@
 
     function init() {
         injectChromeLinks();
+        updateVersionTag();
+    }
+
+    function updateVersionTag() {
+        // Only the landing page has #gg-version-tag — other pages keep
+        // their section labels (e.g. "08 · info"). The id makes the
+        // intent explicit and avoids accidentally rewriting other tags.
+        const el = document.getElementById('gg-version-tag');
+        if (el) el.textContent = 'v' + SITE_VERSION;
     }
 
     function injectChromeLinks() {

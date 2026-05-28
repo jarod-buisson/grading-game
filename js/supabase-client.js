@@ -412,6 +412,48 @@
     }
 
     /**
+     * Return a Set of challenge IDs the current user has already
+     * completed (in either solo or multi). Used by:
+     *   - gallery.html → renders unlocked vs locked cards
+     *   - solo-setup.js → populates the per-challenge dropdown
+     *
+     * Returns an EMPTY Set if the user is anonymous or unauthenticated.
+     * Uses direct fetch (same pattern as loadProfile) to avoid the SDK's
+     * occasional hang on page navigations.
+     */
+    async function getUnlockedChallengeIds() {
+        if (!userId || isAnon) return new Set();
+        const accessToken = session?.access_token;
+        if (!accessToken) return new Set();
+
+        try {
+            const url = `${CONFIG.url}/rest/v1/game_history`
+                + `?user_id=eq.${encodeURIComponent(userId)}`
+                + `&select=challenge_id`;
+            const res = await withTimeout(fetch(url, {
+                method: 'GET',
+                headers: {
+                    'apikey':        CONFIG.key,
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Accept':        'application/json'
+                }
+            }), 5000, 'getUnlockedChallengeIds');
+
+            if (!res.ok) {
+                console.warn('[gg] getUnlockedChallengeIds failed:', res.status);
+                return new Set();
+            }
+
+            const rows = await res.json();
+            return new Set(rows.map(r => String(r.challenge_id)));
+        } catch (e) {
+            console.warn('[gg] getUnlockedChallengeIds hung/failed:', e.message);
+            return new Set();
+        }
+    }
+
+
+    /**
      * Build a fresh profile row from the current auth session.
      * Mirrors the SQL trigger's logic (sanitize → uniquify) so the
      * post-delete sign-in flow produces a sensible default profile.
@@ -553,7 +595,8 @@
         signInWithGoogle,
         signOut,
         deleteAccount,
-        loadProfile
+        loadProfile,
+        getUnlockedChallengeIds
     };
 
     boot();

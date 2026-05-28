@@ -1,0 +1,291 @@
+/* =========================================================
+   gallery.css — Pokédex-style challenge collection page.
+   Unlocked cards show the reference in full color; locked
+   cards show a heavily blurred + darkened version with a
+   centered lock icon.
+   ========================================================= */
+
+.gallery-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 48px 32px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 5;
+    min-height: 0;
+}
+
+.gallery-inner {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.gallery-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.gallery-title {
+    font-family: var(--font-ui);
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.15;
+}
+
+.gallery-intro {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0;
+}
+
+
+/* ---------- Anonymous sign-in banner ---------- */
+.gallery-anon-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 20px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    position: relative;
+}
+.gallery-anon-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--accent);
+}
+.gallery-anon-banner[hidden] { display: none; }
+
+.gallery-anon-text {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+.gallery-anon-text strong {
+    color: var(--text-primary);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.gallery-anon-cta {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-primary);
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    cursor: pointer;
+    transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+}
+.gallery-anon-cta:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+.gallery-anon-cta:disabled { opacity: 0.5; cursor: wait; }
+
+
+/* ---------- Counter ---------- */
+.gallery-counter-row {
+    display: flex;
+    gap: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    padding: 8px 0 4px;
+    border-top: 1px solid var(--border-faint);
+}
+
+.gallery-counter strong {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+
+/* ---------- Grid + cards ---------- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.gallery-empty {
+    grid-column: 1 / -1;
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    border: 1px dashed var(--border-subtle);
+    border-radius: 3px;
+}
+
+.gallery-card {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+/* Card frame holds the image; aspect-square so the grid stays clean.
+   We use a background-image on an absolutely-positioned inner div so
+   we can apply blur + scale without leaking onto the overlay. */
+.gallery-card-frame {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--bg-elev-2);
+}
+
+.gallery-card-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: filter var(--t-fast), transform var(--t-fast);
+}
+
+.gallery-card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-card-info {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--border-faint);
+}
+
+.gallery-card-id {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-mono);
+}
+
+.gallery-card-photographer {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.gallery-card-photographer--locked {
+    color: var(--text-quaternary);
+}
+
+
+/* ---------- UNLOCKED state ---------- */
+.gallery-card.is-unlocked {
+    cursor: default;
+}
+.gallery-card.is-unlocked:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+}
+.gallery-card.is-unlocked:hover .gallery-card-img {
+    transform: scale(1.04);
+}
+
+
+/* ---------- LOCKED state — Pokédex blur ---------- */
+.gallery-card.is-locked .gallery-card-img {
+    /* Strong blur + darkening + desaturation so the reference is
+       barely recognizable. Scale up slightly so the blur doesn't
+       reveal sharp edges around the frame. */
+    filter: blur(12px) brightness(0.25) saturate(0.4);
+    transform: scale(1.15);
+}
+
+.gallery-card.is-locked .gallery-card-overlay {
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.55) 100%
+    );
+}
+
+.gallery-card-lock {
+    width: 32px;
+    height: 32px;
+    color: var(--text-tertiary);
+    opacity: 0.7;
+    transition: opacity var(--t-fast), color var(--t-fast);
+}
+
+.gallery-card.is-locked:hover .gallery-card-lock {
+    color: var(--accent);
+    opacity: 1;
+}
+
+/* No reveal on hover — keep the mystery. Just a very subtle border
+   nudge so the card feels interactive without spoiling. */
+.gallery-card.is-locked:hover {
+    border-color: var(--border);
+}
+
+
+/* ---------- Back link ---------- */
+.back-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 2px;
+    transition: color var(--t-fast), border-color var(--t-fast);
+    align-self: flex-start;
+    margin-top: 8px;
+    text-decoration: none;
+}
+.back-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}

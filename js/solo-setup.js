@@ -46,6 +46,72 @@
         });
     }
 
+
+    /* ---------- Challenge dropdown ----------
+       Populate with all challenges from the manifest:
+         - Unlocked challenges (already completed) are selectable
+         - Locked challenges are listed but disabled (motivating preview)
+         - "Random pick" is always the default and available to anyone
+       Anonymous users see all challenges as locked. */
+    const challengeSelect = document.getElementById('challenge-select');
+    const challengeHint   = document.getElementById('challenge-hint');
+
+    async function populateChallengeSelect() {
+        if (!challengeSelect) return;
+        try {
+            const r = await fetch('images/challenges/manifest.json?t=' + Date.now(),
+                                  { cache: 'no-store' });
+            if (!r.ok) return;
+            const data = await r.json();
+            const challenges = (data && data.challenges) || [];
+
+            // Wait for auth client to know whether we have a user
+            if (window.gg?.ready) await window.gg.ready;
+
+            let unlocked = new Set();
+            const isAuth = !!window.gg?.isAuthenticated;
+            if (isAuth) {
+                unlocked = await window.gg.getUnlockedChallengeIds();
+            }
+
+            // Update hint text based on auth + progress
+            if (challengeHint) {
+                if (!isAuth) {
+                    challengeHint.textContent = 'sign in to unlock photos by playing & replay them here';
+                } else if (unlocked.size === 0) {
+                    challengeHint.textContent = 'play a few rounds to unlock specific challenges';
+                } else {
+                    challengeHint.textContent =
+                        unlocked.size + ' / ' + challenges.length + ' challenges unlocked';
+                }
+            }
+
+            // Remove any previously injected options (defensive — should
+            // only happen if this runs more than once)
+            Array.from(challengeSelect.querySelectorAll('option[data-injected="1"]'))
+                .forEach(o => o.remove());
+
+            // Add a visual separator + per-challenge options
+            challenges.forEach(c => {
+                const idStr = String(c.id);
+                const padded = idStr.padStart(3, '0');
+                const isUnlocked = unlocked.has(idStr);
+                const opt = document.createElement('option');
+                opt.value = idStr;
+                opt.dataset.injected = '1';
+                const title = c.title && c.title !== 'Challenge ' + idStr
+                    ? ' · ' + c.title
+                    : '';
+                opt.textContent = (isUnlocked ? '✓ ' : '🔒 ') + padded + title;
+                opt.disabled = !isUnlocked;
+                challengeSelect.appendChild(opt);
+            });
+        } catch (e) {
+            console.warn('[solo-setup] could not populate challenge select:', e);
+        }
+    }
+    populateChallengeSelect();
+
     /* ---------- Start session ----------
        Wipe any leftover active-solo state from sessionStorage so
        game.html boots fresh and picks a brand new random challenge.
@@ -61,6 +127,15 @@
                 duration:  String(durationMin),
                 reference: showReference ? '1' : '0'
             });
+
+            // If a specific challenge is chosen (i.e. not "random"),
+            // pass the id as a URL param so game.js loads THAT one
+            // instead of a random pick.
+            const selected = challengeSelect?.value;
+            if (selected && selected !== 'random') {
+                params.set('challenge', selected);
+            }
+
             // Brief fade transition before navigation
             document.body.style.transition = 'opacity 280ms ease';
             document.body.style.opacity = '0';

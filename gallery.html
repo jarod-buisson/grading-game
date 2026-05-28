@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading-game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading-game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=8"></script>
+    <script src="js/auth-ui.js?v=3"></script>
+    <!-- :head-common-end: -->
+    <title>gallery · grading-game — your challenge collection</title>
+    <meta name="description" content="Browse every photo available in grading-game. Challenges you've completed appear unlocked; the rest stay locked until you grade them.">
+
+    <link rel="canonical"            href="https://grading-game.com/gallery.html">
+    <meta property="og:url"          content="https://grading-game.com/gallery.html">
+    <meta property="og:title"        content="Gallery · grading-game">
+    <meta property="og:description"  content="Your collection of unlocked challenges. Complete more photos to grow your gallery.">
+    <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
+    <meta name="twitter:title"       content="Gallery · grading-game">
+    <meta name="twitter:description" content="Your collection of unlocked challenges. Complete more photos to grow your gallery.">
+    <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+
+    <link rel="stylesheet" href="css/gallery.css?v=1">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">-</span>game</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>03</span><span class="sep">·</span><span>gallery</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="gallery-stage">
+        <div class="gallery-inner">
+
+            <div>
+                <div class="gallery-eyebrow">03 · gallery</div>
+                <h1 class="gallery-title">Your challenge collection</h1>
+            </div>
+
+            <p class="gallery-intro">
+                Every photo currently available on grading-game. Once you submit a grade
+                for a challenge (solo or multiplayer), it unlocks here. Until then it
+                stays hidden — discover photos by playing.
+            </p>
+
+            <!-- Sign-in banner for anonymous users -->
+            <div class="gallery-anon-banner" id="gallery-anon-banner" hidden>
+                <div class="gallery-anon-text">
+                    <strong>Sign in to track your gallery.</strong>
+                    Without an account, your unlocks aren't saved.
+                </div>
+                <button class="gallery-anon-cta" id="gallery-anon-signin" type="button">
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.26 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/>
+                        <path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.13-1.44.34-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.77.43 3.45 1.18 4.93l3.66-2.83Z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.83C6.71 7.3 9.14 5.38 12 5.38Z"/>
+                    </svg>
+                    <span>sign in</span>
+                </button>
+            </div>
+
+            <div class="gallery-counter-row" id="gallery-counter-row">
+                <span class="gallery-counter" id="gallery-counter">
+                    <strong>—</strong> / <strong>—</strong> unlocked
+                </span>
+            </div>
+
+            <div class="gallery-grid" id="gallery-grid">
+                <div class="gallery-empty">loading…</div>
+            </div>
+
+            <a href="index.html" class="back-link">← back to menu</a>
+
+        </div>
+    </main>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/gallery.js?v=1"></script>
+    <script src="js/audio-player.js?v=4"></script>
+</body>
+</html>

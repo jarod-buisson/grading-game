@@ -384,6 +384,73 @@
     margin-left: 6px;
 }
 
+
+/* ---------- Real challenge dropdown ----------
+   Replaces the old fake .select-trigger (which was a static span
+   labeled "mvp"). The native <select> is styled to match the dark
+   theme — appearance:none strips the OS chrome so we can paint
+   our own caret + hover state. `option:disabled` is what we use
+   for locked challenges, the native rendering is already grayed
+   out which fits the Pokédex visual. */
+.challenge-select {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 36px 10px 14px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition:
+        border-color var(--t-fast),
+        background    var(--t-fast),
+        color         var(--t-fast);
+
+    /* Strip native chrome on all major browsers */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* Custom caret — a chevron drawn as an inline SVG data-uri */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%237a7a7e' stroke-width='1.4'><path d='M1 1.5 L6 6.5 L11 1.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 10px 6px;
+}
+
+.challenge-select:hover {
+    border-color: var(--border);
+}
+
+.challenge-select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.challenge-select option {
+    background: var(--bg-elev-1);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 4px;
+}
+
+.challenge-select option:disabled {
+    color: var(--text-quaternary);
+}
+
+.challenge-hint {
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+
 /* ---------- Start button ---------- */
 .btn-start {
     margin-top: 12px;

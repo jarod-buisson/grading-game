@@ -54,6 +54,14 @@
     const SHOW_REF     = active
         ? !!active.showRef
         : params.get('reference') !== '0';
+    // Optional specific-challenge selection (from the solo dropdown).
+    // If absent or "random", we pick at random from the manifest.
+    const REQUESTED_CHALLENGE_ID =
+        active?.challenge?.id != null
+            ? String(active.challenge.id)
+            : (params.get('challenge') && params.get('challenge') !== 'random'
+                ? params.get('challenge')
+                : null);
 
     /* ---------- DOM refs ---------- */
     const $ = (id) => document.getElementById(id);
@@ -188,16 +196,32 @@
             return;
         }
 
-        // Random pick from all entries.
-        // Log all candidates + which one was picked so user can verify
-        // randomness with multiple reloads via the browser console.
-        const pickIdx = Math.floor(Math.random() * list.length);
-        challenge = list[pickIdx];
-        console.log(
-            '[challenge] picked', challenge.id, '·', challenge.title,
-            '\n  candidates:', list.map(c => c.id).join(', '),
-            '\n  pickIdx:', pickIdx, '/', list.length
-        );
+        // If the user picked a specific challenge from the solo
+        // dropdown (gallery / replay flow), try to honor it. Falls
+        // back to a random pick if the requested id isn't in the
+        // manifest (e.g. removed since the dropdown was rendered).
+        if (REQUESTED_CHALLENGE_ID) {
+            const found = list.find(c => String(c.id) === REQUESTED_CHALLENGE_ID);
+            if (found) {
+                challenge = found;
+                console.log('[challenge] using requested', challenge.id, '·', challenge.title);
+            } else {
+                console.warn('[challenge] requested id', REQUESTED_CHALLENGE_ID,
+                             'not in manifest, falling back to random');
+            }
+        }
+
+        // Random pick from all entries (used when no specific id
+        // was requested, or the requested id wasn't found).
+        if (!challenge) {
+            const pickIdx = Math.floor(Math.random() * list.length);
+            challenge = list[pickIdx];
+            console.log(
+                '[challenge] picked', challenge.id, '·', challenge.title,
+                '\n  candidates:', list.map(c => c.id).join(', '),
+                '\n  pickIdx:', pickIdx, '/', list.length
+            );
+        }
 
         // ─── Lock this session: persist challenge + start time ───
         // Any subsequent refresh re-uses this entry instead of rolling.

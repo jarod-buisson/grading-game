@@ -48,8 +48,13 @@
     <meta name="twitter:description" content="Create or join a multiplayer grading-game room and compete with other photographers in real time.">
     <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
     <link rel="stylesheet" href="css/multi.css?v=2">
+    <!-- setup.css carries the .btn-start rules that the create-room modal
+         relies on (was loading only on solo.html; the multi modal needed
+         it too — fixing here so the create button renders properly). -->
+    <link rel="stylesheet" href="css/setup.css?v=3">
+    <link rel="stylesheet" href="css/mobile.css?v=2">
 </head>
-<body>
+<body class="mobile-friendly">
     <script src="js/mobile-gate.js"></script>
 
     <!-- =================== TOP BAR =================== -->

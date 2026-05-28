@@ -99,16 +99,17 @@
     }
 
 
-    /* ---------- Sign-in button (anon state) ---------- */
-    $('profile-cta-signin').addEventListener('click', async (e) => {
-        const btn = e.currentTarget;
-        btn.disabled = true;
-        try {
-            await window.gg.signInWithGoogle(window.location.href);
-        } catch (err) {
-            console.error('[profile] sign-in failed:', err);
-            btn.disabled = false;
-            alert('Sign in failed. See the console for details.');
+    /* ---------- Sign-in button (anon state) ----------
+       Opens the global provider-choice modal (Discord + Google) instead
+       of jumping straight to Google. The modal logic lives in auth-ui.js
+       and is exposed via window.gg.openLoginModal. */
+    $('profile-cta-signin').addEventListener('click', () => {
+        if (window.gg?.openLoginModal) {
+            window.gg.openLoginModal();
+        } else {
+            // Fallback: SDK ready but modal helper isn't (rare race).
+            // Just fall back to Google flow directly.
+            window.gg?.signInWithGoogle(window.location.href);
         }
     });
 

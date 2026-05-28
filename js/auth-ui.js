@@ -219,6 +219,169 @@
             flex-shrink: 0;
             opacity: 0.7;
         }
+
+
+        /* =========================================================
+           LOGIN MODAL — provider-choice dialog
+           ========================================================= */
+        .auth-login-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            animation: auth-modal-fade-in var(--t-fast) ease-out;
+        }
+        .auth-login-modal[hidden] { display: none; }
+
+        @keyframes auth-modal-fade-in {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .auth-login-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            cursor: pointer;
+        }
+
+        .auth-login-card {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            padding: 32px 28px 24px;
+            background: var(--bg-elev-1);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 32px 80px -24px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            animation: auth-modal-card-in 0.22s ease-out;
+        }
+
+        @keyframes auth-modal-card-in {
+            from { opacity: 0; transform: translateY(8px) scale(0.985); }
+            to   { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+
+        .auth-login-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: transparent;
+            border: none;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            cursor: pointer;
+            transition: color var(--t-fast);
+        }
+        .auth-login-close:hover { color: var(--text-primary); }
+
+        .auth-login-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+        }
+
+        .auth-login-title {
+            font-family: var(--font-ui);
+            font-size: 26px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin: 0;
+        }
+
+        .auth-login-intro {
+            font-family: var(--font-ui);
+            font-size: 13px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .auth-login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .auth-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: var(--bg-elev-2);
+            border: 1px solid var(--border-subtle);
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            cursor: pointer;
+            transition:
+                background var(--t-fast),
+                border-color var(--t-fast),
+                color var(--t-fast),
+                transform var(--t-fast);
+        }
+        .auth-login-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            border-color: var(--border);
+        }
+        .auth-login-btn:disabled {
+            opacity: 0.5;
+            cursor: wait;
+        }
+        .auth-login-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Provider-specific hover accents */
+        .auth-login-btn--discord {
+            color: #fff;
+        }
+        .auth-login-btn--discord .auth-login-icon { color: #5865F2; }
+        .auth-login-btn--discord:hover:not(:disabled) {
+            border-color: #5865F2;
+            background: rgba(88, 101, 242, 0.12);
+        }
+
+        .auth-login-btn--google:hover:not(:disabled) {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .auth-login-disclaimer {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            line-height: 1.55;
+            color: var(--text-tertiary);
+            margin: 14px 0 0;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-faint);
+        }
+        .auth-login-disclaimer strong {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
     `;
     const styleEl = document.createElement('style');
     styleEl.id = 'auth-widget-styles';
@@ -264,12 +427,6 @@
     function renderSignedOut() {
         widget.innerHTML = `
             <button class="auth-signin-btn" id="auth-signin-btn" type="button" title="Sign in to save your stats">
-                <svg class="auth-google-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.26 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/>
-                    <path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.13-1.44.34-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.77.43 3.45 1.18 4.93l3.66-2.83Z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.83C6.71 7.3 9.14 5.38 12 5.38Z"/>
-                </svg>
                 <span>sign in</span>
             </button>
         `;
@@ -354,17 +511,133 @@
 
 
     /* ---------- Handlers ---------- */
-    async function onSignInClick() {
-        const btn = document.getElementById('auth-signin-btn');
-        if (btn) btn.classList.add('is-loading');
+    function onSignInClick() {
+        // Replaced direct Google flow with a provider-choice modal so
+        // we can offer Discord + Google + (later) Email/Password from
+        // a single entry point. The modal is exposed globally via
+        // `window.gg.openLoginModal` so profile.html / gallery.html
+        // can reuse it from their own "Sign in" buttons.
+        openLoginModal();
+    }
+
+
+    /* =========================================================
+       LOGIN MODAL — provider-choice dialog
+       =========================================================
+       Centered card with two stacked buttons (Discord, Google).
+       Built once and toggled with the `hidden` attribute. Click
+       outside / ESC / X button all close it. Each provider button
+       hands off to the matching `gg.signInWith*` function which
+       redirects to the provider's consent screen. */
+    let modalEl = null;
+
+    function ensureLoginModal() {
+        if (modalEl) return modalEl;
+        modalEl = document.createElement('div');
+        modalEl.className = 'auth-login-modal';
+        modalEl.id = 'auth-login-modal';
+        modalEl.setAttribute('role', 'dialog');
+        modalEl.setAttribute('aria-modal', 'true');
+        modalEl.setAttribute('aria-labelledby', 'auth-login-title');
+        modalEl.hidden = true;
+        modalEl.innerHTML = `
+            <div class="auth-login-backdrop" data-close></div>
+            <div class="auth-login-card">
+                <button class="auth-login-close" type="button" data-close aria-label="Close">esc ✕</button>
+                <div class="auth-login-eyebrow">welcome</div>
+                <h2 class="auth-login-title" id="auth-login-title">Sign in</h2>
+                <p class="auth-login-intro">
+                    Choose a provider to continue. Your stats and gallery
+                    sync across sessions and devices.
+                </p>
+                <div class="auth-login-buttons">
+                    <button class="auth-login-btn auth-login-btn--discord" id="auth-login-discord" type="button">
+                        <svg class="auth-login-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="currentColor" d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.06.02.09.01 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12z"/>
+                        </svg>
+                        <span>continue with Discord</span>
+                    </button>
+                    <button class="auth-login-btn auth-login-btn--google" id="auth-login-google" type="button">
+                        <svg class="auth-login-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.26 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/>
+                            <path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.13-1.44.34-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.77.43 3.45 1.18 4.93l3.66-2.83Z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.83C6.71 7.3 9.14 5.38 12 5.38Z"/>
+                        </svg>
+                        <span>continue with Google</span>
+                    </button>
+                </div>
+                <p class="auth-login-disclaimer">
+                    By signing in you agree to use grading-game for personal
+                    practice. We only read your <strong>name, email and avatar</strong>
+                    from your provider — nothing else.
+                </p>
+            </div>
+        `;
+        document.body.appendChild(modalEl);
+
+        // Close handlers: backdrop, X button, ESC
+        modalEl.querySelectorAll('[data-close]').forEach(el => {
+            el.addEventListener('click', closeLoginModal);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modalEl.hidden) closeLoginModal();
+        });
+
+        // Provider buttons
+        modalEl.querySelector('#auth-login-discord')
+            .addEventListener('click', () => onProviderClick('discord'));
+        modalEl.querySelector('#auth-login-google')
+            .addEventListener('click', () => onProviderClick('google'));
+
+        return modalEl;
+    }
+
+    function openLoginModal() {
+        ensureLoginModal();
+        modalEl.hidden = false;
+        // Lock body scroll while modal is open
+        document.body.style.overflow = 'hidden';
+        // Focus the first button for keyboard users
+        setTimeout(() => {
+            const first = modalEl.querySelector('#auth-login-discord');
+            if (first) first.focus();
+        }, 40);
+    }
+
+    function closeLoginModal() {
+        if (!modalEl) return;
+        modalEl.hidden = true;
+        document.body.style.overflow = '';
+    }
+
+    async function onProviderClick(provider) {
+        // Disable both buttons while a redirect is in flight to avoid
+        // double-clicks queuing two OAuth flows.
+        const discordBtn = modalEl.querySelector('#auth-login-discord');
+        const googleBtn  = modalEl.querySelector('#auth-login-google');
+        [discordBtn, googleBtn].forEach(b => { if (b) b.disabled = true; });
+
         try {
-            await window.gg.signInWithGoogle();
-            // Browser will redirect to Google → no need to render anything
+            if (provider === 'discord') {
+                await window.gg.signInWithDiscord();
+            } else {
+                await window.gg.signInWithGoogle();
+            }
+            // The browser is about to redirect to the provider's consent
+            // screen — we don't need to do anything else here.
         } catch (e) {
             console.error('[auth-ui] sign in failed:', e);
-            if (btn) btn.classList.remove('is-loading');
+            [discordBtn, googleBtn].forEach(b => { if (b) b.disabled = false; });
             alert('Sign in failed. Check the console for details.');
         }
+    }
+
+    // Expose so other pages (profile.html, gallery.html) can open the
+    // same modal from their own "Sign in" buttons.
+    if (window.gg) {
+        window.gg.openLoginModal = openLoginModal;
+        window.gg.closeLoginModal = closeLoginModal;
     }
 
 

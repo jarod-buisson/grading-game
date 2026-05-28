@@ -19,16 +19,16 @@
     const anonBanner = document.getElementById('gallery-anon-banner');
     const anonSignin = document.getElementById('gallery-anon-signin');
 
-    /* ---------- Hook the sign-in button in the banner ---------- */
+    /* ---------- Hook the sign-in button in the banner ----------
+       Opens the global provider-choice modal (Discord + Google) so users
+       can pick their preferred provider rather than being forced into
+       Google. Modal lives in auth-ui.js. */
     if (anonSignin) {
-        anonSignin.addEventListener('click', async () => {
-            anonSignin.disabled = true;
-            try {
-                await window.gg.signInWithGoogle(window.location.href);
-            } catch (e) {
-                console.error('[gallery] sign-in failed:', e);
-                anonSignin.disabled = false;
-                alert('Sign in failed. See the console for details.');
+        anonSignin.addEventListener('click', () => {
+            if (window.gg?.openLoginModal) {
+                window.gg.openLoginModal();
+            } else {
+                window.gg?.signInWithGoogle(window.location.href);
             }
         });
     }

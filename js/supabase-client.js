@@ -258,6 +258,24 @@
     }
 
     /**
+     * Start the Discord OAuth flow. Mirrors signInWithGoogle. Discord
+     * sends back email + avatar_url + name in the user_metadata, which
+     * is enough for our profile auto-creation trigger to work.
+     */
+    async function signInWithDiscord(redirectTo) {
+        const target = redirectTo || window.location.href;
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'discord',
+            options: { redirectTo: target }
+        });
+        if (error) {
+            console.error('[gg] Discord sign-in failed:', error);
+            throw error;
+        }
+        return data;
+    }
+
+    /**
      * Sign out the current authenticated user. The onAuthStateChange
      * listener above will re-establish an anonymous session so the
      * UI keeps working without forcing a page refresh.
@@ -593,6 +611,7 @@
         onReady,
         onAuthChange,
         signInWithGoogle,
+        signInWithDiscord,
         signOut,
         deleteAccount,
         loadProfile,

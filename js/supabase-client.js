@@ -400,16 +400,20 @@
         if (!sanitized || GUEST_PATTERN.test(sanitized)) return;
         if (sanitized === profile.nickname) return;
 
-        // Find a free slot, mirroring the SQL trigger's collision logic
+        // Find a free slot, mirroring the SQL trigger's collision logic.
+        // Uses the SECURITY DEFINER RPC `is_nickname_available` (added in
+        // migration 009) instead of a direct SELECT on profiles — that
+        // way we don't need anon SELECT on profiles. Note: if the
+        // candidate happens to already BE our current nickname, the RPC
+        // returns false; we accept it anyway since renaming to your own
+        // nickname is a no-op.
         let nick = sanitized;
         for (let n = 0; n < 200; n++) {
             const candidate = n === 0 ? sanitized : `${sanitized}${n}`;
-            const { data: existing } = await supabase
-                .from('profiles')
-                .select('id')
-                .eq('nickname', candidate)
-                .maybeSingle();
-            if (!existing || existing.id === userId) {
+            if (candidate === profile.nickname) { nick = candidate; break; }
+            const { data: available } = await supabase
+                .rpc('is_nickname_available', { p_nickname: candidate });
+            if (available) {
                 nick = candidate;
                 break;
             }
@@ -489,16 +493,15 @@
             || ('user_' + userId.slice(0, 8));
 
         // Find a unique nickname by appending a numeric suffix on collision.
-        // Cap retries to avoid pathological loops.
+        // Cap retries to avoid pathological loops. Uses the SECURITY DEFINER
+        // RPC `is_nickname_available` (migration 009) so we don't need
+        // SELECT on profiles from the client.
         let nick = sanitized;
         for (let n = 0; n < 200; n++) {
             const candidate = n === 0 ? sanitized : `${sanitized}${n}`;
-            const { data: existing } = await supabase
-                .from('profiles')
-                .select('id')
-                .eq('nickname', candidate)
-                .maybeSingle();
-            if (!existing) {
+            const { data: available } = await supabase
+                .rpc('is_nickname_available', { p_nickname: candidate });
+            if (available) {
                 nick = candidate;
                 break;
             }
@@ -552,13 +555,14 @@
         const sanitized = lsNick.toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
         if (!sanitized || sanitized === profile.nickname) return;
 
-        const { data: existing } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('nickname', sanitized)
-            .maybeSingle();
+        // Availability via the SECURITY DEFINER RPC — no SELECT on profiles
+        // needed from the client. Returns false when taken by ANYONE
+        // (including us), but we already short-circuited the
+        // "taken by us" case above.
+        const { data: available } = await supabase
+            .rpc('is_nickname_available', { p_nickname: sanitized });
 
-        if (existing) {
+        if (!available) {
             console.log(`[gg] nickname "${sanitized}" taken, keeping "${profile.nickname}"`);
             return;
         }

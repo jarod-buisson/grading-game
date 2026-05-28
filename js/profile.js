@@ -174,18 +174,23 @@
         editHint.classList.remove('is-error');
 
         try {
-            // Check uniqueness first for a friendlier error than the DB throwing
-            const { data: existing } = await window.gg.supabase
-                .from('profiles')
-                .select('id')
-                .eq('nickname', newNick)
-                .maybeSingle();
+            // Renaming to our own current nickname is a no-op — skip
+            // the availability check (it would return false because
+            // we already have the nickname).
+            const myCurrent = window.gg.profile?.nickname || '';
+            if (newNick && newNick !== myCurrent) {
+                // Check uniqueness via the SECURITY DEFINER RPC so we
+                // don't need anon SELECT on profiles. Returns only a
+                // boolean — no profile row leaks to the client.
+                const { data: available } = await window.gg.supabase
+                    .rpc('is_nickname_available', { p_nickname: newNick });
 
-            if (existing && existing.id !== window.gg.userId) {
-                editHint.textContent = `@${newNick} is already taken — pick another`;
-                editHint.classList.add('is-error');
-                editSave.disabled = false;
-                return;
+                if (!available) {
+                    editHint.textContent = `@${newNick} is already taken — pick another`;
+                    editHint.classList.add('is-error');
+                    editSave.disabled = false;
+                    return;
+                }
             }
 
             const { error } = await window.gg.supabase

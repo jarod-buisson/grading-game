@@ -188,6 +188,116 @@
 
                 <div class="patch-list">
 
+                    <!-- ===== 1.5.1 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.5.1</div>
+                                <div class="patch-name">Real-device polish</div>
+                            </div>
+                            <div class="patch-date">2026-05-29</div>
+                        </div>
+                        <p class="patch-summary">
+                            Fixes from testing on actual phones — HTTPS gets
+                            enforced, music goes away on mobile, the gallery
+                            becomes a scrollable list, and signing in finally
+                            survives the browser back button.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Gallery cards on mobile collapse to compact rows (small thumb + id inline) — 12 challenges per screen instead of 1</li>
+                                    <li>Contributors cards now show "challenges · 004, 005, 006…" on a single line — much shorter cards on desktop too</li>
+                                    <li>info / legal pills moved below the donate button on mobile so the top bar isn't fighting for space</li>
+                                    <li>HTTPS enforced site-wide via HSTS + inline redirect; the next visit goes straight to <code>https://</code> automatically</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Brave / Safari "Not secure" warning gone on the apex domain</li>
+                                    <li>No more background music or audio widget on mobile (was eating top-bar real estate and data)</li>
+                                    <li>Browser back button no longer signs you out — the bfcache auth state now re-syncs with localStorage and reloads if stale</li>
+                                    <li>multi.html "create room" modal button finally renders with its accent border (setup.css wasn't loaded on that page)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== 1.5.0 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.5.0</div>
+                                <div class="patch-name">Mobile, everywhere</div>
+                            </div>
+                            <div class="patch-date">2026-05-28</div>
+                        </div>
+                        <p class="patch-summary">
+                            Every page now has a real responsive mobile
+                            layout. The grading workflow itself is feasible
+                            from a phone thanks to Lightroom Mobile, Snapseed,
+                            VSCO &amp; co. — the "desktop only" gate is gone
+                            for everything except the grading session screen.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Landing page on mobile gets a real hero card (H1 + tagline + 5 stacked nav cards) instead of the gate — huge SEO unlock</li>
+                                    <li>Solo flow (setup → game → result) and multi flow (lobby → room with its 4 states) all stack vertically with tap-friendly targets</li>
+                                    <li>Content pages (gallery, contributors, about, info, legal) all responsive — TOC stacks, grids collapse, form inputs use 16 px font to suppress iOS Safari focus-zoom</li>
+                                    <li>Mobile-first indexing now sees real, keyword-rich HTML (RAW, color grading, Lightroom, Capture One, anonymous voting) instead of "Desktop only"</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Landing donate button no longer floats with a tall empty gap above it (menu-stage was inheriting <code>flex: 1</code> from desktop)</li>
+                                    <li>game.html / room.html brand wordmark hidden on mobile when the live pill row is dense — was wrapping onto a second line</li>
+                                    <li>multi.html create-room modal goes full-screen on mobile with radios that wrap gracefully</li>
+                                    <li>Mobile-gate opt-in via <code>class="mobile-friendly"</code> — pages that are still desktop-only (none, currently) would just leave the class off</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== 1.4.1 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.4.1</div>
+                                <div class="patch-name">Security: stats lockdown</div>
+                            </div>
+                            <div class="patch-date">2026-05-28</div>
+                        </div>
+                        <p class="patch-summary">
+                            The <code>profile_stats</code> view was returning
+                            every signed-in player's aggregated stats to
+                            anyone with the publishable key. Closed the leak
+                            on both the view and the underlying profiles
+                            table.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Profile stats are now strictly self-only (security-invoker view with an explicit <code>WHERE id = auth.uid()</code> filter — belt + suspenders)</li>
+                                    <li>Profiles table SELECT restricted to authenticated users — anonymous can no longer enumerate nicknames</li>
+                                    <li>New <code>is_nickname_available(text)</code> RPC returns only a boolean so signup / rename never needs direct SELECT on profiles</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Closed the <code>GET /rest/v1/profile_stats?select=*</code> endpoint that previously dumped all players' stats to anon</li>
+                                    <li>Closed the <code>GET /rest/v1/profiles?select=*</code> endpoint that previously dumped all profile rows to anon</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- ===== 1.4.0 ===== -->
                     <article class="patch-card">
                         <div class="patch-head">

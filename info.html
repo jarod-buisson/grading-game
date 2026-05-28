@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- :head-common-start: -->
+    <!-- DO NOT EDIT page heads directly for these lines — edit this partial
+         and run `python update_head.py` (or double-click update-head.bat) to
+         propagate the changes to every *.html page in the project. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="author" content="grading-game">
+    <meta name="robots" content="index, follow">
+
+    <!-- Site-wide Open Graph + Twitter card defaults · per-page tags below override -->
+    <meta property="og:site_name" content="grading-game">
+    <meta property="og:type"      content="website">
+    <meta property="og:locale"    content="en_US">
+    <meta name="twitter:card"     content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/components.css?v=8">
+    <link rel="stylesheet" href="css/grading-ui.css">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+
+    <!-- Supabase client + global auth widget — loaded on every page so the
+         "Sign in / Avatar" widget can mount in the top bar regardless of
+         where the user lands. Order matters: SDK → gg client → auth UI. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js?v=9"></script>
+    <script src="js/auth-ui.js?v=5"></script>
+    <script src="js/presence.js?v=2"></script>
+    <script src="js/chrome.js?v=2"></script>
+    <!-- :head-common-end: -->
+    <title>info · grading-game — credits & patch notes</title>
+    <meta name="description" content="Credits and patch notes for grading-game.com. Built by Jarod Buisson with the help of Claude (Anthropic).">
+
+    <link rel="canonical"            href="https://grading-game.com/info.html">
+    <meta property="og:url"          content="https://grading-game.com/info.html">
+    <meta property="og:title"        content="Info · grading-game">
+    <meta property="og:description"  content="Credits and patch notes for grading-game.com.">
+    <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
+    <meta name="twitter:title"       content="Info · grading-game">
+    <meta name="twitter:description" content="Credits and patch notes for grading-game.com.">
+    <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+
+    <link rel="stylesheet" href="css/info.css?v=1">
+</head>
+<body>
+    <script src="js/mobile-gate.js"></script>
+
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 18 18" width="16" height="16">
+                        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M 9 1 A 8 8 0 0 1 9 17 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-name">grading<span class="brand-dot">-</span>game</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="version-tag">
+                <span>08</span><span class="sep">·</span><span>info</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="info-stage">
+        <div class="info-inner">
+
+            <div>
+                <div class="info-eyebrow">08 · info</div>
+                <h1 class="info-title">Credits &amp; patch notes</h1>
+            </div>
+
+            <p class="info-intro">
+                A photo color-grading game built solo, in the open. Every release lands here.
+            </p>
+
+            <!-- Table of contents (sticky on desktop, inline on mobile) -->
+            <nav class="info-toc" aria-label="info sections">
+                <a href="#credits" class="info-toc-item">
+                    <span class="info-toc-num">01</span>
+                    <span class="info-toc-label">Credits</span>
+                </a>
+                <a href="#patch-notes" class="info-toc-item">
+                    <span class="info-toc-num">02</span>
+                    <span class="info-toc-label">Patch notes</span>
+                </a>
+            </nav>
+
+            <!-- ─── SECTION 1 — CREDITS ─────────────────────── -->
+            <section class="info-section" id="credits">
+                <div class="info-section-num">01</div>
+                <h2 class="info-section-title">Credits</h2>
+
+                <p class="info-section-intro">
+                    grading-game is an independent project. The two columns below cover
+                    the human behind the design and the AI behind the code.
+                </p>
+
+                <div class="credits-grid">
+
+                    <!-- Creator card -->
+                    <article class="credit-card">
+                        <div class="credit-card-label">creator · designer</div>
+                        <h3 class="credit-card-title">Jarod Buisson</h3>
+                        <p class="credit-card-bio">
+                            Photographer &amp; colorist based in France. I shoot a lot of
+                            film and digital, and I wanted a fun way for everyone to
+                            practice grading on real RAWs and scans — so I built it.
+                        </p>
+                        <p class="credit-card-bio">
+                            Every photo you grade in the random pool was contributed by
+                            a real photographer. Hit the
+                            <a href="contributors.html">Contributors</a> page if you
+                            want to drop yours in.
+                        </p>
+                        <div class="credit-card-links">
+                            <a href="https://instagram.com/jarod_buisson" target="_blank" rel="noopener" class="credit-link">
+                                <span class="credit-link-icon">@</span>
+                                <span>jarod_buisson</span>
+                            </a>
+                            <a href="mailto:buissonjarod@gmail.com" class="credit-link">
+                                <span class="credit-link-icon">✉</span>
+                                <span>buissonjarod@gmail.com</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Claude / Anthropic card -->
+                    <article class="credit-card">
+                        <div class="credit-card-label">code · co-author</div>
+                        <h3 class="credit-card-title">Claude · Anthropic</h3>
+                        <p class="credit-card-bio">
+                            The codebase was written in close collaboration with
+                            <strong>Claude</strong>, Anthropic's AI assistant. I steered
+                            the design, the look-and-feel and every product decision;
+                            Claude turned that into HTML, CSS, JS, SQL and the bits of
+                            Python that hold it together.
+                        </p>
+                        <p class="credit-card-bio">
+                            Curious about the tool? It's the same Claude you can chat with
+                            at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>.
+                            The site is also small enough that the source is honest about
+                            it — open the devtools and you'll find a few <code>// Claude wrote this</code>
+                            comments in the wild.
+                        </p>
+                        <div class="credit-card-links">
+                            <a href="https://claude.ai" target="_blank" rel="noopener" class="credit-link">
+                                <span class="credit-link-icon">↗</span>
+                                <span>claude.ai</span>
+                            </a>
+                            <a href="https://www.anthropic.com" target="_blank" rel="noopener" class="credit-link">
+                                <span class="credit-link-icon">↗</span>
+                                <span>anthropic.com</span>
+                            </a>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- ─── SECTION 2 — PATCH NOTES ──────────────────── -->
+            <section class="info-section" id="patch-notes">
+                <div class="info-section-num">02</div>
+                <h2 class="info-section-title">Patch notes</h2>
+
+                <p class="info-section-intro">
+                    Changes made in each update. Newest first.
+                </p>
+
+                <div class="patch-list">
+
+                    <!-- ===== 1.4.0 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.4.0</div>
+                                <div class="patch-name">Category filter &amp; discovery mode</div>
+                            </div>
+                            <div class="patch-date">2026-05-28</div>
+                        </div>
+                        <p class="patch-summary">
+                            Pick analog or digital before you start. Signed-in players
+                            stop replaying photos they've already nailed.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Category dropdown in solo &amp; multi setup (random · negative · digital)</li>
+                                    <li>Hosts now lock a category at room creation — every player sees it in the lobby</li>
+                                    <li>Discovery mode: signed-in random picks skip photos you've already unlocked, then re-open the pool for replay once you've done them all</li>
+                                    <li>Specific-challenge replay from the solo dropdown for everything in your gallery</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Active solo session now stores the category so F5 doesn't widen the pool mid-round</li>
+                                    <li>Challenge dropdown resets to "random pick" when you switch categories instead of keeping a stale id</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== 1.3.0 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.3.0</div>
+                                <div class="patch-name">Legal page, Discord login &amp; contribution form</div>
+                            </div>
+                            <div class="patch-date">2026-05-27</div>
+                        </div>
+                        <p class="patch-summary">
+                            Sign in with Discord, see who's online, and submit your
+                            photos to the contributors pool without leaving the site.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Discord OAuth added as a second sign-in option next to Google</li>
+                                    <li>New "legal" link in the top bar — full Terms / Privacy / Copyright page, GDPR-compliant</li>
+                                    <li>Inline contribution form on the Contributors page (Supabase + Formspree)</li>
+                                    <li>Online presence pill in the bottom-right corner showing live player count</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Provider-choice modal no longer flickers on first open</li>
+                                    <li>Login disclaimer links now point to the legal page sections directly</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== 1.2.0 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.2.0</div>
+                                <div class="patch-name">Pokédex gallery &amp; solo session lock</div>
+                            </div>
+                            <div class="patch-date">2026-05-25</div>
+                        </div>
+                        <p class="patch-summary">
+                            Your unlocked photos now live in a personal gallery — and
+                            F5 stops being a re-roll cheat.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Pokédex-style gallery showing every challenge with locked / unlocked state</li>
+                                    <li>Per-challenge selector on the solo setup so you can replay any photo you've completed</li>
+                                    <li>Solo session is now persisted in sessionStorage — refresh resumes the same challenge with the timer where you left off</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>F5 during an active solo no longer rerolls the photo or restarts the timer</li>
+                                    <li>"Start session" button explicitly clears the active-solo lock so a new round always picks fresh</li>
+                                    <li>Black screen on back navigation (bfcache) fixed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== 1.1.0 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.1.0</div>
+                                <div class="patch-name">Cloudflare + R2 migration</div>
+                            </div>
+                            <div class="patch-date">2026-05-22</div>
+                        </div>
+                        <p class="patch-summary">
+                            Big infra move: source files now live on Cloudflare R2 so
+                            downloading a 60 MB RAW costs us nothing and stays fast
+                            worldwide.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>RAW / scan sources moved to Cloudflare R2 (<code>sources.grading-game.com</code>) — no more 25 MB Pages limit</li>
+                                    <li>Background music streams from R2 too — faster first play</li>
+                                    <li>Site hosted on Cloudflare Pages with privacy-friendly analytics (no cookies)</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Auth widget no longer flickers between page navigations</li>
+                                    <li>Profile page no longer shows the anonymous AND authenticated sections at once</li>
+                                    <li>Bypassed Supabase SDK getSession on boot — fixes navigation hangs that some users were seeing</li>
+                                    <li>Added timeout protection to Supabase boot so a slow API never freezes the page</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== 1.0.0 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.0.0</div>
+                                <div class="patch-name">Public launch</div>
+                            </div>
+                            <div class="patch-date">2026-05-15</div>
+                        </div>
+                        <p class="patch-summary">
+                            grading-game goes public. Solo training, multiplayer rounds
+                            with anonymous voting, and optional Google sign-in to keep
+                            track of your runs.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Solo training mode — download a RAW, grade it externally, upload your JPEG, compare with the reference</li>
+                                    <li>Multiplayer rooms — same photo, same timer, anonymous voting, podium at the end</li>
+                                    <li>Google OAuth + profile page with editable nickname and short bio</li>
+                                    <li>Game history tracked per user (challenges played, scores, ranks)</li>
+                                    <li>Real-time lobby and room state via Supabase Realtime</li>
+                                    <li>Auto-generated challenge manifest from the photos folder</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Initial release — bug reports welcome at <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <a href="index.html" class="back-link">← back to menu</a>
+
+        </div>
+    </main>
+
+    <div class="vignette-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay"    aria-hidden="true"></div>
+
+    <script src="js/info.js?v=1"></script>
+    <script src="js/audio-player.js?v=4"></script>
+</body>
+</html>

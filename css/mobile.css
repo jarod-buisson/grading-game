@@ -921,6 +921,196 @@
 
 
 /* ----------------------------------------------------------
+   Gallery page — gallery.html
+   ----------------------------------------------------------
+   The grid already collapses well thanks to auto-fill minmax(180 px).
+   On a 375 px viewport that gives 2 columns naturally. We just trim
+   padding, tighten the anonymous-sign-in banner, and bump tap
+   targets a touch. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .gallery-stage {
+        flex: none;
+        padding: 24px 16px 24px;
+        overflow: visible;
+    }
+    body.mobile-friendly .gallery-inner { gap: 20px; }
+    body.mobile-friendly .gallery-title { font-size: 24px; }
+    body.mobile-friendly .gallery-intro { font-size: 14px; max-width: none; }
+
+    /* Anonymous banner stacks text above CTA on narrow rows */
+    body.mobile-friendly .gallery-anon-banner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 14px 16px;
+    }
+    body.mobile-friendly .gallery-anon-cta {
+        justify-content: center;
+    }
+
+    /* Gallery grid: cards already auto-fill at 180 px min → 2 col @ 375 px */
+    body.mobile-friendly .gallery-grid { gap: 10px; }
+}
+
+
+/* ----------------------------------------------------------
+   Contributors page — contributors.html
+   ----------------------------------------------------------
+   The contributor grid is similar shape to gallery. The bigger
+   change is the inline contribution form: the two-column "first
+   name · last name" row collapses to a single column, all inputs
+   get 16 px font (no iOS zoom on focus), and tap targets bump. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .contributors-stage {
+        flex: none;
+        padding: 24px 16px 24px;
+        overflow: visible;
+    }
+    body.mobile-friendly .contributors-inner { gap: 20px; }
+    body.mobile-friendly .contributors-title { font-size: 24px; }
+    body.mobile-friendly .contributors-intro { font-size: 14px; }
+
+    body.mobile-friendly .contributors-meta-row {
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        font-size: 11px;
+    }
+
+    /* Contributor grid: single column on narrow viewport */
+    body.mobile-friendly .contributors-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    /* "Want to contribute?" CTA block */
+    body.mobile-friendly .contributors-cta { padding: 22px 18px; }
+    body.mobile-friendly .contributors-cta-title { font-size: 18px; }
+    body.mobile-friendly .contributors-cta-body { font-size: 14px; }
+
+    /* Form: stack the first-name / last-name row */
+    body.mobile-friendly .contribute-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    body.mobile-friendly .contribute-field input,
+    body.mobile-friendly .contribute-field textarea {
+        font-size: 16px;          /* prevents iOS Safari focus-zoom */
+        padding: 10px 12px;
+    }
+    body.mobile-friendly .contribute-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    body.mobile-friendly .contribute-submit {
+        justify-content: center;
+        padding: 14px 16px;
+    }
+    body.mobile-friendly .contribute-tip {
+        font-size: 12px;
+    }
+    body.mobile-friendly .contribute-tip code {
+        word-break: break-all;
+        font-size: 11px;
+    }
+}
+
+
+/* ----------------------------------------------------------
+   About page — about.html
+   ----------------------------------------------------------
+   The page uses inline <style> for its layout, so we just need
+   to shrink the title and trim the numbered-list indent so the
+   numbers don't shove the body text off-screen. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .about-stage {
+        flex: none;
+        padding: 24px 16px 24px;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+    body.mobile-friendly .about-title { font-size: 26px; }
+    body.mobile-friendly .about-body p { font-size: 14px; }
+
+    /* Numbered rules: tighter indent on mobile */
+    body.mobile-friendly .rules-list li {
+        padding-left: 40px;
+        font-size: 14px;
+    }
+}
+
+
+/* ----------------------------------------------------------
+   Info page — info.html (credits + patch notes)
+   ----------------------------------------------------------
+   The credit cards and patch-cols already collapse to single
+   column at the 900 px breakpoint in info.css. We only need to
+   trim outer padding + scale the hero title for narrow viewports. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .info-stage {
+        flex: none;
+        padding: 24px 16px 24px;
+        overflow: visible;
+    }
+    body.mobile-friendly .info-title { font-size: 24px; }
+    body.mobile-friendly .info-section-title { font-size: 22px; }
+    body.mobile-friendly .info-section-intro { font-size: 14px; }
+
+    /* TOC: keep 2-col (2 entries — fits) but tighten */
+    body.mobile-friendly .info-toc { padding: 10px; gap: 8px; }
+    body.mobile-friendly .info-toc-item { padding: 8px 10px; }
+
+    /* Credit cards: padding shrink, links stack */
+    body.mobile-friendly .credit-card { padding: 18px 16px; }
+    body.mobile-friendly .credit-card-title { font-size: 18px; }
+
+    /* Patch cards */
+    body.mobile-friendly .patch-card { padding: 18px 16px; }
+    body.mobile-friendly .patch-version { font-size: 22px; }
+    body.mobile-friendly .patch-name { font-size: 15px; }
+}
+
+
+/* ----------------------------------------------------------
+   Legal page — legal.html
+   ----------------------------------------------------------
+   Three-column sticky TOC + long-form text sections. The TOC
+   3-col grid stays as it is (with smaller text); we trim outer
+   padding and shrink section headings so they breathe better. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .legal-stage {
+        flex: none;
+        padding: 24px 16px 24px;
+        overflow: visible;
+    }
+    body.mobile-friendly .legal-title { font-size: 24px; }
+    body.mobile-friendly .legal-section-title { font-size: 20px; }
+    body.mobile-friendly .legal-section-intro { font-size: 14px; }
+    body.mobile-friendly .legal-section p,
+    body.mobile-friendly .legal-section li { font-size: 13px; }
+
+    /* TOC: 3 cols × 108 px @ 375 px is too narrow for the longest
+       labels ("COPYRIGHT & DMCA") so they truncate to "COPYRI…".
+       Stack to a single column on mobile — each row stays fully
+       readable and tappable. */
+    body.mobile-friendly .legal-toc {
+        grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 6px;
+    }
+    body.mobile-friendly .legal-toc-item { padding: 10px 12px; gap: 8px; }
+    body.mobile-friendly .legal-toc-label { font-size: 10px; }
+
+    body.mobile-friendly .legal-section h3 { font-size: 14px; }
+}
+
+
+/* ----------------------------------------------------------
    The mobile-only elements (mobile-hero, mobile-nav, mobile-nick)
    live in the DOM at all times but are hidden above 800 px so they
    don't interfere with the desktop layout.

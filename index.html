@@ -59,15 +59,17 @@
       "url": "https://grading-game.com/",
       "description": "A photo color-grading game. Develop a RAW or scan in your favorite software, then compete with other photographers in timed rounds.",
       "applicationCategory": "GameApplication",
-      "operatingSystem": "Web · desktop (>= 800px viewport)",
+      "operatingSystem": "Web (any modern browser · desktop required for the grading workflow itself)",
       "browserRequirements": "Requires JavaScript and a modern browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "author": { "@type": "Organization", "name": "grading-game" }
     }
     </script>
+
+    <link rel="stylesheet" href="css/mobile.css?v=1">
 </head>
 
-<body class="bg-graded">
+<body class="bg-graded mobile-friendly">
     <script src="js/mobile-gate.js"></script>
 
     <!--
@@ -114,7 +116,89 @@
 
     <!-- =================== MAIN — wheel menu =================== -->
     <main class="menu-stage">
-        <h1 class="sr-only">grading-game — a photo color-grading game for photographers</h1>
+
+        <!-- =================== MOBILE-ONLY hero + nav ===================
+             These three blocks are hidden above 800 px viewport via
+             css/mobile.css. They give mobile users a real, indexable
+             landing experience (real H1, real nav links) instead of the
+             orbital wheel that doesn't work on touch. Desktop renders
+             the same wheel layout as before — these blocks just take
+             zero space there. -->
+        <section class="mobile-hero">
+            <div class="mobile-hero-eyebrow">color grading · photo game</div>
+            <h1>
+                grading<span class="accent">-</span>game
+            </h1>
+            <p class="mobile-hero-tagline">
+                A photo color-grading game for photographers. Pick a
+                flat <strong>RAW</strong> or scan, grade it in your
+                favorite software (Lightroom, Capture One, DarkTable…),
+                then compete with other photographers in timed rounds
+                with anonymous voting.
+            </p>
+            <div class="mobile-hero-callout">
+                The grading session itself runs on a
+                <strong>laptop or desktop</strong> — you'll need a
+                real grading tool. From your phone you can still
+                browse the site, sign in, check the gallery, and
+                contribute your own photos.
+            </div>
+        </section>
+
+        <nav class="mobile-nav" aria-label="main">
+            <a class="mobile-nav-item" href="solo.html">
+                <span class="mobile-nav-num">01</span>
+                <span class="mobile-nav-text">
+                    <span class="mobile-nav-label">solo</span>
+                    <span class="mobile-nav-desc">free training</span>
+                </span>
+                <span class="mobile-nav-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="mobile-nav-item" href="multi.html">
+                <span class="mobile-nav-num">02</span>
+                <span class="mobile-nav-text">
+                    <span class="mobile-nav-label">multiplayer</span>
+                    <span class="mobile-nav-desc">online lobby</span>
+                </span>
+                <span class="mobile-nav-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="mobile-nav-item" href="gallery.html">
+                <span class="mobile-nav-num">03</span>
+                <span class="mobile-nav-text">
+                    <span class="mobile-nav-label">gallery</span>
+                    <span class="mobile-nav-desc">your collection</span>
+                </span>
+                <span class="mobile-nav-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="mobile-nav-item" href="contributors.html">
+                <span class="mobile-nav-num">04</span>
+                <span class="mobile-nav-text">
+                    <span class="mobile-nav-label">contributors</span>
+                    <span class="mobile-nav-desc">project photographers</span>
+                </span>
+                <span class="mobile-nav-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="mobile-nav-item" href="about.html">
+                <span class="mobile-nav-num">05</span>
+                <span class="mobile-nav-text">
+                    <span class="mobile-nav-label">about</span>
+                    <span class="mobile-nav-desc">concept &amp; rules</span>
+                </span>
+                <span class="mobile-nav-arrow" aria-hidden="true">→</span>
+            </a>
+        </nav>
+
+        <div class="mobile-nick">
+            <div class="mobile-nick-label">nickname</div>
+            <input
+                type="text"
+                id="landing-nickname-input-mobile"
+                maxlength="20"
+                placeholder="pick a nickname"
+                autocomplete="off"
+                spellcheck="false">
+            <div class="mobile-nick-hint">saved locally · used in multiplayer rooms</div>
+        </div>
 
         <!-- LEFT side panel -->
         <aside class="side-panel side-panel--left">
@@ -289,7 +373,7 @@
 
     <script src="js/bezier-curve.js?v=4"></script>
     <script src="js/scopes.js?v=2"></script>
-    <script src="js/chromatic-wheel.js?v=4"></script>
+    <script src="js/chromatic-wheel.js?v=5"></script>
     <script src="js/audio-player.js?v=4"></script>
 </body>
 </html>

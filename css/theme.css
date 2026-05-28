@@ -225,21 +225,25 @@ body.bg-graded {
 
 /* ---------- Mobile gate ( < 800px viewport ) ----------
    Below 800px we hide everything else and show the gate card.
-   Above 800px the .mobile-gate element is in DOM but display: none. */
+   Above 800px the .mobile-gate element is in DOM but display: none.
+   Pages that have a responsive mobile layout opt-out of the gate by
+   adding `class="mobile-friendly"` on the <body>. Those pages then
+   load `css/mobile.css` which provides the mobile-specific layout. */
 .mobile-gate {
     display: none;
 }
 
 @media (max-width: 799px) {
-    body {
+    body:not(.mobile-friendly) {
         overflow: hidden !important;
         background: #050507 !important;
     }
-    /* Hide every direct child of <body> except the gate */
-    body > *:not(.mobile-gate) {
+    /* Hide every direct child of <body> except the gate, but only on
+       pages that did NOT opt into the mobile-friendly layout. */
+    body:not(.mobile-friendly) > *:not(.mobile-gate) {
         display: none !important;
     }
-    .mobile-gate {
+    body:not(.mobile-friendly) .mobile-gate {
         display: flex !important;
         position: fixed;
         inset: 0;

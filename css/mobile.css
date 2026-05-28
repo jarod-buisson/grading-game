@@ -1,0 +1,293 @@
+/* =========================================================
+   mobile.css — responsive layout for pages that opt-in via
+                `class="mobile-friendly"` on the <body>.
+
+   All rules in this file are scoped to `body.mobile-friendly`
+   AND only apply below 800 px viewport width. Above 800 px the
+   page renders identically to before — desktop is untouched.
+
+   Pages currently opted-in:
+     - index.html (landing)
+
+   Other pages can opt-in by:
+     1. adding `class="mobile-friendly"` on <body>
+     2. linking this stylesheet in their <head>
+     3. adding any page-specific mobile rules below
+   ========================================================= */
+
+
+/* ----------------------------------------------------------
+   Shared mobile baseline (any opted-in page)
+   ---------------------------------------------------------- */
+@media (max-width: 799px) {
+
+    body.mobile-friendly {
+        /* Reset the desktop "fixed viewport" feel — mobile scrolls. */
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* The mobile gate stays in DOM but never shows on opted-in pages */
+    body.mobile-friendly .mobile-gate {
+        display: none !important;
+    }
+
+    /* Top bar — already compact, just trim padding for narrow viewports */
+    body.mobile-friendly .top-bar {
+        padding: 12px 16px;
+    }
+    body.mobile-friendly .top-bar-right {
+        gap: 10px;
+    }
+    body.mobile-friendly .version-tag {
+        display: none;  /* low-value chrome, free up space */
+    }
+}
+
+
+/* ----------------------------------------------------------
+   Landing page — index.html
+   ---------------------------------------------------------- */
+@media (max-width: 799px) {
+
+    /* The menu-stage was a 3-column flex (panel · wheel · panel)
+       — convert to a vertical stack on mobile. */
+    body.mobile-friendly .menu-stage {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 24px 20px 16px;
+        gap: 28px;
+    }
+
+    /* Side panels are already hidden by grading-ui.css at ≤ 880px,
+       but force-hide here in case anyone reverts the upstream rule. */
+    body.mobile-friendly .side-panel { display: none; }
+
+    /* The chromatic wheel was the desktop hero. On mobile we hide
+       it — touch interactions don't pair well with hover-driven
+       polar menus, and the labels would overflow narrow viewports.
+       The site identity is carried by the brand mark in the top bar
+       and the H1 in the hero card below. */
+    body.mobile-friendly .wheel-wrap { display: none; }
+
+
+    /* ─── Hero card (visible only on mobile) ─── */
+    body.mobile-friendly .mobile-hero {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 26px 22px 22px;
+        background: var(--bg-elev-1);
+        border: 1px solid var(--border-subtle);
+        border-radius: 4px;
+    }
+
+    body.mobile-friendly .mobile-hero-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: var(--tracking-wide);
+    }
+
+    body.mobile-friendly .mobile-hero h1 {
+        font-family: var(--font-ui);
+        font-size: 28px;
+        font-weight: 500;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin: 0;
+    }
+    body.mobile-friendly .mobile-hero h1 .accent {
+        color: var(--accent);
+    }
+
+    body.mobile-friendly .mobile-hero-tagline {
+        font-family: var(--font-ui);
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+    body.mobile-friendly .mobile-hero-tagline strong {
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    /* Desktop-only callout — explicit, friendly, links to mobile-OK pages */
+    body.mobile-friendly .mobile-hero-callout {
+        margin-top: 6px;
+        padding: 12px 14px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-tertiary);
+        background: var(--bg-elev-2);
+        border-left: 2px solid var(--accent);
+        border-radius: 2px;
+        line-height: 1.5;
+    }
+    body.mobile-friendly .mobile-hero-callout strong {
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+
+    /* ─── Mobile nav cards (replaces the orbital menu) ─── */
+    body.mobile-friendly .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    body.mobile-friendly .mobile-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        background: var(--bg-elev-1);
+        border: 1px solid var(--border-subtle);
+        border-radius: 3px;
+        text-decoration: none;
+        color: inherit;
+        transition:
+            border-color var(--t-fast),
+            background var(--t-fast),
+            transform var(--t-fast);
+        text-align: left;
+    }
+    body.mobile-friendly .mobile-nav-item:active {
+        transform: scale(0.98);
+        border-color: var(--accent);
+        background: var(--accent-soft);
+    }
+
+    body.mobile-friendly .mobile-nav-num {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent);
+        letter-spacing: var(--tracking-mono);
+        flex-shrink: 0;
+        width: 22px;
+    }
+
+    body.mobile-friendly .mobile-nav-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+    body.mobile-friendly .mobile-nav-label {
+        font-family: var(--font-ui);
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--text-primary);
+        letter-spacing: -0.005em;
+        text-transform: lowercase;
+    }
+    body.mobile-friendly .mobile-nav-desc {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: var(--tracking-wide);
+    }
+
+    /* Arrow chevron on the right of each nav card */
+    body.mobile-friendly .mobile-nav-arrow {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: var(--text-quaternary);
+        flex-shrink: 0;
+    }
+
+
+    /* ─── Nickname input on mobile (full width below nav) ─── */
+    body.mobile-friendly .mobile-nick {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px 18px 16px;
+        background: var(--bg-elev-1);
+        border: 1px solid var(--border-subtle);
+        border-radius: 3px;
+    }
+    body.mobile-friendly .mobile-nick-label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: var(--tracking-wide);
+        color: var(--text-tertiary);
+    }
+    body.mobile-friendly .mobile-nick input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--border-subtle);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        font-size: 15px;
+        padding: 6px 0;
+        outline: none;
+        letter-spacing: var(--tracking-mono);
+        /* 16px+ prevents iOS Safari from zooming on focus */
+    }
+    body.mobile-friendly .mobile-nick input:focus {
+        border-bottom-color: var(--accent);
+    }
+    body.mobile-friendly .mobile-nick-hint {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-quaternary);
+        text-transform: uppercase;
+        letter-spacing: var(--tracking-wide);
+        margin-top: 2px;
+    }
+
+
+    /* ─── Scope bar simplified ─── */
+    body.mobile-friendly .scope-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px 20px 24px;
+    }
+    /* Hide the live scopes + tone curve on mobile — they're
+       decorative without the grading workflow behind them. */
+    body.mobile-friendly .scope-group { display: none; }
+    body.mobile-friendly .scope-cta {
+        /* Override the desktop "push right on row" pattern — on mobile
+           we want the CTAs centered full-width below the (hidden) scopes. */
+        margin-left: 0;
+        align-self: stretch;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    body.mobile-friendly .scope-cta .cta-link {
+        flex: 1;
+        justify-content: center;
+        min-width: 120px;
+        /* Slightly larger tap target than the desktop chip */
+        padding: 12px 22px;
+        font-size: 13px;
+    }
+
+
+    /* The decorative SVG filter, background layers, overlays —
+       keep them for visual continuity, no layout changes needed. */
+}
+
+
+/* ----------------------------------------------------------
+   The mobile-only elements (mobile-hero, mobile-nav, mobile-nick)
+   live in the DOM at all times but are hidden above 800 px so they
+   don't interfere with the desktop layout.
+   ---------------------------------------------------------- */
+.mobile-hero,
+.mobile-nav,
+.mobile-nick {
+    display: none;
+}

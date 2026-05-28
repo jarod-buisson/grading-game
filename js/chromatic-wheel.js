@@ -198,15 +198,43 @@
         window.BezierCurve.init('curve-svg');
     }
 
-    /* ---------- Nickname editor (left panel) ---------- */
+    /* ---------- Nickname editor (left panel + mobile mirror) ----------
+       Two inputs share the same localStorage-backed nickname:
+         · #landing-nickname-input        — desktop left side-panel
+         · #landing-nickname-input-mobile — mobile hero stack
+       Typing on either updates the same key and mirrors the value into
+       the other input. Hints can live in `.panel-hint` (desktop) or
+       `.mobile-nick-hint` (mobile); we just pick whichever exists. */
     (function () {
         const NICK_KEY = 'gradinggame.nickname';
-        const input = document.getElementById('landing-nickname-input');
-        const hint  = document.getElementById('landing-nickname-hint');
-        if (!input) return;
+        const inputs = [
+            document.getElementById('landing-nickname-input'),
+            document.getElementById('landing-nickname-input-mobile')
+        ].filter(Boolean);
+        if (!inputs.length) return;
 
         function makeGuest() {
             return 'guest_' + Math.random().toString(36).slice(2, 6).toUpperCase();
+        }
+
+        // Pick the most relevant hint element for each input (the one
+        // adjacent to it in the DOM, falling back to a global query).
+        function hintFor(input) {
+            const wrap = input.closest('.panel-block, .mobile-nick');
+            return wrap?.querySelector('.panel-hint, .mobile-nick-hint') || null;
+        }
+        function setHint(hint, text, state) {
+            if (!hint) return;
+            hint.textContent = text;
+            // The state classes use different prefixes on desktop vs
+            // mobile — apply both, harmless on each side.
+            hint.classList.remove('is-error', 'is-saved');
+            if (state) hint.classList.add(state);
+        }
+        function defaultHintText(input) {
+            return input.id.endsWith('-mobile')
+                ? 'saved locally · used in multiplayer rooms'
+                : 'saved locally · used in multi';
         }
 
         let nick = '';
@@ -215,30 +243,33 @@
             nick = makeGuest();
             try { localStorage.setItem(NICK_KEY, nick); } catch (e) {}
         }
-        input.value = nick;
+        inputs.forEach(i => { i.value = nick; });
 
         let saveTimer = null;
-        input.addEventListener('input', () => {
-            // Normalize: lowercase, only alphanumeric + _ and -, max 20 chars
-            const next = input.value.toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 20);
-            if (next !== input.value) input.value = next;
-            nick = next;
-            if (nick.length < 3) {
-                hint.textContent = '3+ chars · letters, digits, _ or -';
-                hint.className = 'panel-hint is-error';
-                return;
-            }
-            // Debounce save by 350 ms
-            clearTimeout(saveTimer);
-            saveTimer = setTimeout(() => {
-                try { localStorage.setItem(NICK_KEY, nick); } catch (e) {}
-                hint.textContent = 'saved · ' + nick;
-                hint.className = 'panel-hint is-saved';
-                setTimeout(() => {
-                    hint.textContent = 'saved locally · used in multi';
-                    hint.className = 'panel-hint';
-                }, 1200);
-            }, 350);
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // Normalize: lowercase, only alphanumeric + _ and -, max 20 chars
+                const next = input.value.toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 20);
+                if (next !== input.value) input.value = next;
+                nick = next;
+                // Mirror into all sibling inputs so the other one stays in sync
+                inputs.forEach(i => { if (i !== input) i.value = next; });
+
+                const hint = hintFor(input);
+                if (nick.length < 3) {
+                    setHint(hint, '3+ chars · letters, digits, _ or -', 'is-error');
+                    return;
+                }
+                // Debounce save by 350 ms
+                clearTimeout(saveTimer);
+                saveTimer = setTimeout(() => {
+                    try { localStorage.setItem(NICK_KEY, nick); } catch (e) {}
+                    setHint(hint, 'saved · ' + nick, 'is-saved');
+                    setTimeout(() => {
+                        setHint(hint, defaultHintText(input), null);
+                    }, 1200);
+                }, 350);
+            });
         });
 
         // Save once on first paint to ensure default guest_ is persisted

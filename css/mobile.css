@@ -1150,6 +1150,71 @@
 
 
 /* ----------------------------------------------------------
+   Profile page — profile.html
+   ----------------------------------------------------------
+   Stats grid already auto-fills to 1-2 cols on a 375 px viewport
+   thanks to its minmax(160 px). We mostly trim the outer padding,
+   shrink the giant 28 px display name + 88 px avatar, and stack
+   the settings rows (sign-out / delete) for thumb-friendly tap. */
+@media (max-width: 799px) {
+
+    body.mobile-friendly .profile-stage {
+        flex: none;
+        padding: 24px 16px 24px;
+        overflow: visible;
+    }
+    body.mobile-friendly .profile-inner { gap: 18px; }
+
+    /* Anonymous state */
+    body.mobile-friendly .profile-title-big { font-size: 24px; }
+    body.mobile-friendly .profile-intro     { font-size: 14px; }
+    body.mobile-friendly .profile-cta-signin {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 18px;
+        font-size: 12px;
+    }
+
+    /* Authenticated hero: avatar + identity stay on one row but the
+       avatar shrinks so the display name still fits before wrap. */
+    body.mobile-friendly .profile-hero {
+        gap: 16px;
+        padding: 4px 0;
+    }
+    body.mobile-friendly .profile-avatar {
+        width: 64px;
+        height: 64px;
+    }
+    body.mobile-friendly .profile-avatar-fallback { font-size: 28px; }
+    body.mobile-friendly .profile-display-name    { font-size: 22px; }
+    body.mobile-friendly .profile-handle          { font-size: 12px; }
+
+    /* Stats grid: tighten gap + bump tap targets a touch */
+    body.mobile-friendly .profile-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    body.mobile-friendly .stat-card    { padding: 14px 14px; }
+    body.mobile-friendly .stat-value   { font-size: 22px; }
+
+    /* Settings rows: stack label + button on narrow viewports.
+       Each row keeps the same card style but the button drops
+       full-width below the title/description. */
+    body.mobile-friendly .setting-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    body.mobile-friendly .setting-row .setting-btn,
+    body.mobile-friendly .setting-row > button {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 14px;
+    }
+}
+
+
+/* ----------------------------------------------------------
    The mobile-only elements (mobile-hero, mobile-nav, mobile-nick)
    live in the DOM at all times but are hidden above 800 px so they
    don't interfere with the desktop layout.

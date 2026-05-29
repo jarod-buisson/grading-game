@@ -53,7 +53,7 @@
     <script src="js/supabase-client.js?v=11"></script>
     <script src="js/auth-ui.js?v=5"></script>
     <script src="js/presence.js?v=3"></script>
-    <script src="js/chrome.js?v=4"></script>
+    <script src="js/chrome.js?v=5"></script>
     <!-- :head-common-end: -->
     <title>info · grading-game — credits & patch notes</title>
     <meta name="description" content="Credits and patch notes for grading-game.com. Built by Jarod Buisson with the help of Claude (Anthropic).">
@@ -68,7 +68,7 @@
     <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
 
     <link rel="stylesheet" href="css/info.css?v=1">
-    <link rel="stylesheet" href="css/mobile.css?v=4">
+    <link rel="stylesheet" href="css/mobile.css?v=5">
 </head>
 <body class="mobile-friendly">
     <script src="js/mobile-gate.js"></script>
@@ -187,6 +187,41 @@
                 </p>
 
                 <div class="patch-list">
+
+                    <!-- ===== 1.5.2 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.5.2</div>
+                                <div class="patch-name">Profile mobile, dynamic version &amp; live count</div>
+                            </div>
+                            <div class="patch-date">2026-05-29</div>
+                        </div>
+                        <p class="patch-summary">
+                            Three small but visible polish items: the
+                            profile page joins the responsive layout,
+                            the top-bar version tag updates itself when
+                            we release, and mobile users finally get to
+                            see how many other players are online.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Profile page is now fully mobile-friendly — avatar, stats grid and account actions all stack into a single readable column with thumb-friendly buttons</li>
+                                    <li>Live "X online" count moved into the mobile footer alongside info / legal — was previously hidden under 800 px because the top-bar was too cramped</li>
+                                    <li>The "v…" pill in the top-bar now reads itself from a single <code>SITE_VERSION</code> constant in chrome.js — bumping it in one place propagates everywhere</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">fixes</div>
+                                <ul>
+                                    <li>Top-bar version was stuck on "v0.1" since launch; it now matches the latest patch note (this one)</li>
+                                    <li>Sitemap was missing <code>info.html</code> — Google Search Console will pick it up on the next crawl</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- ===== 1.5.1 ===== -->
                     <article class="patch-card">

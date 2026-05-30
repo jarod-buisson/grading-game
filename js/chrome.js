@@ -32,7 +32,27 @@
 
     function init() {
         injectChromeLinks();
+        injectLangPicker();
         updateVersionTag();
+        // Update info / legal pill labels (and their tooltip titles) once
+        // i18n is ready. They were created with English defaults in
+        // injectChromeLinks above so the swap is now just a textContent
+        // refresh — guards against i18n loading after chrome.js for
+        // whatever reason.
+        translateChromeLinks();
+    }
+
+    /* Re-apply i18n-driven labels to the info / legal pills, plus the
+       online pill if presence.js already mounted it. Idempotent. */
+    function translateChromeLinks() {
+        if (!window.gg_i18n) return;
+        const t = window.gg_i18n.t;
+        const info  = document.getElementById('chrome-info-link');
+        const legal = document.getElementById('chrome-legal-link');
+        if (info)  { info.textContent  = t('chrome.info');  info.setAttribute('title',  t('chrome.info_title')); }
+        if (legal) { legal.textContent = t('chrome.legal'); legal.setAttribute('title', t('chrome.legal_title')); }
+        const onlineLabel = document.querySelector('.online-pill .online-pill-label');
+        if (onlineLabel) onlineLabel.textContent = t('online.label');
     }
 
     function updateVersionTag() {
@@ -97,6 +117,49 @@
         return footer;
     }
 
+    /* Language picker — native <select> styled to match the chrome
+       pills. Mounted alongside info / legal: top-bar on desktop,
+       mobile-chrome-footer on mobile. Single-source for choosing
+       and persisting the active locale. */
+    function injectLangPicker() {
+        if (document.getElementById('chrome-lang-picker')) return;
+        if (!window.gg_i18n) return;
+
+        const isMobile = window.matchMedia
+            && window.matchMedia('(max-width: 799px)').matches;
+
+        const mount = isMobile
+            ? ensureMobileFooter()
+            : document.querySelector('.top-bar-right');
+        if (!mount) return;   // game/room desktop have no top-bar-right — skip
+
+        const select = document.createElement('select');
+        select.id = 'chrome-lang-picker';
+        select.className = 'chrome-lang-picker';
+        select.setAttribute('aria-label', window.gg_i18n.t('chrome.lang_label'));
+
+        const current = window.gg_i18n.getLang();
+        window.gg_i18n.SUPPORTED.forEach((code) => {
+            const opt = document.createElement('option');
+            opt.value = code;
+            opt.textContent = code.toUpperCase();
+            if (code === current) opt.selected = true;
+            select.appendChild(opt);
+        });
+
+        select.addEventListener('change', (e) => {
+            window.gg_i18n.setLang(e.target.value);
+        });
+
+        // Desktop: prepend so it sits alongside the other pills.
+        // Mobile footer: append so it lines up with info + legal + online.
+        if (isMobile) {
+            mount.appendChild(select);
+        } else {
+            mount.insertBefore(select, mount.firstChild);
+        }
+    }
+
     function maybeInjectLink({ id, href, text, title, mount, insertMode }) {
         // Already injected on this page? bail
         if (document.getElementById(id)) return;
@@ -151,6 +214,45 @@
             /* Two links sit shoulder-to-shoulder on desktop. */
             .chrome-link + .chrome-link {
                 margin-left: 6px;
+            }
+
+            /* Language picker — native <select> styled to match the
+               chrome pills. Native chrome stripped via appearance:none
+               + custom caret SVG so it looks at home next to info/legal. */
+            .chrome-lang-picker {
+                margin-left: 6px;
+                padding: 4px 22px 4px 10px;
+                background: transparent;
+                border: 1px solid var(--border-subtle);
+                border-radius: 999px;
+                font-family: var(--font-mono);
+                font-size: 10px;
+                color: var(--text-tertiary);
+                text-transform: uppercase;
+                letter-spacing: var(--tracking-wide);
+                cursor: pointer;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%237a7a7e' stroke-width='1.4'><path d='M1 1 L5 5 L9 1'/></svg>");
+                background-repeat: no-repeat;
+                background-position: right 8px center;
+                background-size: 8px 5px;
+                transition:
+                    color var(--t-fast),
+                    border-color var(--t-fast),
+                    background-color var(--t-fast);
+            }
+            .chrome-lang-picker:hover,
+            .chrome-lang-picker:focus {
+                color: var(--accent);
+                border-color: var(--accent);
+                background-color: var(--accent-soft);
+                outline: none;
+            }
+            .chrome-lang-picker option {
+                background: var(--bg-elev-1);
+                color: var(--text-primary);
             }
 
             /* Mobile footer container — appended to <body> on narrow

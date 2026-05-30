@@ -36,6 +36,14 @@
     function mount() {
         injectStyles();
 
+        /* Resolve translation strings up-front. If i18n hasn't loaded
+           yet (e.g. script-order quirk), `t` becomes an identity
+           function so we render the english keys as a graceful
+           fallback — the user still sees readable text. */
+        const t = (window.gg_i18n && window.gg_i18n.t)
+            ? window.gg_i18n.t
+            : (key) => key;
+
         const overlay = document.createElement('div');
         overlay.className = 'welcome-overlay';
         overlay.setAttribute('role', 'dialog');
@@ -43,46 +51,42 @@
         overlay.setAttribute('aria-labelledby', 'welcome-title');
         overlay.innerHTML = `
             <div class="welcome-card">
-                <button class="welcome-close" type="button" aria-label="dismiss this introduction">✕</button>
-                <div class="welcome-eyebrow">welcome</div>
-                <h2 class="welcome-title" id="welcome-title">Color grading, the game</h2>
-                <p class="welcome-lead">
-                    Real RAW files from real photographers. A timer.
-                    Develop your grade in your favorite app, upload your
-                    JPEG, see how it compares.
-                </p>
+                <button class="welcome-close" type="button" aria-label="${t('welcome.close_aria')}">✕</button>
+                <div class="welcome-eyebrow">${t('welcome.eyebrow')}</div>
+                <h2 class="welcome-title" id="welcome-title">${t('welcome.title')}</h2>
+                <p class="welcome-lead">${t('welcome.lead')}</p>
 
                 <ol class="welcome-steps">
                     <li class="welcome-step">
                         <span class="welcome-step-num">01</span>
                         <span class="welcome-step-body">
-                            <strong>Download the source</strong>
-                            <span>A RAW or scan picked from the contributors pool.</span>
+                            <strong>${t('welcome.step1_title')}</strong>
+                            <span>${t('welcome.step1_body')}</span>
                         </span>
                     </li>
                     <li class="welcome-step">
                         <span class="welcome-step-num">02</span>
                         <span class="welcome-step-body">
-                            <strong>Grade it your way</strong>
-                            <span>Lightroom, Capture One, Snapseed, VSCO — your call.</span>
+                            <strong>${t('welcome.step2_title')}</strong>
+                            <span>${t('welcome.step2_body')}</span>
                         </span>
                     </li>
                     <li class="welcome-step">
                         <span class="welcome-step-num">03</span>
                         <span class="welcome-step-body">
-                            <strong>Upload your JPEG</strong>
-                            <span>Solo for training with a reference grade · Multi for anonymous voting.</span>
+                            <strong>${t('welcome.step3_title')}</strong>
+                            <span>${t('welcome.step3_body')}</span>
                         </span>
                     </li>
                 </ol>
 
                 <div class="welcome-actions">
                     <button class="welcome-cta" type="button">
-                        <span>let's go</span>
+                        <span>${t('welcome.cta')}</span>
                         <span class="welcome-cta-arrow" aria-hidden="true">→</span>
                     </button>
                     <a class="welcome-rules-link" href="about.html">
-                        read the full rules →
+                        ${t('welcome.full_rules')}
                     </a>
                 </div>
             </div>

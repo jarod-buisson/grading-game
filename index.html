@@ -53,9 +53,13 @@
     <script src="js/supabase-client.js?v=11"></script>
     <script src="js/auth-ui.js?v=5"></script>
     <script src="js/presence.js?v=3"></script>
-    <script src="js/chrome.js?v=5"></script>
+    <!-- i18n must load BEFORE chrome.js so the language picker (and any
+         data-i18n elements in the page) can be populated on first paint. -->
+    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n.js?v=1"></script>
+    <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>grading-game — photo color-grading game</title>
+    <title data-i18n="meta.title.home">grading-game — photo color-grading game</title>
     <meta name="description" content="A photo color-grading game. Pick a flat RAW or scan, develop your grade in your favorite software, then compete with other photographers in timed rounds.">
     <meta name="keywords" content="color grading, photo grading, RAW grading, lightroom, capture one, darktable, davinci resolve, color theory, photography game">
 
@@ -146,18 +150,18 @@
              the same wheel layout as before — these blocks just take
              zero space there. -->
         <section class="mobile-hero">
-            <div class="mobile-hero-eyebrow">color grading · photo game</div>
+            <div class="mobile-hero-eyebrow" data-i18n="hero.eyebrow">color grading · photo game</div>
             <h1>
                 grading<span class="accent">-</span>game
             </h1>
-            <p class="mobile-hero-tagline">
+            <p class="mobile-hero-tagline" data-i18n-html="hero.tagline_html">
                 A photo color-grading game for photographers. Pick a
                 flat <strong>RAW</strong> or scan, grade it in your
                 favorite software (Lightroom, Capture One, DarkTable…),
                 then compete with other photographers in timed rounds
                 with anonymous voting.
             </p>
-            <div class="mobile-hero-callout">
+            <div class="mobile-hero-callout" data-i18n-html="hero.callout_html">
                 Edit on <strong>any device</strong> — Lightroom
                 Mobile, Snapseed, VSCO, Polarr… download the source,
                 develop your grade in your favorite app, then upload
@@ -169,55 +173,56 @@
             <a class="mobile-nav-item" href="solo.html">
                 <span class="mobile-nav-num">01</span>
                 <span class="mobile-nav-text">
-                    <span class="mobile-nav-label">solo</span>
-                    <span class="mobile-nav-desc">free training</span>
+                    <span class="mobile-nav-label" data-i18n="wheel.solo">solo</span>
+                    <span class="mobile-nav-desc"  data-i18n="wheel.solo_desc">free training</span>
                 </span>
                 <span class="mobile-nav-arrow" aria-hidden="true">→</span>
             </a>
             <a class="mobile-nav-item" href="multi.html">
                 <span class="mobile-nav-num">02</span>
                 <span class="mobile-nav-text">
-                    <span class="mobile-nav-label">multiplayer</span>
-                    <span class="mobile-nav-desc">online lobby</span>
+                    <span class="mobile-nav-label" data-i18n="wheel.multi">multiplayer</span>
+                    <span class="mobile-nav-desc"  data-i18n="wheel.multi_desc">online lobby</span>
                 </span>
                 <span class="mobile-nav-arrow" aria-hidden="true">→</span>
             </a>
             <a class="mobile-nav-item" href="gallery.html">
                 <span class="mobile-nav-num">03</span>
                 <span class="mobile-nav-text">
-                    <span class="mobile-nav-label">gallery</span>
-                    <span class="mobile-nav-desc">your collection</span>
+                    <span class="mobile-nav-label" data-i18n="wheel.gallery">gallery</span>
+                    <span class="mobile-nav-desc"  data-i18n="wheel.gallery_desc">your collection</span>
                 </span>
                 <span class="mobile-nav-arrow" aria-hidden="true">→</span>
             </a>
             <a class="mobile-nav-item" href="contributors.html">
                 <span class="mobile-nav-num">04</span>
                 <span class="mobile-nav-text">
-                    <span class="mobile-nav-label">contributors</span>
-                    <span class="mobile-nav-desc">project photographers</span>
+                    <span class="mobile-nav-label" data-i18n="wheel.contributors">contributors</span>
+                    <span class="mobile-nav-desc"  data-i18n="wheel.contributors_desc">project photographers</span>
                 </span>
                 <span class="mobile-nav-arrow" aria-hidden="true">→</span>
             </a>
             <a class="mobile-nav-item" href="about.html">
                 <span class="mobile-nav-num">05</span>
                 <span class="mobile-nav-text">
-                    <span class="mobile-nav-label">rules</span>
-                    <span class="mobile-nav-desc">how to play</span>
+                    <span class="mobile-nav-label" data-i18n="wheel.rules">rules</span>
+                    <span class="mobile-nav-desc"  data-i18n="wheel.rules_desc">how to play</span>
                 </span>
                 <span class="mobile-nav-arrow" aria-hidden="true">→</span>
             </a>
         </nav>
 
         <div class="mobile-nick">
-            <div class="mobile-nick-label">nickname</div>
+            <div class="mobile-nick-label" data-i18n="nick.label">nickname</div>
             <input
                 type="text"
                 id="landing-nickname-input-mobile"
                 maxlength="20"
                 placeholder="pick a nickname"
+                data-i18n-attr="placeholder:nick.placeholder"
                 autocomplete="off"
                 spellcheck="false">
-            <div class="mobile-nick-hint">saved locally · used in multiplayer rooms</div>
+            <div class="mobile-nick-hint" data-i18n="nick.hint_mobile">saved locally · used in multiplayer rooms</div>
         </div>
 
         <!-- LEFT side panel -->
@@ -291,28 +296,28 @@
                 <nav class="menu-items">
                     <button class="menu-item" data-mode="solo"         data-angle="0"   style="--angle: 0deg"   data-href="solo.html">
                         <span class="item-num">01</span>
-                        <span class="item-label">Solo</span>
-                        <span class="item-desc">free training</span>
+                        <span class="item-label" data-i18n="wheel.solo">Solo</span>
+                        <span class="item-desc"  data-i18n="wheel.solo_desc">free training</span>
                     </button>
                     <button class="menu-item" data-mode="multi"        data-angle="72"  style="--angle: 72deg"  data-href="multi.html">
                         <span class="item-num">02</span>
-                        <span class="item-label">Multiplayer</span>
-                        <span class="item-desc">online lobby</span>
+                        <span class="item-label" data-i18n="wheel.multi">Multiplayer</span>
+                        <span class="item-desc"  data-i18n="wheel.multi_desc">online lobby</span>
                     </button>
                     <button class="menu-item" data-mode="gallery" data-angle="144" style="--angle: 144deg" data-href="gallery.html">
                         <span class="item-num">03</span>
-                        <span class="item-label">Gallery</span>
-                        <span class="item-desc">your collection</span>
+                        <span class="item-label" data-i18n="wheel.gallery">Gallery</span>
+                        <span class="item-desc"  data-i18n="wheel.gallery_desc">your collection</span>
                     </button>
                     <button class="menu-item" data-mode="contributors" data-angle="216" style="--angle: 216deg" data-href="contributors.html">
                         <span class="item-num">04</span>
-                        <span class="item-label">Contributors</span>
-                        <span class="item-desc">project photographers</span>
+                        <span class="item-label" data-i18n="wheel.contributors">Contributors</span>
+                        <span class="item-desc"  data-i18n="wheel.contributors_desc">project photographers</span>
                     </button>
                     <button class="menu-item" data-mode="about"        data-angle="288" style="--angle: 288deg" data-href="about.html">
                         <span class="item-num">05</span>
-                        <span class="item-label">rules</span>
-                        <span class="item-desc">how to play</span>
+                        <span class="item-label" data-i18n="wheel.rules">rules</span>
+                        <span class="item-desc"  data-i18n="wheel.rules_desc">how to play</span>
                     </button>
                 </nav>
             </div>
@@ -374,7 +379,7 @@
         <div class="scope-cta">
             <a href="https://buymeacoffee.com/jarodbuisson" target="_blank" rel="noopener" class="cta-link cta-link--donate" title="support the project">
                 <span class="cta-icon" aria-hidden="true">♡</span>
-                <span>donate</span>
+                <span data-i18n="donate.label">donate</span>
             </a>
             <!-- Discord button intentionally disabled until a community server exists.
                  To re-enable, uncomment below and replace the href with a permanent
@@ -395,6 +400,6 @@
     <script src="js/scopes.js?v=2"></script>
     <script src="js/chromatic-wheel.js?v=5"></script>
     <script src="js/audio-player.js?v=5"></script>
-    <script src="js/welcome-popup.js?v=1"></script>
+    <script src="js/welcome-popup.js?v=2"></script>
 </body>
 </html>

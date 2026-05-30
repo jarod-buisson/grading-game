@@ -55,37 +55,100 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=2"></script>
-    <script src="js/i18n.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=3"></script>
+    <script src="js/i18n.js?v=2"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title data-i18n="meta.title.home">grading-game — photo color-grading game</title>
-    <meta name="description" content="A photo color-grading game. Pick a flat RAW or scan, develop your grade in your favorite software, then compete with other photographers in timed rounds.">
-    <meta name="keywords" content="color grading, photo grading, RAW grading, lightroom, capture one, darktable, davinci resolve, color theory, photography game">
+    <title data-i18n="meta.title.home">Grading Game — Free Online Photo Color-Grading Game for Photographers</title>
+    <meta name="description" content="Free online photo color-grading game. Practice on real RAW files from photographers, develop your grade in Lightroom / Capture One / DaVinci / Darktable, then compete in timed multiplayer rounds with anonymous voting.">
+    <meta name="keywords" content="color grading, color grading game, photo grading, photo grading game, RAW grading, lightroom challenge, capture one, darktable, davinci resolve, color theory, photography game, online photo game">
 
     <!-- Canonical + Open Graph + Twitter -->
     <link rel="canonical"            href="https://grading-game.com/">
+    <!-- hreflang variants — same URL serves all languages via client-side
+         i18n, but ?lang=xx makes each variant crawlable by Google so
+         users searching in french / italian / spanish can land on the
+         translated experience. x-default is the english fallback. -->
+    <link rel="alternate" hreflang="x-default" href="https://grading-game.com/">
+    <link rel="alternate" hreflang="en" href="https://grading-game.com/?lang=en">
+    <link rel="alternate" hreflang="fr" href="https://grading-game.com/?lang=fr">
+    <link rel="alternate" hreflang="it" href="https://grading-game.com/?lang=it">
+    <link rel="alternate" hreflang="es" href="https://grading-game.com/?lang=es">
+
     <meta property="og:url"          content="https://grading-game.com/">
-    <meta property="og:title"        content="grading-game — photo color-grading game">
-    <meta property="og:description"  content="A photo color-grading game. Develop a RAW or scan in your favorite software, then compete with other photographers in timed rounds.">
+    <meta property="og:title"        content="Grading Game — Free Online Photo Color-Grading Game">
+    <meta property="og:description"  content="Practice color grading on real RAW files from photographers. Solo training or timed multiplayer rounds with anonymous voting. Works on phone, tablet and desktop.">
     <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
-    <meta name="twitter:title"       content="grading-game — photo color-grading game">
-    <meta name="twitter:description" content="A photo color-grading game. Develop a RAW or scan, then compete with other photographers in timed rounds.">
+    <meta name="twitter:title"       content="Grading Game — Free Online Photo Color-Grading Game">
+    <meta name="twitter:description" content="Practice color grading on real RAW files. Solo or multiplayer with anonymous voting. Lightroom / Capture One / DaVinci / Darktable friendly.">
     <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
 
-    <!-- Structured data for Google rich snippets -->
+    <!-- ============================================================ -->
+    <!-- Structured data — three blocks for three distinct rich-result -->
+    <!-- types Google can show:                                        -->
+    <!--   1. WebSite + SearchAction → sitelinks search box in SERPs   -->
+    <!--   2. VideoGame → game cartouche with category + free badge    -->
+    <!--   3. Organization → knowledge panel + sameAs social links     -->
+    <!-- ============================================================ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "grading-game",
+      "@type": "WebSite",
+      "name": "Grading Game",
+      "alternateName": "grading-game",
       "url": "https://grading-game.com/",
-      "description": "A photo color-grading game. Develop a RAW or scan in your favorite software, then compete with other photographers in timed rounds.",
+      "inLanguage": ["en", "fr", "it", "es"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://grading-game.com/gallery.html?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Grading Game",
+      "url": "https://grading-game.com/",
+      "description": "A free online photo color-grading game where photographers practice on real RAW files and compete in timed multiplayer rounds with anonymous voting.",
+      "image": "https://grading-game.com/images/og-image.jpg",
+      "genre": ["Photography", "Casual", "Creative"],
+      "gamePlatform": ["Web Browser"],
+      "playMode": ["SinglePlayer", "MultiPlayer"],
       "applicationCategory": "GameApplication",
-      "operatingSystem": "Web (any modern browser · desktop required for the grading workflow itself)",
-      "browserRequirements": "Requires JavaScript and a modern browser",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Organization", "name": "grading-game" }
+      "operatingSystem": "Any (web browser)",
+      "inLanguage": ["en", "fr", "it", "es"],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Jarod Buisson",
+        "url": "https://grading-game.com/info.html"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Grading Game",
+      "alternateName": "grading-game",
+      "url": "https://grading-game.com/",
+      "logo": "https://grading-game.com/images/logo.png",
+      "email": "buissonjarod@gmail.com",
+      "sameAs": [
+        "https://instagram.com/jarod_buisson"
+      ]
     }
     </script>
 

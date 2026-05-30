@@ -38,6 +38,23 @@
     const SUPPORTED = ['en', 'fr', 'it', 'es'];
 
     function getLang() {
+        /* Priority chain:
+             1. ?lang=xx URL parameter (lets Google crawl per-language
+                variants declared via hreflang in the page <head>; also
+                handy for sharing direct deep-links in a given language)
+             2. localStorage (user's previous choice via the picker)
+             3. navigator.language (browser's UI language)
+             4. 'en' default */
+        try {
+            const url = new URLSearchParams(window.location.search);
+            const urlLang = (url.get('lang') || '').toLowerCase();
+            if (urlLang && SUPPORTED.indexOf(urlLang) >= 0) {
+                // Persist URL choice so navigating away keeps the language
+                try { localStorage.setItem(STORAGE_KEY, urlLang); } catch (_) {}
+                return urlLang;
+            }
+        } catch (_) {}
+
         try {
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved && SUPPORTED.indexOf(saved) >= 0) return saved;

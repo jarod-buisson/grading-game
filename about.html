@@ -55,21 +55,90 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=2"></script>
-    <script src="js/i18n.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=3"></script>
+    <script src="js/i18n.js?v=2"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title data-i18n="meta.title.rules">rules · grading-game — how to play</title>
-    <meta name="description" content="The rules of grading-game: how a round works step by step, supported file formats, and what to expect from solo and multiplayer modes.">
+    <title data-i18n="meta.title.rules">Rules &amp; FAQ — How to Play Grading Game (Color Grading Game)</title>
+    <meta name="description" content="Rules of Grading Game, the free online photo color-grading game. Step-by-step workflow, supported file formats (RAW, TIFF, DNG), solo vs multiplayer, and a FAQ for common questions.">
 
     <link rel="canonical"            href="https://grading-game.com/about.html">
+    <link rel="alternate" hreflang="x-default" href="https://grading-game.com/about.html">
+    <link rel="alternate" hreflang="en" href="https://grading-game.com/about.html?lang=en">
+    <link rel="alternate" hreflang="fr" href="https://grading-game.com/about.html?lang=fr">
+    <link rel="alternate" hreflang="it" href="https://grading-game.com/about.html?lang=it">
+    <link rel="alternate" hreflang="es" href="https://grading-game.com/about.html?lang=es">
     <meta property="og:url"          content="https://grading-game.com/about.html">
-    <meta property="og:title"        content="Rules · grading-game">
-    <meta property="og:description"  content="How to play grading-game — rules, workflow and supported file formats.">
+    <meta property="og:title"        content="Rules &amp; FAQ — Grading Game">
+    <meta property="og:description"  content="How to play Grading Game — color grading rules, workflow, FAQ. Free, browser-based, RAW-friendly.">
     <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
-    <meta name="twitter:title"       content="Rules · grading-game">
-    <meta name="twitter:description" content="How to play grading-game — rules, workflow and supported file formats.">
+    <meta name="twitter:title"       content="Rules &amp; FAQ — Grading Game">
+    <meta name="twitter:description" content="How to play Grading Game — color grading rules, workflow, FAQ. Free, browser-based, RAW-friendly.">
     <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
+
+    <!-- FAQ schema — Google can render a "People also ask" dropdown
+         block right in the SERP from these Q&A pairs. The schema must
+         mirror the visible FAQ section further down the page, otherwise
+         Google strips the rich result. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Grading Game?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Grading Game is a free online photo color-grading game. Photographers practice color grading on real RAW files contributed by other photographers, either in solo training mode (with a reference grade to compare against) or in timed multiplayer rounds with anonymous voting." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Grading Game free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, completely free. Anonymous play requires no account. Signing in (Google or Discord) is optional and only saves your stats, unlocked challenges and gallery." }
+        },
+        {
+          "@type": "Question",
+          "name": "What software do I need to play Grading Game?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Any color-grading software you like — Lightroom, Capture One, DaVinci Resolve, Darktable, Snapseed, VSCO, Polarr. Grading Game just gives you the source file (RAW / TIFF / DNG); you grade it externally in your chosen app and upload the resulting JPEG." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Grading Game work on mobile?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Download the source to your phone's Photos or Files app, open it in Lightroom Mobile / Snapseed / VSCO / Polarr / Affinity Photo, export your JPEG, and upload it back to the site. Works on phone, tablet and desktop alike." }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a session last?",
+          "acceptedAnswer": { "@type": "Answer", "text": "In solo mode you pick the duration: 5, 10, 15, 20, 30, 45 or 60 minutes. In multiplayer the host chooses (5, 10, 20 or 45 minutes) and every player in the room is on the same timer." }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between solo and multiplayer?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Solo is for training — you grade alone and compare your result to a reference grade if you enabled that option. Multiplayer puts you against other players grading the same image at the same time. Everyone votes anonymously on each other's grades after the timer ends." }
+        },
+        {
+          "@type": "Question",
+          "name": "How are the photos chosen?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Real photographers contribute their RAW files and scans to the game. You can filter by capture medium (negative film vs digital sensor) and Grading Game picks one at random — for signed-in players, it prioritizes photos you haven't graded yet (discovery mode)." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I contribute my own photos?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Fill out the form on the Contributors page with a WeTransfer (or SwissTransfer / Smash) link to your file, your license preference (e.g. CC BY-NC), and any contact info. You keep all rights — only the license you set defines what players can do with the grade." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data tracked?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Analytics are privacy-friendly (via Cloudflare, no cookies, no individual tracking). Signing in via Google or Discord saves only your nickname, your stats and your unlocked challenges. Full details on the Legal page." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does multiplayer voting work?",
+          "acceptedAnswer": { "@type": "Answer", "text": "After everyone submits their JPEG, the gallery view shows all the grades anonymously — you don't know whose grade is whose. Each player rates the others on a 1-5 scale. You cannot vote on your own grade. The winner is whoever gets the highest average rating." }
+        }
+      ]
+    }
+    </script>
+
     <style>
         .about-stage {
             flex: 1;
@@ -155,6 +224,75 @@
             color: var(--accent);
             border-color: var(--accent);
         }
+        /* ----- FAQ section ----- */
+        .faq-section {
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-faint);
+        }
+        .faq-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            margin-bottom: 8px;
+        }
+        .faq-title {
+            font-family: var(--font-ui);
+            font-size: 22px;
+            font-weight: 500;
+            letter-spacing: -0.015em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 20px;
+        }
+        .faq-item {
+            background: var(--bg-elev-1);
+            border: 1px solid var(--border-subtle);
+            border-radius: 3px;
+            transition: border-color var(--t-fast);
+        }
+        .faq-item:hover { border-color: var(--border); }
+        .faq-item[open] { border-color: var(--accent); }
+        .faq-item summary {
+            cursor: pointer;
+            padding: 14px 18px;
+            font-family: var(--font-ui);
+            font-size: 14.5px;
+            font-weight: 500;
+            color: var(--text-primary);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+            content: "+";
+            font-family: var(--font-mono);
+            font-size: 16px;
+            color: var(--accent);
+            flex-shrink: 0;
+            transition: transform var(--t-fast);
+        }
+        .faq-item[open] summary::after { content: "–"; }
+        .faq-answer {
+            padding: 0 18px 14px;
+            font-family: var(--font-ui);
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            margin: 0;
+        }
     </style>
     <link rel="stylesheet" href="css/mobile.css?v=5">
 </head>
@@ -206,6 +344,57 @@
                     <li data-i18n="rules.rule5">In multiplayer, vote on the other players' anonymous submissions.</li>
                 </ol>
             </div>
+
+            <!-- FAQ section — mirrors the FAQPage JSON-LD in the <head> so
+                 Google's rich result keeps in sync with what's actually
+                 visible to the user. -->
+            <section class="faq-section" id="faq" aria-labelledby="faq-title">
+                <div class="faq-eyebrow" data-i18n="faq.eyebrow">faq · frequently asked questions</div>
+                <h2 class="faq-title" id="faq-title" data-i18n="faq.title">Frequently asked questions</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q1">What is Grading Game?</summary>
+                        <p class="faq-answer" data-i18n="faq.a1">Grading Game is a free online photo color-grading game. Photographers practice color grading on real RAW files contributed by other photographers, either in solo training mode (with a reference grade to compare against) or in timed multiplayer rounds with anonymous voting.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q2">Is Grading Game free?</summary>
+                        <p class="faq-answer" data-i18n="faq.a2">Yes, completely free. Anonymous play requires no account. Signing in (Google or Discord) is optional and only saves your stats, unlocked challenges and gallery.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q3">What software do I need to play Grading Game?</summary>
+                        <p class="faq-answer" data-i18n="faq.a3">Any color-grading software you like — Lightroom, Capture One, DaVinci Resolve, Darktable, Snapseed, VSCO, Polarr. Grading Game just gives you the source file (RAW / TIFF / DNG); you grade it externally in your chosen app and upload the resulting JPEG.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q4">Does Grading Game work on mobile?</summary>
+                        <p class="faq-answer" data-i18n="faq.a4">Yes. Download the source to your phone's Photos or Files app, open it in Lightroom Mobile / Snapseed / VSCO / Polarr / Affinity Photo, export your JPEG, and upload it back to the site. Works on phone, tablet and desktop alike.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q5">How long does a session last?</summary>
+                        <p class="faq-answer" data-i18n="faq.a5">In solo mode you pick the duration: 5, 10, 15, 20, 30, 45 or 60 minutes. In multiplayer the host chooses (5, 10, 20 or 45 minutes) and every player in the room is on the same timer.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q6">What's the difference between solo and multiplayer?</summary>
+                        <p class="faq-answer" data-i18n="faq.a6">Solo is for training — you grade alone and compare your result to a reference grade if you enabled that option. Multiplayer puts you against other players grading the same image at the same time. Everyone votes anonymously on each other's grades after the timer ends.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q7">How are the photos chosen?</summary>
+                        <p class="faq-answer" data-i18n="faq.a7">Real photographers contribute their RAW files and scans to the game. You can filter by capture medium (negative film vs digital sensor) and Grading Game picks one at random — for signed-in players, it prioritizes photos you haven't graded yet (discovery mode).</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q8">Can I contribute my own photos?</summary>
+                        <p class="faq-answer" data-i18n="faq.a8">Yes. Fill out the form on the Contributors page with a WeTransfer (or SwissTransfer / Smash) link to your file, your license preference (e.g. CC BY-NC), and any contact info. You keep all rights — only the license you set defines what players can do with the grade.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q9">Is my data tracked?</summary>
+                        <p class="faq-answer" data-i18n="faq.a9">Analytics are privacy-friendly (via Cloudflare, no cookies, no individual tracking). Signing in via Google or Discord saves only your nickname, your stats and your unlocked challenges. Full details on the Legal page.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q10">How does multiplayer voting work?</summary>
+                        <p class="faq-answer" data-i18n="faq.a10">After everyone submits their JPEG, the gallery view shows all the grades anonymously — you don't know whose grade is whose. Each player rates the others on a 1-5 scale. You cannot vote on your own grade. The winner is whoever gets the highest average rating.</p>
+                    </details>
+                </div>
+            </section>
+
             <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
         </div>
     </main>

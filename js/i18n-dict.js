@@ -1,25 +1,26 @@
 /* =========================================================
    i18n-dict.js — translation strings for the visible UI.
 
-   Phase 1 coverage:
-     · Landing page (index.html) — wheel + mobile hero + nav cards + chrome
-     · Rules page (about.html)   — eyebrow, title, intro, 5 rules
-     · Welcome popup             — first-visit explainer
-     · Chrome links              — info / legal pills + language picker
+   Phase 1: landing + rules + welcome + chrome
+   Phase 2a: solo / multi / game / room / result (gameplay flow)
+   Phase 2b: gallery / contributors / profile / info (content pages)
+              — legal.html stays English (long-form legal text).
 
    English is the source / fallback. If a key is missing in fr/it/es,
    i18n.js falls back to the english string so we never show "key.path"
    in the UI.
 
-   Brand "grading-game" is never translated. Numerals (01, 02…) and the
-   version pill (v1.5.2) are not translated either.
+   Brand "grading-game" is never translated. Numerals (01, 02…),
+   version pill (v1.5.2), photographer names + license tags + URLs
+   are not translated either.
    ========================================================= */
 
 window.GG_I18N_DICT = {
 
     /* ============================================================ */
     en: {
-        /* Wheel menu items + mobile nav cards */
+
+        /* ----- Wheel menu + mobile nav cards ----- */
         'wheel.solo':              'solo',
         'wheel.solo_desc':         'free training',
         'wheel.multi':             'multiplayer',
@@ -31,22 +32,22 @@ window.GG_I18N_DICT = {
         'wheel.rules':             'rules',
         'wheel.rules_desc':        'how to play',
 
-        /* Landing — mobile hero */
+        /* ----- Landing hero (mobile) ----- */
         'hero.eyebrow':            'color grading · photo game',
         'hero.tagline_html':       'A photo color-grading game for photographers. Pick a flat <strong>RAW</strong> or scan, grade it in your favorite software (Lightroom, Capture One, DarkTable…), then compete with other photographers in timed rounds with anonymous voting.',
         'hero.callout_html':       'Edit on <strong>any device</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… download the source, develop your grade in your favorite app, then upload your JPEG. Works on phone, tablet and desktop alike.',
 
-        /* Nickname input (landing) */
+        /* ----- Nickname input ----- */
         'nick.label':              'nickname',
         'nick.placeholder':        'pick a nickname',
         'nick.hint_mobile':        'saved locally · used in multiplayer rooms',
 
-        /* CTAs */
+        /* ----- Common CTAs ----- */
         'donate.label':            'donate',
         'signin.label':            'sign in',
         'back.menu':               '← back to menu',
 
-        /* Chrome pills (top bar / mobile footer) */
+        /* ----- Chrome pills ----- */
         'chrome.info':             'info',
         'chrome.legal':            'legal',
         'chrome.info_title':       'Credits & patch notes',
@@ -54,7 +55,7 @@ window.GG_I18N_DICT = {
         'chrome.lang_label':       'language',
         'online.label':            'online',
 
-        /* Welcome popup */
+        /* ----- Welcome popup ----- */
         'welcome.eyebrow':         'welcome',
         'welcome.title':           'Color grading, the game',
         'welcome.lead':            'Real RAW files from real photographers. A timer. Develop your grade in your favorite app, upload your JPEG, see how it compares.',
@@ -68,7 +69,7 @@ window.GG_I18N_DICT = {
         'welcome.full_rules':      'read the full rules →',
         'welcome.close_aria':      'dismiss this introduction',
 
-        /* Rules page (about.html) */
+        /* ----- Rules page (about.html) ----- */
         'meta.title.home':         'grading-game — photo color-grading game',
         'meta.title.rules':        'rules · grading-game — how to play',
         'rules.eyebrow':           '05 · rules',
@@ -79,12 +80,216 @@ window.GG_I18N_DICT = {
         'rules.rule2':             'Download the original (RAW / TIFF / DNG depending on the challenge).',
         'rules.rule3':             'Grade it however you like in the software you prefer — Lightroom, Capture One, DaVinci, Darktable…',
         'rules.rule4':             'Re-import your final JPEG before the timer runs out.',
-        'rules.rule5':             'In multiplayer, vote on the other players’ anonymous submissions.'
+        'rules.rule5':             'In multiplayer, vote on the other players’ anonymous submissions.',
+
+        /* ----- Solo setup (solo.html) ----- */
+        'solo.meta_title':         'solo training · grading-game',
+        'solo.tag_label':          'solo',
+        'solo.tag_sub':            'session setup',
+        'solo.eyebrow':            '01 · solo',
+        'solo.h1':                 'session profile',
+        'solo.duration':           'duration',
+        'solo.category':           'category',
+        'solo.cat_random':         'random · all categories',
+        'solo.cat_negative':       'negative · analog / film',
+        'solo.cat_digital':        'digital · sensor',
+        'solo.category_hint':      'pick a capture medium to filter the random pool',
+        'solo.challenge':          'challenge',
+        'solo.chall_random':       'random pick · all categories',
+        'solo.challenge_hint':     'sign in to unlock photos by playing & replay them here',
+        'solo.reference':          'reference grade',
+        'solo.reference_help':     "show admin's reference after submission",
+        'solo.start':              'start session',
+        'solo.sum_min':            'min',
+        'solo.sum_challenge':      'challenge',
+        'solo.sum_reference':      'reference',
+
+        /* ----- Multi lobby (multi.html) ----- */
+        'multi.meta_title':        'multiplayer lobby · grading-game',
+        'multi.tag_sub':           'multi lobby',
+        'multi.status_booting':    'booting · signing in anonymously',
+        'multi.eyebrow':           '02 · multiplayer',
+        'multi.h1':                'Lobby',
+        'multi.hero_sub':          'find an open room · or host your own',
+        'multi.identity_label':    'you',
+        'multi.identity_status':   'anonymous · saved locally',
+        'multi.public_rooms':      'public rooms',
+        'multi.open_label':        'open',
+        'multi.refresh':           'refresh ↻',
+        'multi.new_room':          'new room',
+        'multi.host_session':      'host a session',
+        'multi.join_by_code':      'join private room by code',
+        'multi.join':              'join',
+        'multi.modal_title':       'Host a new room',
+        'multi.modal_close':       'esc ✕',
+        'multi.visibility':        'visibility',
+        'multi.vis_public':        'public',
+        'multi.vis_public_sub':    'listed in lobby',
+        'multi.vis_private':       'private',
+        'multi.vis_private_sub':   'code only',
+        'multi.dur_quick':         'quick',
+        'multi.dur_short':         'short',
+        'multi.dur_standard':      'standard',
+        'multi.dur_long':          'long',
+        'multi.cat_random':        'random',
+        'multi.cat_random_sub':    'all categories',
+        'multi.cat_negative':      'negative',
+        'multi.cat_negative_sub':  'analog / film',
+        'multi.cat_digital':       'digital',
+        'multi.cat_digital_sub':   'sensor',
+        'multi.chall_in_cat':      'in category',
+        'multi.chall_specific':    'specific',
+        'multi.chall_soon':        'soon',
+        'multi.create_room':       'create room',
+
+        /* ----- Game / live session (game.html) ----- */
+        'game.meta_title':         'live session · grading-game',
+        'game.live_solo':          'live · solo',
+        'game.quit':               '✕ quit',
+        'game.preview_label':      'source preview · view only',
+        'game.preview_not_loaded': 'preview not loaded',
+        'game.preview_hint':       'add a challenge to images/challenges/',
+        'game.time_remaining':     'time remaining',
+        'game.session_active':     'session active · grade externally then return',
+        'game.no_challenge':       '— no challenge loaded —',
+        'game.photographer':       'photographer',
+        'game.license':            'license',
+        'game.step1':              'step 1 · download source',
+        'game.download_btn':       'download original',
+        'game.step2':              'step 2 · upload your grade',
+        'game.drop_text':          'drop your jpeg here',
+        'game.drop_sub':           'or click to choose · jpg, png, tif up to 50 mb',
+        'game.submit':             'submit grade',
+
+        /* ----- Multi room (room.html, all 4 states) ----- */
+        'room.meta_title':         'room · grading-game',
+        'room.state_label':        'state ·',
+        'room.code_label':         'room',
+        'room.leave':              'leave',
+        'room.lobby_eyebrow':      '02 · waiting room',
+        'room.lobby_title':        'Waiting for players to join',
+        'room.share_code':         'share this code',
+        'room.click_copy':         'click to copy',
+        'room.players':            'players',
+        'room.session':            'session',
+        'room.min_max':            'min · max',
+        'room.need_players':       'need at least 2 players',
+        'room.waiting_host':       'waiting for host to start…',
+        'room.submissions':        'submissions',
+        'room.grade_externally':   'grade externally · upload before timer ends',
+        'room.drop_sub_short':     'or click to choose',
+        'room.gallery_eyebrow':    '02 · anonymous voting',
+        'room.gallery_title':      'Rate the grades',
+        'room.gallery_sub':        '1 = weakest · 5 = strongest · you cannot vote on your own',
+        'room.of':                 'of',
+        'room.voted':              'voted',
+        'room.votes_auto_submit':  "votes auto-submit when you've rated every submission",
+        'room.finalize_votes':     'finalize my votes',
+        'room.result_eyebrow':     '02 · session complete',
+        'room.result_title':       'Final scoreboard',
+        'room.sb_player':          'player',
+        'room.sb_avg':             'avg',
+        'room.sb_votes':           'votes',
+        'room.back_lobby':         '← back to lobby',
+        'room.new_room':           '↻ new room',
+
+        /* ----- Solo result / comparison (result.html) ----- */
+        'result.meta_title':       'result · grading-game',
+        'result.eyebrow':          'solo · session complete',
+        'result.h1':               'Comparison',
+        'result.side_by_side':     'side by side',
+        'result.wipe':             'wipe',
+        'result.your_grade':       'your grade',
+        'result.reference':        'reference',
+        'result.download_grade':   '⤓ download my grade',
+        'result.new_session':      '↻ new session',
+
+        /* ----- Gallery (gallery.html) ----- */
+        'gallery.meta_title':      'gallery · grading-game — your challenge collection',
+        'gallery.eyebrow':         '03 · gallery',
+        'gallery.h1':              'Your challenge collection',
+        'gallery.intro':           'Every photo currently available on grading-game. Once you submit a grade for a challenge (solo or multiplayer), it unlocks here. Until then it stays hidden — discover photos by playing.',
+        'gallery.anon_text':       "<strong>Sign in to track your gallery.</strong> Without an account, your unlocks aren't saved.",
+        'gallery.unlocked':        'unlocked',
+        'gallery.loading':         'loading…',
+
+        /* ----- Contributors (contributors.html) ----- */
+        'contributors.meta_title':         'contributors · grading-game — photographers behind the photos',
+        'contributors.eyebrow':            '04 · contributors',
+        'contributors.h1':                 'The photographers behind the photos',
+        'contributors.intro_html':         "The game wouldn't exist without these photographers who trusted us with their work for educational use. Each of them keeps <strong>all rights</strong> on their images — the license shown on their card defines what players are allowed to do with the grade once they've finished it.",
+        'contributors.photographers':      'photographers',
+        'contributors.photos_available':   'photos available',
+        'contributors.cta_title':          'Want to contribute?',
+        'contributors.cta_body_html':      "Send us your work — we'll review and add it to the game. Use a <strong>WeTransfer / SwissTransfer / Smash</strong> link with a JPEG preview, your source file (RAW, TIFF, scan…) and the license you prefer. Your rights stay yours.",
+        'contributors.first_name':         'first name',
+        'contributors.last_name':          'last name',
+        'contributors.email':              'email',
+        'contributors.transfer_link':      'transfer link',
+        'contributors.message_label_html': 'message <span class="contribute-label-hint">(optional · license preference, Instagram handle, anything we should know)</span>',
+        'contributors.message_placeholder':'e.g. CC BY-NC license · @yourhandle on Instagram',
+        'contributors.submit':             'send my work',
+        'contributors.tip_summary':        'Tip: embed your copyright in the RAW before sending',
+        'contributors.tip_body_html':      'Most pro RAW formats support EXIF copyright fields. Using <a href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool</a> you can stamp your name + license once and re-export forever:',
+
+        /* ----- Profile (profile.html) ----- */
+        'profile.meta_title':        'profile · grading-game — your account & stats',
+        'profile.tag':               'profile',
+        'profile.eyebrow':           '06 · profile',
+        'profile.anon_title':        'Sign in to see your profile',
+        'profile.anon_intro':        'Your profile keeps track of every game you play — how many rounds, average score, wins. Stats start counting once you sign in. Anonymous play stays anonymous: nothing is saved.',
+        'profile.edit':              'edit',
+        'profile.member_since':      'member since',
+        'profile.stats':             'stats',
+        'profile.stat_total':        'total games',
+        'profile.stat_multi':        'multi games',
+        'profile.stat_solo':         'solo games',
+        'profile.stat_wins':         'wins',
+        'profile.stat_wins_sub':     'multi · rank 1',
+        'profile.stat_best':         'best score',
+        'profile.stat_best_sub':     'votes received',
+        'profile.stat_avg':          'avg score',
+        'profile.stat_avg_sub':      'votes per multi game',
+        'profile.account':           'account',
+        'profile.signout_title':     'sign out',
+        'profile.signout_desc':      'End your session on this device. You can sign back in anytime.',
+        'profile.signout_btn':       'sign out',
+        'profile.delete_title':      'delete account',
+        'profile.delete_desc':       'Permanently remove your profile and all your game history. This cannot be undone.',
+        'profile.delete_btn':        'delete…',
+        'profile.edit_nickname':     'edit nickname',
+        'profile.new_nickname':      'new nickname',
+        'profile.nick_hint':         'lowercase letters, digits and underscore · max 20 chars · must be unique',
+        'profile.cancel':            'cancel',
+        'profile.save':              'save',
+        'profile.delete_modal_title':'delete account?',
+        'profile.delete_warning_part1':'This will permanently delete',
+        'profile.delete_warning_part2':"and every game in your history. There's no undo.",
+        'profile.delete_confirm_label':'type your nickname to confirm',
+        'profile.delete_forever':    'delete forever',
+
+        /* ----- Info (info.html) — wrappers only, patch-notes stay English ----- */
+        'info.meta_title':         'info · grading-game — credits & patch notes',
+        'info.eyebrow':            '08 · info',
+        'info.h1':                 'Credits & patch notes',
+        'info.intro':              'A photo color-grading game built solo, in the open. Every release lands here.',
+        'info.toc_credits':        'Credits',
+        'info.toc_patches':        'Patch notes',
+        'info.credits_title':      'Credits',
+        'info.credits_intro':      'grading-game is an independent project. The two columns below cover the human behind the design and the AI behind the code.',
+        'info.creator_label':      'creator · designer',
+        'info.creator_bio1':       'Photographer & colorist based in France. I shoot and develop a lot of film, and I wanted a fun way for everyone to practice grading on real RAWs and scans — so I built it.',
+        'info.creator_bio2_html':  'Every photo you grade in the random pool was contributed by a real photographer. Hit the <a href="contributors.html">Contributors</a> page if you want to drop yours in.',
+        'info.coauthor_label':     'code · co-author',
+        'info.coauthor_bio_html':  "The codebase was written in close collaboration with <strong>Claude</strong>, Anthropic's AI assistant. I steered the design, the look-and-feel and every product decision; Claude turned parts of that into HTML, CSS, JS, SQL and the bits of Python that hold it together.",
+        'info.patches_title':      'Patch notes',
+        'info.patches_intro':      'Changes made in each update. Newest first.'
     },
 
     /* ============================================================ */
     fr: {
-        /* Wheel menu items + mobile nav cards */
+
+        /* ----- Wheel ----- */
         'wheel.solo':              'solo',
         'wheel.solo_desc':         'entraînement libre',
         'wheel.multi':             'multijoueur',
@@ -96,22 +301,22 @@ window.GG_I18N_DICT = {
         'wheel.rules':             'règles',
         'wheel.rules_desc':        'comment jouer',
 
-        /* Landing — mobile hero */
+        /* ----- Hero ----- */
         'hero.eyebrow':            'étalonnage couleur · jeu photo',
         'hero.tagline_html':       'Un jeu d’étalonnage couleur photo pour photographes. Choisissez un <strong>RAW</strong> brut ou un scan, étalonnez-le dans votre logiciel préféré (Lightroom, Capture One, DarkTable…), puis affrontez d’autres photographes en rounds chronométrés avec vote anonyme.',
         'hero.callout_html':       'Étalonnez sur <strong>n’importe quel appareil</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… téléchargez la source, développez votre grade dans votre app préférée, puis uploadez votre JPEG. Fonctionne sur téléphone, tablette et bureau.',
 
-        /* Nickname input (landing) */
+        /* ----- Nick ----- */
         'nick.label':              'pseudo',
         'nick.placeholder':        'choisissez un pseudo',
         'nick.hint_mobile':        'sauvegardé localement · utilisé dans les rooms multijoueur',
 
-        /* CTAs */
+        /* ----- Common ----- */
         'donate.label':            'soutenir',
         'signin.label':            'connexion',
         'back.menu':               '← retour au menu',
 
-        /* Chrome pills */
+        /* ----- Chrome ----- */
         'chrome.info':             'infos',
         'chrome.legal':            'mentions',
         'chrome.info_title':       'Crédits & notes de version',
@@ -119,7 +324,7 @@ window.GG_I18N_DICT = {
         'chrome.lang_label':       'langue',
         'online.label':            'en ligne',
 
-        /* Welcome popup */
+        /* ----- Welcome ----- */
         'welcome.eyebrow':         'bienvenue',
         'welcome.title':           'L’étalonnage couleur, le jeu',
         'welcome.lead':            'Des vrais RAW de vrais photographes. Un chrono. Développez votre grade dans votre app préférée, uploadez votre JPEG, voyez comment il se compare.',
@@ -133,7 +338,7 @@ window.GG_I18N_DICT = {
         'welcome.full_rules':      'lire toutes les règles →',
         'welcome.close_aria':      'fermer cette introduction',
 
-        /* Rules page */
+        /* ----- Rules ----- */
         'meta.title.home':         'grading-game — jeu d’étalonnage couleur photo',
         'meta.title.rules':        'règles · grading-game — comment jouer',
         'rules.eyebrow':           '05 · règles',
@@ -144,12 +349,216 @@ window.GG_I18N_DICT = {
         'rules.rule2':             'Téléchargez l’original (RAW / TIFF / DNG selon le challenge).',
         'rules.rule3':             'Étalonnez-le comme vous voulez dans le logiciel de votre choix — Lightroom, Capture One, DaVinci, Darktable…',
         'rules.rule4':             'Réimportez votre JPEG final avant que le chrono ne se termine.',
-        'rules.rule5':             'En multijoueur, votez sur les soumissions anonymes des autres joueurs.'
+        'rules.rule5':             'En multijoueur, votez sur les soumissions anonymes des autres joueurs.',
+
+        /* ----- Solo ----- */
+        'solo.meta_title':         'entraînement solo · grading-game',
+        'solo.tag_label':          'solo',
+        'solo.tag_sub':            'réglages de session',
+        'solo.eyebrow':            '01 · solo',
+        'solo.h1':                 'profil de session',
+        'solo.duration':           'durée',
+        'solo.category':           'catégorie',
+        'solo.cat_random':         'aléatoire · toutes catégories',
+        'solo.cat_negative':       'négatif · argentique / film',
+        'solo.cat_digital':        'numérique · capteur',
+        'solo.category_hint':      'choisissez un médium de capture pour filtrer le pool aléatoire',
+        'solo.challenge':          'challenge',
+        'solo.chall_random':       'tirage aléatoire · toutes catégories',
+        'solo.challenge_hint':     'connectez-vous pour débloquer des photos en jouant & les rejouer ici',
+        'solo.reference':          'grade de référence',
+        'solo.reference_help':     'afficher la référence admin après soumission',
+        'solo.start':              'démarrer la session',
+        'solo.sum_min':            'min',
+        'solo.sum_challenge':      'challenge',
+        'solo.sum_reference':      'référence',
+
+        /* ----- Multi ----- */
+        'multi.meta_title':        'lobby multijoueur · grading-game',
+        'multi.tag_sub':           'lobby multi',
+        'multi.status_booting':    'démarrage · connexion anonyme',
+        'multi.eyebrow':           '02 · multijoueur',
+        'multi.h1':                'Lobby',
+        'multi.hero_sub':          'trouvez une room ouverte · ou créez la vôtre',
+        'multi.identity_label':    'vous',
+        'multi.identity_status':   'anonyme · sauvegardé localement',
+        'multi.public_rooms':      'rooms publiques',
+        'multi.open_label':        'ouvertes',
+        'multi.refresh':           'actualiser ↻',
+        'multi.new_room':          'nouvelle room',
+        'multi.host_session':      'héberger une session',
+        'multi.join_by_code':      'rejoindre une room privée par code',
+        'multi.join':              'rejoindre',
+        'multi.modal_title':       'Héberger une nouvelle room',
+        'multi.modal_close':       'esc ✕',
+        'multi.visibility':        'visibilité',
+        'multi.vis_public':        'publique',
+        'multi.vis_public_sub':    'visible dans le lobby',
+        'multi.vis_private':       'privée',
+        'multi.vis_private_sub':   'code uniquement',
+        'multi.dur_quick':         'rapide',
+        'multi.dur_short':         'court',
+        'multi.dur_standard':      'standard',
+        'multi.dur_long':          'long',
+        'multi.cat_random':        'aléatoire',
+        'multi.cat_random_sub':    'toutes catégories',
+        'multi.cat_negative':      'négatif',
+        'multi.cat_negative_sub':  'argentique / film',
+        'multi.cat_digital':       'numérique',
+        'multi.cat_digital_sub':   'capteur',
+        'multi.chall_in_cat':      'dans la catégorie',
+        'multi.chall_specific':    'spécifique',
+        'multi.chall_soon':        'bientôt',
+        'multi.create_room':       'créer la room',
+
+        /* ----- Game ----- */
+        'game.meta_title':         'session en cours · grading-game',
+        'game.live_solo':          'live · solo',
+        'game.quit':               '✕ quitter',
+        'game.preview_label':      'aperçu de la source · lecture seule',
+        'game.preview_not_loaded': 'aperçu non chargé',
+        'game.preview_hint':       'ajoutez un challenge dans images/challenges/',
+        'game.time_remaining':     'temps restant',
+        'game.session_active':     'session active · étalonnez en externe puis revenez',
+        'game.no_challenge':       '— aucun challenge chargé —',
+        'game.photographer':       'photographe',
+        'game.license':            'licence',
+        'game.step1':              'étape 1 · télécharger la source',
+        'game.download_btn':       'télécharger l’original',
+        'game.step2':              'étape 2 · uploader votre grade',
+        'game.drop_text':          'déposez votre jpeg ici',
+        'game.drop_sub':           'ou cliquez pour choisir · jpg, png, tif jusqu’à 50 mo',
+        'game.submit':             'soumettre le grade',
+
+        /* ----- Room ----- */
+        'room.meta_title':         'room · grading-game',
+        'room.state_label':        'état ·',
+        'room.code_label':         'room',
+        'room.leave':              'quitter',
+        'room.lobby_eyebrow':      '02 · salle d’attente',
+        'room.lobby_title':        'En attente des joueurs',
+        'room.share_code':         'partagez ce code',
+        'room.click_copy':         'cliquer pour copier',
+        'room.players':            'joueurs',
+        'room.session':            'session',
+        'room.min_max':            'min · max',
+        'room.need_players':       'il faut au moins 2 joueurs',
+        'room.waiting_host':       'en attente du démarrage par l’hôte…',
+        'room.submissions':        'soumissions',
+        'room.grade_externally':   'étalonnez en externe · uploadez avant la fin du chrono',
+        'room.drop_sub_short':     'ou cliquez pour choisir',
+        'room.gallery_eyebrow':    '02 · vote anonyme',
+        'room.gallery_title':      'Notez les grades',
+        'room.gallery_sub':        '1 = le plus faible · 5 = le plus fort · vous ne pouvez pas voter pour le vôtre',
+        'room.of':                 'sur',
+        'room.voted':              'votés',
+        'room.votes_auto_submit':  'les votes s’envoient automatiquement quand vous avez noté toutes les soumissions',
+        'room.finalize_votes':     'finaliser mes votes',
+        'room.result_eyebrow':     '02 · session terminée',
+        'room.result_title':       'Classement final',
+        'room.sb_player':          'joueur',
+        'room.sb_avg':             'moy.',
+        'room.sb_votes':           'votes',
+        'room.back_lobby':         '← retour au lobby',
+        'room.new_room':           '↻ nouvelle room',
+
+        /* ----- Result ----- */
+        'result.meta_title':       'résultat · grading-game',
+        'result.eyebrow':          'solo · session terminée',
+        'result.h1':               'Comparaison',
+        'result.side_by_side':     'côte à côte',
+        'result.wipe':             'rideau',
+        'result.your_grade':       'votre grade',
+        'result.reference':        'référence',
+        'result.download_grade':   '⤓ télécharger mon grade',
+        'result.new_session':      '↻ nouvelle session',
+
+        /* ----- Gallery ----- */
+        'gallery.meta_title':      'galerie · grading-game — votre collection de challenges',
+        'gallery.eyebrow':         '03 · galerie',
+        'gallery.h1':              'Votre collection de challenges',
+        'gallery.intro':           'Toutes les photos actuellement disponibles sur grading-game. Dès que vous soumettez un grade pour un challenge (solo ou multi), il se débloque ici. Sinon, il reste caché — découvrez les photos en jouant.',
+        'gallery.anon_text':       "<strong>Connectez-vous pour suivre votre galerie.</strong> Sans compte, vos déblocages ne sont pas sauvegardés.",
+        'gallery.unlocked':        'débloqués',
+        'gallery.loading':         'chargement…',
+
+        /* ----- Contributors ----- */
+        'contributors.meta_title':         'contributeurs · grading-game — les photographes derrière les photos',
+        'contributors.eyebrow':            '04 · contributeurs',
+        'contributors.h1':                 'Les photographes derrière les photos',
+        'contributors.intro_html':         "Le jeu n’existerait pas sans ces photographes qui nous ont confié leur travail à des fins éducatives. Chacun garde <strong>tous ses droits</strong> sur ses images — la licence affichée sur leur carte définit ce que les joueurs ont le droit de faire avec le grade une fois terminé.",
+        'contributors.photographers':      'photographes',
+        'contributors.photos_available':   'photos disponibles',
+        'contributors.cta_title':          'Envie de contribuer ?',
+        'contributors.cta_body_html':      "Envoyez-nous votre travail — nous le passerons en revue et l’ajouterons au jeu. Utilisez un lien <strong>WeTransfer / SwissTransfer / Smash</strong> avec un aperçu JPEG, votre fichier source (RAW, TIFF, scan…) et la licence que vous préférez. Vos droits restent les vôtres.",
+        'contributors.first_name':         'prénom',
+        'contributors.last_name':          'nom',
+        'contributors.email':              'email',
+        'contributors.transfer_link':      'lien de transfert',
+        'contributors.message_label_html': 'message <span class="contribute-label-hint">(facultatif · préférence de licence, handle Instagram, tout ce qu’on devrait savoir)</span>',
+        'contributors.message_placeholder':'ex. licence CC BY-NC · @votre_handle sur Instagram',
+        'contributors.submit':             'envoyer mon travail',
+        'contributors.tip_summary':        'Astuce : intégrez votre copyright dans le RAW avant l’envoi',
+        'contributors.tip_body_html':      'La plupart des RAW pro supportent les champs EXIF copyright. Avec <a href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool</a> vous pouvez tamponner votre nom + licence une fois et réexporter pour toujours :',
+
+        /* ----- Profile ----- */
+        'profile.meta_title':        'profil · grading-game — votre compte & stats',
+        'profile.tag':               'profil',
+        'profile.eyebrow':           '06 · profil',
+        'profile.anon_title':        'Connectez-vous pour voir votre profil',
+        'profile.anon_intro':        'Votre profil garde une trace de toutes vos parties — nombre de rounds, score moyen, victoires. Les stats commencent à compter dès que vous vous connectez. Le jeu anonyme reste anonyme : rien n’est sauvegardé.',
+        'profile.edit':              'modifier',
+        'profile.member_since':      'membre depuis',
+        'profile.stats':             'statistiques',
+        'profile.stat_total':        'parties totales',
+        'profile.stat_multi':        'parties multi',
+        'profile.stat_solo':         'parties solo',
+        'profile.stat_wins':         'victoires',
+        'profile.stat_wins_sub':     'multi · rang 1',
+        'profile.stat_best':         'meilleur score',
+        'profile.stat_best_sub':     'votes reçus',
+        'profile.stat_avg':          'score moyen',
+        'profile.stat_avg_sub':      'votes par partie multi',
+        'profile.account':           'compte',
+        'profile.signout_title':     'déconnexion',
+        'profile.signout_desc':      'Terminer votre session sur cet appareil. Vous pouvez vous reconnecter à tout moment.',
+        'profile.signout_btn':       'se déconnecter',
+        'profile.delete_title':      'supprimer le compte',
+        'profile.delete_desc':       'Supprimer définitivement votre profil et tout votre historique de jeu. Ne peut pas être annulé.',
+        'profile.delete_btn':        'supprimer…',
+        'profile.edit_nickname':     'modifier le pseudo',
+        'profile.new_nickname':      'nouveau pseudo',
+        'profile.nick_hint':         'lettres minuscules, chiffres et underscore · 20 caractères max · doit être unique',
+        'profile.cancel':            'annuler',
+        'profile.save':              'enregistrer',
+        'profile.delete_modal_title':'supprimer le compte ?',
+        'profile.delete_warning_part1':'Cette action supprimera définitivement',
+        'profile.delete_warning_part2':"et toutes vos parties. Aucun retour en arrière possible.",
+        'profile.delete_confirm_label':'tapez votre pseudo pour confirmer',
+        'profile.delete_forever':    'supprimer pour toujours',
+
+        /* ----- Info ----- */
+        'info.meta_title':         'infos · grading-game — crédits & notes de version',
+        'info.eyebrow':            '08 · infos',
+        'info.h1':                 'Crédits & notes de version',
+        'info.intro':              'Un jeu d’étalonnage couleur photo construit en solo, à découvert. Chaque release atterrit ici.',
+        'info.toc_credits':        'Crédits',
+        'info.toc_patches':        'Notes de version',
+        'info.credits_title':      'Crédits',
+        'info.credits_intro':      'grading-game est un projet indépendant. Les deux colonnes ci-dessous couvrent l’humain derrière le design et l’IA derrière le code.',
+        'info.creator_label':      'créateur · designer',
+        'info.creator_bio1':       'Photographe & coloriste basé en France. Je tire beaucoup d’argentique, et je voulais une façon ludique pour tout le monde de s’entraîner à l’étalonnage sur des vrais RAW et scans — alors je l’ai construit.',
+        'info.creator_bio2_html':  'Chaque photo que vous étalonnez dans le pool aléatoire a été contribuée par un vrai photographe. Allez sur la page <a href="contributors.html">Contributeurs</a> si vous voulez ajouter les vôtres.',
+        'info.coauthor_label':     'code · co-auteur',
+        'info.coauthor_bio_html':  "Le code a été écrit en collaboration étroite avec <strong>Claude</strong>, l’assistant IA d’Anthropic. J’ai piloté le design, le look-and-feel et chaque décision produit ; Claude a transformé une partie de ça en HTML, CSS, JS, SQL et les bouts de Python qui tiennent l’ensemble.",
+        'info.patches_title':      'Notes de version',
+        'info.patches_intro':      'Changements apportés à chaque mise à jour. Plus récents en premier.'
     },
 
     /* ============================================================ */
     it: {
-        /* Wheel menu items + mobile nav cards */
+
+        /* ----- Wheel ----- */
         'wheel.solo':              'solo',
         'wheel.solo_desc':         'allenamento libero',
         'wheel.multi':             'multigiocatore',
@@ -161,22 +570,22 @@ window.GG_I18N_DICT = {
         'wheel.rules':             'regole',
         'wheel.rules_desc':        'come si gioca',
 
-        /* Landing — mobile hero */
+        /* ----- Hero ----- */
         'hero.eyebrow':            'color grading · gioco fotografico',
         'hero.tagline_html':       'Un gioco di color grading fotografico per fotografi. Scegli un <strong>RAW</strong> piatto o una scansione, sviluppalo nel tuo software preferito (Lightroom, Capture One, DarkTable…), poi sfida altri fotografi in round a tempo con voto anonimo.',
         'hero.callout_html':       'Sviluppa su <strong>qualsiasi dispositivo</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… scarica la sorgente, sviluppa il tuo grade nell’app che preferisci, poi carica il tuo JPEG. Funziona su telefono, tablet e desktop.',
 
-        /* Nickname input */
+        /* ----- Nick ----- */
         'nick.label':              'nickname',
         'nick.placeholder':        'scegli un nickname',
         'nick.hint_mobile':        'salvato localmente · usato nelle stanze multigiocatore',
 
-        /* CTAs */
+        /* ----- Common ----- */
         'donate.label':            'sostieni',
         'signin.label':            'accedi',
         'back.menu':               '← torna al menu',
 
-        /* Chrome pills */
+        /* ----- Chrome ----- */
         'chrome.info':             'info',
         'chrome.legal':            'legale',
         'chrome.info_title':       'Crediti & note di versione',
@@ -184,7 +593,7 @@ window.GG_I18N_DICT = {
         'chrome.lang_label':       'lingua',
         'online.label':            'online',
 
-        /* Welcome popup */
+        /* ----- Welcome ----- */
         'welcome.eyebrow':         'benvenuto',
         'welcome.title':           'Il color grading, il gioco',
         'welcome.lead':            'Veri file RAW di veri fotografi. Un timer. Sviluppa il tuo grade nell’app che preferisci, carica il tuo JPEG, vedi come si confronta.',
@@ -198,23 +607,227 @@ window.GG_I18N_DICT = {
         'welcome.full_rules':      'leggi tutte le regole →',
         'welcome.close_aria':      'chiudi questa introduzione',
 
-        /* Rules page */
+        /* ----- Rules ----- */
         'meta.title.home':         'grading-game — gioco di color grading fotografico',
         'meta.title.rules':        'regole · grading-game — come si gioca',
         'rules.eyebrow':           '05 · regole',
         'rules.title':             'Come si gioca',
         'rules.intro1_html':       '<strong>grading-game</strong> è un gioco di color grading fotografico. Ti viene data un’immagine — un file RAW, una scansione di negativo, un export piatto — e un limite di tempo per svilupparla nel software che preferisci prima di reimportarla nel round.',
-        'rules.intro2':            'In multigiocatore, ogni soumissione viene poi rivelata in modo anonimo. Ogni giocatore vota i grade degli altri (tranne il proprio). Un vincitore viene proclamato alla fine.',
+        'rules.intro2':            'In multigiocatore, ogni invio viene poi rivelato in modo anonimo. Ogni giocatore vota i grade degli altri (tranne il proprio). Un vincitore viene proclamato alla fine.',
         'rules.rule1':             'Un’immagine sorgente viene scelta a caso e presentata a ogni giocatore.',
         'rules.rule2':             'Scarica l’originale (RAW / TIFF / DNG a seconda della sfida).',
         'rules.rule3':             'Sviluppalo come vuoi nel software che preferisci — Lightroom, Capture One, DaVinci, Darktable…',
         'rules.rule4':             'Reimporta il tuo JPEG finale prima che scada il timer.',
-        'rules.rule5':             'In multigiocatore, vota sulle soumissioni anonime degli altri giocatori.'
+        'rules.rule5':             'In multigiocatore, vota sugli invii anonimi degli altri giocatori.',
+
+        /* ----- Solo ----- */
+        'solo.meta_title':         'allenamento solo · grading-game',
+        'solo.tag_label':          'solo',
+        'solo.tag_sub':            'impostazioni sessione',
+        'solo.eyebrow':            '01 · solo',
+        'solo.h1':                 'profilo sessione',
+        'solo.duration':           'durata',
+        'solo.category':           'categoria',
+        'solo.cat_random':         'casuale · tutte le categorie',
+        'solo.cat_negative':       'negativo · analogico / film',
+        'solo.cat_digital':        'digitale · sensore',
+        'solo.category_hint':      'scegli un medium di cattura per filtrare il pool casuale',
+        'solo.challenge':          'sfida',
+        'solo.chall_random':       'scelta casuale · tutte le categorie',
+        'solo.challenge_hint':     'accedi per sbloccare foto giocando & rigiocarle qui',
+        'solo.reference':          'grade di riferimento',
+        'solo.reference_help':     'mostra il riferimento dell’admin dopo l’invio',
+        'solo.start':              'inizia la sessione',
+        'solo.sum_min':            'min',
+        'solo.sum_challenge':      'sfida',
+        'solo.sum_reference':      'riferimento',
+
+        /* ----- Multi ----- */
+        'multi.meta_title':        'lobby multigiocatore · grading-game',
+        'multi.tag_sub':           'lobby multi',
+        'multi.status_booting':    'avvio · accesso anonimo',
+        'multi.eyebrow':           '02 · multigiocatore',
+        'multi.h1':                'Lobby',
+        'multi.hero_sub':          'trova una stanza aperta · o ospitane una',
+        'multi.identity_label':    'tu',
+        'multi.identity_status':   'anonimo · salvato localmente',
+        'multi.public_rooms':      'stanze pubbliche',
+        'multi.open_label':        'aperte',
+        'multi.refresh':           'aggiorna ↻',
+        'multi.new_room':          'nuova stanza',
+        'multi.host_session':      'ospita una sessione',
+        'multi.join_by_code':      'entra in una stanza privata col codice',
+        'multi.join':              'entra',
+        'multi.modal_title':       'Ospita una nuova stanza',
+        'multi.modal_close':       'esc ✕',
+        'multi.visibility':        'visibilità',
+        'multi.vis_public':        'pubblica',
+        'multi.vis_public_sub':    'elencata nella lobby',
+        'multi.vis_private':       'privata',
+        'multi.vis_private_sub':   'solo col codice',
+        'multi.dur_quick':         'rapido',
+        'multi.dur_short':         'breve',
+        'multi.dur_standard':      'standard',
+        'multi.dur_long':          'lungo',
+        'multi.cat_random':        'casuale',
+        'multi.cat_random_sub':    'tutte le categorie',
+        'multi.cat_negative':      'negativo',
+        'multi.cat_negative_sub':  'analogico / film',
+        'multi.cat_digital':       'digitale',
+        'multi.cat_digital_sub':   'sensore',
+        'multi.chall_in_cat':      'nella categoria',
+        'multi.chall_specific':    'specifica',
+        'multi.chall_soon':        'presto',
+        'multi.create_room':       'crea la stanza',
+
+        /* ----- Game ----- */
+        'game.meta_title':         'sessione live · grading-game',
+        'game.live_solo':          'live · solo',
+        'game.quit':               '✕ esci',
+        'game.preview_label':      'anteprima sorgente · sola lettura',
+        'game.preview_not_loaded': 'anteprima non caricata',
+        'game.preview_hint':       'aggiungi una sfida in images/challenges/',
+        'game.time_remaining':     'tempo rimasto',
+        'game.session_active':     'sessione attiva · sviluppa esternamente poi torna',
+        'game.no_challenge':       '— nessuna sfida caricata —',
+        'game.photographer':       'fotografo',
+        'game.license':            'licenza',
+        'game.step1':              'passo 1 · scarica la sorgente',
+        'game.download_btn':       'scarica l’originale',
+        'game.step2':              'passo 2 · carica il tuo grade',
+        'game.drop_text':          'rilascia il tuo jpeg qui',
+        'game.drop_sub':           'o clicca per scegliere · jpg, png, tif fino a 50 mb',
+        'game.submit':             'invia il grade',
+
+        /* ----- Room ----- */
+        'room.meta_title':         'stanza · grading-game',
+        'room.state_label':        'stato ·',
+        'room.code_label':         'stanza',
+        'room.leave':              'esci',
+        'room.lobby_eyebrow':      '02 · sala d’attesa',
+        'room.lobby_title':        'In attesa dei giocatori',
+        'room.share_code':         'condividi questo codice',
+        'room.click_copy':         'clicca per copiare',
+        'room.players':            'giocatori',
+        'room.session':            'sessione',
+        'room.min_max':            'min · max',
+        'room.need_players':       'servono almeno 2 giocatori',
+        'room.waiting_host':       'in attesa dell’avvio dell’host…',
+        'room.submissions':        'invii',
+        'room.grade_externally':   'sviluppa esternamente · carica prima che scada il timer',
+        'room.drop_sub_short':     'o clicca per scegliere',
+        'room.gallery_eyebrow':    '02 · voto anonimo',
+        'room.gallery_title':      'Vota i grade',
+        'room.gallery_sub':        '1 = più debole · 5 = più forte · non puoi votare il tuo',
+        'room.of':                 'di',
+        'room.voted':              'votati',
+        'room.votes_auto_submit':  'i voti si inviano automaticamente quando hai votato tutti gli invii',
+        'room.finalize_votes':     'finalizza i miei voti',
+        'room.result_eyebrow':     '02 · sessione completata',
+        'room.result_title':       'Classifica finale',
+        'room.sb_player':          'giocatore',
+        'room.sb_avg':             'media',
+        'room.sb_votes':           'voti',
+        'room.back_lobby':         '← torna alla lobby',
+        'room.new_room':           '↻ nuova stanza',
+
+        /* ----- Result ----- */
+        'result.meta_title':       'risultato · grading-game',
+        'result.eyebrow':          'solo · sessione completata',
+        'result.h1':               'Confronto',
+        'result.side_by_side':     'fianco a fianco',
+        'result.wipe':             'tendina',
+        'result.your_grade':       'il tuo grade',
+        'result.reference':        'riferimento',
+        'result.download_grade':   '⤓ scarica il mio grade',
+        'result.new_session':      '↻ nuova sessione',
+
+        /* ----- Gallery ----- */
+        'gallery.meta_title':      'galleria · grading-game — la tua collezione di sfide',
+        'gallery.eyebrow':         '03 · galleria',
+        'gallery.h1':              'La tua collezione di sfide',
+        'gallery.intro':           'Tutte le foto attualmente disponibili su grading-game. Quando invii un grade per una sfida (solo o multi), si sblocca qui. Fino ad allora resta nascosta — scoprile giocando.',
+        'gallery.anon_text':       "<strong>Accedi per tracciare la tua galleria.</strong> Senza un account, gli sblocchi non vengono salvati.",
+        'gallery.unlocked':        'sbloccate',
+        'gallery.loading':         'caricamento…',
+
+        /* ----- Contributors ----- */
+        'contributors.meta_title':         'contributori · grading-game — i fotografi dietro le foto',
+        'contributors.eyebrow':            '04 · contributori',
+        'contributors.h1':                 'I fotografi dietro le foto',
+        'contributors.intro_html':         "Il gioco non esisterebbe senza questi fotografi che ci hanno affidato il loro lavoro per uso educativo. Ognuno conserva <strong>tutti i diritti</strong> sulle proprie immagini — la licenza mostrata sulla loro carta definisce cosa i giocatori possono fare col grade una volta finito.",
+        'contributors.photographers':      'fotografi',
+        'contributors.photos_available':   'foto disponibili',
+        'contributors.cta_title':          'Vuoi contribuire?',
+        'contributors.cta_body_html':      "Mandaci il tuo lavoro — lo rivedremo e lo aggiungeremo al gioco. Usa un link <strong>WeTransfer / SwissTransfer / Smash</strong> con un’anteprima JPEG, il file sorgente (RAW, TIFF, scansione…) e la licenza che preferisci. I tuoi diritti restano tuoi.",
+        'contributors.first_name':         'nome',
+        'contributors.last_name':          'cognome',
+        'contributors.email':              'email',
+        'contributors.transfer_link':      'link di trasferimento',
+        'contributors.message_label_html': 'messaggio <span class="contribute-label-hint">(opzionale · preferenza di licenza, handle Instagram, qualsiasi cosa dovremmo sapere)</span>',
+        'contributors.message_placeholder':'es. licenza CC BY-NC · @il_tuo_handle su Instagram',
+        'contributors.submit':             'invia il mio lavoro',
+        'contributors.tip_summary':        'Consiglio: incorpora il tuo copyright nel RAW prima dell’invio',
+        'contributors.tip_body_html':      'La maggior parte dei formati RAW pro supporta i campi EXIF copyright. Con <a href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool</a> puoi marchiare il tuo nome + licenza una volta e riesportare per sempre:',
+
+        /* ----- Profile ----- */
+        'profile.meta_title':        'profilo · grading-game — il tuo account & statistiche',
+        'profile.tag':               'profilo',
+        'profile.eyebrow':           '06 · profilo',
+        'profile.anon_title':        'Accedi per vedere il tuo profilo',
+        'profile.anon_intro':        'Il tuo profilo tiene traccia di ogni partita giocata — quanti round, punteggio medio, vittorie. Le statistiche iniziano a contare appena ti registri. Il gioco anonimo resta anonimo: nulla viene salvato.',
+        'profile.edit':              'modifica',
+        'profile.member_since':      'membro dal',
+        'profile.stats':             'statistiche',
+        'profile.stat_total':        'partite totali',
+        'profile.stat_multi':        'partite multi',
+        'profile.stat_solo':         'partite solo',
+        'profile.stat_wins':         'vittorie',
+        'profile.stat_wins_sub':     'multi · rango 1',
+        'profile.stat_best':         'miglior punteggio',
+        'profile.stat_best_sub':     'voti ricevuti',
+        'profile.stat_avg':          'punteggio medio',
+        'profile.stat_avg_sub':      'voti per partita multi',
+        'profile.account':           'account',
+        'profile.signout_title':     'disconnessione',
+        'profile.signout_desc':      'Termina la tua sessione su questo dispositivo. Puoi riconnetterti quando vuoi.',
+        'profile.signout_btn':       'disconnetti',
+        'profile.delete_title':      'elimina account',
+        'profile.delete_desc':       'Rimuovi definitivamente il tuo profilo e tutto il tuo storico. Non si può annullare.',
+        'profile.delete_btn':        'elimina…',
+        'profile.edit_nickname':     'modifica nickname',
+        'profile.new_nickname':      'nuovo nickname',
+        'profile.nick_hint':         'lettere minuscole, cifre e underscore · max 20 caratteri · deve essere unico',
+        'profile.cancel':            'annulla',
+        'profile.save':              'salva',
+        'profile.delete_modal_title':'eliminare l’account?',
+        'profile.delete_warning_part1':'Questa azione eliminerà definitivamente',
+        'profile.delete_warning_part2':'e ogni partita del tuo storico. Non c’è ritorno.',
+        'profile.delete_confirm_label':'digita il tuo nickname per confermare',
+        'profile.delete_forever':    'elimina per sempre',
+
+        /* ----- Info ----- */
+        'info.meta_title':         'info · grading-game — crediti & note di versione',
+        'info.eyebrow':            '08 · info',
+        'info.h1':                 'Crediti & note di versione',
+        'info.intro':              'Un gioco di color grading fotografico costruito in solitaria, allo scoperto. Ogni release atterra qui.',
+        'info.toc_credits':        'Crediti',
+        'info.toc_patches':        'Note di versione',
+        'info.credits_title':      'Crediti',
+        'info.credits_intro':      'grading-game è un progetto indipendente. Le due colonne sotto coprono l’umano dietro il design e l’IA dietro il codice.',
+        'info.creator_label':      'creatore · designer',
+        'info.creator_bio1':       'Fotografo & colorist con base in Francia. Sviluppo molto film analogico e volevo un modo divertente per chiunque di allenarsi al color grading su veri RAW e scansioni — così l’ho costruito.',
+        'info.creator_bio2_html':  'Ogni foto che sviluppi nel pool casuale è stata contribuita da un vero fotografo. Vai sulla pagina <a href="contributors.html">Contributori</a> se vuoi mandare le tue.',
+        'info.coauthor_label':     'codice · co-autore',
+        'info.coauthor_bio_html':  "Il codice è stato scritto in stretta collaborazione con <strong>Claude</strong>, l’assistente IA di Anthropic. Io ho guidato il design, il look-and-feel e ogni decisione di prodotto; Claude ha trasformato parte di quello in HTML, CSS, JS, SQL e i pezzi di Python che tengono insieme tutto.",
+        'info.patches_title':      'Note di versione',
+        'info.patches_intro':      'Modifiche apportate a ogni aggiornamento. Più recenti per primi.'
     },
 
     /* ============================================================ */
     es: {
-        /* Wheel menu items + mobile nav cards */
+
+        /* ----- Wheel ----- */
         'wheel.solo':              'solo',
         'wheel.solo_desc':         'entrenamiento libre',
         'wheel.multi':             'multijugador',
@@ -226,22 +839,22 @@ window.GG_I18N_DICT = {
         'wheel.rules':             'reglas',
         'wheel.rules_desc':        'cómo jugar',
 
-        /* Landing — mobile hero */
+        /* ----- Hero ----- */
         'hero.eyebrow':            'color grading · juego fotográfico',
         'hero.tagline_html':       'Un juego de color grading fotográfico para fotógrafos. Elige un <strong>RAW</strong> plano o un escaneo, revélalo en tu software favorito (Lightroom, Capture One, DarkTable…), y compite con otros fotógrafos en rondas cronometradas con voto anónimo.',
         'hero.callout_html':       'Revela en <strong>cualquier dispositivo</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… descarga la fuente, desarrolla tu grade en tu app favorita, y sube tu JPEG. Funciona en teléfono, tableta y escritorio.',
 
-        /* Nickname input */
+        /* ----- Nick ----- */
         'nick.label':              'apodo',
         'nick.placeholder':        'elige un apodo',
         'nick.hint_mobile':        'guardado localmente · usado en las salas multijugador',
 
-        /* CTAs */
+        /* ----- Common ----- */
         'donate.label':            'donar',
         'signin.label':            'iniciar sesión',
         'back.menu':               '← volver al menú',
 
-        /* Chrome pills */
+        /* ----- Chrome ----- */
         'chrome.info':             'info',
         'chrome.legal':            'legal',
         'chrome.info_title':       'Créditos & notas de versión',
@@ -249,7 +862,7 @@ window.GG_I18N_DICT = {
         'chrome.lang_label':       'idioma',
         'online.label':            'en línea',
 
-        /* Welcome popup */
+        /* ----- Welcome ----- */
         'welcome.eyebrow':         'bienvenido',
         'welcome.title':           'El color grading, el juego',
         'welcome.lead':            'RAW reales de fotógrafos reales. Un cronómetro. Desarrolla tu grade en tu app favorita, sube tu JPEG, mira cómo se compara.',
@@ -263,7 +876,7 @@ window.GG_I18N_DICT = {
         'welcome.full_rules':      'leer todas las reglas →',
         'welcome.close_aria':      'cerrar esta introducción',
 
-        /* Rules page */
+        /* ----- Rules ----- */
         'meta.title.home':         'grading-game — juego de color grading fotográfico',
         'meta.title.rules':        'reglas · grading-game — cómo jugar',
         'rules.eyebrow':           '05 · reglas',
@@ -274,7 +887,210 @@ window.GG_I18N_DICT = {
         'rules.rule2':             'Descarga el original (RAW / TIFF / DNG según el desafío).',
         'rules.rule3':             'Revélalo como quieras en el software que prefieras — Lightroom, Capture One, DaVinci, Darktable…',
         'rules.rule4':             'Reimporta tu JPEG final antes de que se acabe el cronómetro.',
-        'rules.rule5':             'En multijugador, vota sobre los envíos anónimos de los demás jugadores.'
+        'rules.rule5':             'En multijugador, vota sobre los envíos anónimos de los demás jugadores.',
+
+        /* ----- Solo ----- */
+        'solo.meta_title':         'entrenamiento solo · grading-game',
+        'solo.tag_label':          'solo',
+        'solo.tag_sub':            'ajustes de sesión',
+        'solo.eyebrow':            '01 · solo',
+        'solo.h1':                 'perfil de sesión',
+        'solo.duration':           'duración',
+        'solo.category':           'categoría',
+        'solo.cat_random':         'aleatorio · todas las categorías',
+        'solo.cat_negative':       'negativo · analógico / film',
+        'solo.cat_digital':        'digital · sensor',
+        'solo.category_hint':      'elige un medio de captura para filtrar el pool aleatorio',
+        'solo.challenge':          'desafío',
+        'solo.chall_random':       'elección aleatoria · todas las categorías',
+        'solo.challenge_hint':     'inicia sesión para desbloquear fotos jugando & rejugarlas aquí',
+        'solo.reference':          'grade de referencia',
+        'solo.reference_help':     'mostrar la referencia del admin tras el envío',
+        'solo.start':              'empezar la sesión',
+        'solo.sum_min':            'min',
+        'solo.sum_challenge':      'desafío',
+        'solo.sum_reference':      'referencia',
+
+        /* ----- Multi ----- */
+        'multi.meta_title':        'sala multijugador · grading-game',
+        'multi.tag_sub':           'sala multi',
+        'multi.status_booting':    'arrancando · sesión anónima',
+        'multi.eyebrow':           '02 · multijugador',
+        'multi.h1':                'Sala',
+        'multi.hero_sub':          'encuentra una sala abierta · o crea la tuya',
+        'multi.identity_label':    'tú',
+        'multi.identity_status':   'anónimo · guardado localmente',
+        'multi.public_rooms':      'salas públicas',
+        'multi.open_label':        'abiertas',
+        'multi.refresh':           'actualizar ↻',
+        'multi.new_room':          'nueva sala',
+        'multi.host_session':      'organizar una sesión',
+        'multi.join_by_code':      'unirse a una sala privada por código',
+        'multi.join':              'unirse',
+        'multi.modal_title':       'Crear una nueva sala',
+        'multi.modal_close':       'esc ✕',
+        'multi.visibility':        'visibilidad',
+        'multi.vis_public':        'pública',
+        'multi.vis_public_sub':    'listada en la sala',
+        'multi.vis_private':       'privada',
+        'multi.vis_private_sub':   'solo con código',
+        'multi.dur_quick':         'rápido',
+        'multi.dur_short':         'corto',
+        'multi.dur_standard':      'estándar',
+        'multi.dur_long':          'largo',
+        'multi.cat_random':        'aleatorio',
+        'multi.cat_random_sub':    'todas las categorías',
+        'multi.cat_negative':      'negativo',
+        'multi.cat_negative_sub':  'analógico / film',
+        'multi.cat_digital':       'digital',
+        'multi.cat_digital_sub':   'sensor',
+        'multi.chall_in_cat':      'en la categoría',
+        'multi.chall_specific':    'específico',
+        'multi.chall_soon':        'pronto',
+        'multi.create_room':       'crear sala',
+
+        /* ----- Game ----- */
+        'game.meta_title':         'sesión en vivo · grading-game',
+        'game.live_solo':          'live · solo',
+        'game.quit':               '✕ salir',
+        'game.preview_label':      'vista previa de la fuente · solo lectura',
+        'game.preview_not_loaded': 'vista previa no cargada',
+        'game.preview_hint':       'añade un desafío en images/challenges/',
+        'game.time_remaining':     'tiempo restante',
+        'game.session_active':     'sesión activa · revela externamente y luego vuelve',
+        'game.no_challenge':       '— ningún desafío cargado —',
+        'game.photographer':       'fotógrafo',
+        'game.license':            'licencia',
+        'game.step1':              'paso 1 · descargar la fuente',
+        'game.download_btn':       'descargar el original',
+        'game.step2':              'paso 2 · subir tu grade',
+        'game.drop_text':          'suelta tu jpeg aquí',
+        'game.drop_sub':           'o haz clic para elegir · jpg, png, tif hasta 50 mb',
+        'game.submit':             'enviar el grade',
+
+        /* ----- Room ----- */
+        'room.meta_title':         'sala · grading-game',
+        'room.state_label':        'estado ·',
+        'room.code_label':         'sala',
+        'room.leave':              'salir',
+        'room.lobby_eyebrow':      '02 · sala de espera',
+        'room.lobby_title':        'Esperando jugadores',
+        'room.share_code':         'comparte este código',
+        'room.click_copy':         'haz clic para copiar',
+        'room.players':            'jugadores',
+        'room.session':            'sesión',
+        'room.min_max':            'min · máx',
+        'room.need_players':       'se necesitan al menos 2 jugadores',
+        'room.waiting_host':       'esperando que el anfitrión inicie…',
+        'room.submissions':        'envíos',
+        'room.grade_externally':   'revela externamente · sube antes de que termine el cronómetro',
+        'room.drop_sub_short':     'o haz clic para elegir',
+        'room.gallery_eyebrow':    '02 · voto anónimo',
+        'room.gallery_title':      'Califica los grades',
+        'room.gallery_sub':        '1 = más débil · 5 = más fuerte · no puedes votar el tuyo',
+        'room.of':                 'de',
+        'room.voted':              'votados',
+        'room.votes_auto_submit':  'los votos se envían automáticamente cuando hayas calificado todos los envíos',
+        'room.finalize_votes':     'finalizar mis votos',
+        'room.result_eyebrow':     '02 · sesión completada',
+        'room.result_title':       'Clasificación final',
+        'room.sb_player':          'jugador',
+        'room.sb_avg':             'media',
+        'room.sb_votes':           'votos',
+        'room.back_lobby':         '← volver a la sala',
+        'room.new_room':           '↻ nueva sala',
+
+        /* ----- Result ----- */
+        'result.meta_title':       'resultado · grading-game',
+        'result.eyebrow':          'solo · sesión completada',
+        'result.h1':               'Comparación',
+        'result.side_by_side':     'lado a lado',
+        'result.wipe':             'cortina',
+        'result.your_grade':       'tu grade',
+        'result.reference':        'referencia',
+        'result.download_grade':   '⤓ descargar mi grade',
+        'result.new_session':      '↻ nueva sesión',
+
+        /* ----- Gallery ----- */
+        'gallery.meta_title':      'galería · grading-game — tu colección de desafíos',
+        'gallery.eyebrow':         '03 · galería',
+        'gallery.h1':              'Tu colección de desafíos',
+        'gallery.intro':           'Todas las fotos disponibles actualmente en grading-game. Cuando envías un grade para un desafío (solo o multi), se desbloquea aquí. Hasta entonces queda oculto — descubre fotos jugando.',
+        'gallery.anon_text':       "<strong>Inicia sesión para seguir tu galería.</strong> Sin cuenta, tus desbloqueos no se guardan.",
+        'gallery.unlocked':        'desbloqueados',
+        'gallery.loading':         'cargando…',
+
+        /* ----- Contributors ----- */
+        'contributors.meta_title':         'colaboradores · grading-game — los fotógrafos detrás de las fotos',
+        'contributors.eyebrow':            '04 · colaboradores',
+        'contributors.h1':                 'Los fotógrafos detrás de las fotos',
+        'contributors.intro_html':         "El juego no existiría sin estos fotógrafos que nos confiaron su trabajo para uso educativo. Cada uno conserva <strong>todos los derechos</strong> sobre sus imágenes — la licencia mostrada en su tarjeta define qué pueden hacer los jugadores con el grade una vez terminado.",
+        'contributors.photographers':      'fotógrafos',
+        'contributors.photos_available':   'fotos disponibles',
+        'contributors.cta_title':          '¿Quieres colaborar?',
+        'contributors.cta_body_html':      "Envíanos tu trabajo — lo revisaremos y lo añadiremos al juego. Usa un enlace <strong>WeTransfer / SwissTransfer / Smash</strong> con una vista previa JPEG, tu archivo fuente (RAW, TIFF, escaneo…) y la licencia que prefieras. Tus derechos siguen siendo tuyos.",
+        'contributors.first_name':         'nombre',
+        'contributors.last_name':          'apellido',
+        'contributors.email':              'email',
+        'contributors.transfer_link':      'enlace de transferencia',
+        'contributors.message_label_html': 'mensaje <span class="contribute-label-hint">(opcional · preferencia de licencia, handle de Instagram, lo que sea que debamos saber)</span>',
+        'contributors.message_placeholder':'ej. licencia CC BY-NC · @tu_handle en Instagram',
+        'contributors.submit':             'enviar mi trabajo',
+        'contributors.tip_summary':        'Consejo: incrusta tu copyright en el RAW antes de enviar',
+        'contributors.tip_body_html':      'La mayoría de formatos RAW pro soportan campos EXIF de copyright. Con <a href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool</a> puedes estampar tu nombre + licencia una vez y reexportar para siempre:',
+
+        /* ----- Profile ----- */
+        'profile.meta_title':        'perfil · grading-game — tu cuenta & estadísticas',
+        'profile.tag':               'perfil',
+        'profile.eyebrow':           '06 · perfil',
+        'profile.anon_title':        'Inicia sesión para ver tu perfil',
+        'profile.anon_intro':        'Tu perfil guarda cada partida que juegas — cuántas rondas, puntuación media, victorias. Las estadísticas empiezan a contar al iniciar sesión. El juego anónimo sigue siendo anónimo: nada se guarda.',
+        'profile.edit':              'editar',
+        'profile.member_since':      'miembro desde',
+        'profile.stats':             'estadísticas',
+        'profile.stat_total':        'partidas totales',
+        'profile.stat_multi':        'partidas multi',
+        'profile.stat_solo':         'partidas solo',
+        'profile.stat_wins':         'victorias',
+        'profile.stat_wins_sub':     'multi · rango 1',
+        'profile.stat_best':         'mejor puntuación',
+        'profile.stat_best_sub':     'votos recibidos',
+        'profile.stat_avg':          'puntuación media',
+        'profile.stat_avg_sub':      'votos por partida multi',
+        'profile.account':           'cuenta',
+        'profile.signout_title':     'cerrar sesión',
+        'profile.signout_desc':      'Termina tu sesión en este dispositivo. Puedes volver a entrar cuando quieras.',
+        'profile.signout_btn':       'cerrar sesión',
+        'profile.delete_title':      'eliminar cuenta',
+        'profile.delete_desc':       'Eliminar permanentemente tu perfil y todo tu historial de juego. No se puede deshacer.',
+        'profile.delete_btn':        'eliminar…',
+        'profile.edit_nickname':     'editar apodo',
+        'profile.new_nickname':      'nuevo apodo',
+        'profile.nick_hint':         'letras minúsculas, dígitos y guión bajo · máx 20 caracteres · debe ser único',
+        'profile.cancel':            'cancelar',
+        'profile.save':              'guardar',
+        'profile.delete_modal_title':'¿eliminar cuenta?',
+        'profile.delete_warning_part1':'Esto eliminará permanentemente',
+        'profile.delete_warning_part2':'y cada partida de tu historial. No hay vuelta atrás.',
+        'profile.delete_confirm_label':'escribe tu apodo para confirmar',
+        'profile.delete_forever':    'eliminar para siempre',
+
+        /* ----- Info ----- */
+        'info.meta_title':         'info · grading-game — créditos & notas de versión',
+        'info.eyebrow':            '08 · info',
+        'info.h1':                 'Créditos & notas de versión',
+        'info.intro':              'Un juego de color grading fotográfico construido en solitario, al descubierto. Cada release aterriza aquí.',
+        'info.toc_credits':        'Créditos',
+        'info.toc_patches':        'Notas de versión',
+        'info.credits_title':      'Créditos',
+        'info.credits_intro':      'grading-game es un proyecto independiente. Las dos columnas a continuación cubren al humano detrás del diseño y a la IA detrás del código.',
+        'info.creator_label':      'creador · diseñador',
+        'info.creator_bio1':       'Fotógrafo & colorista con base en Francia. Disparo mucho film analógico, y quería una forma divertida para que todo el mundo practique color grading en RAWs y escaneos reales — así que lo construí.',
+        'info.creator_bio2_html':  'Cada foto que revelás en el pool aleatorio fue contribuida por un fotógrafo real. Visita la página <a href="contributors.html">Colaboradores</a> si quieres mandar las tuyas.',
+        'info.coauthor_label':     'código · co-autor',
+        'info.coauthor_bio_html':  "El código fue escrito en estrecha colaboración con <strong>Claude</strong>, el asistente IA de Anthropic. Yo dirigí el diseño, el look-and-feel y cada decisión de producto; Claude convirtió parte de eso en HTML, CSS, JS, SQL y los pedazos de Python que mantienen todo unido.",
+        'info.patches_title':      'Notas de versión',
+        'info.patches_intro':      'Cambios hechos en cada actualización. Más recientes primero.'
     }
 
 };

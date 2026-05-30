@@ -55,11 +55,11 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=1"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>solo training · grading-game</title>
+    <title data-i18n="solo.meta_title">solo training · grading-game</title>
     <meta name="description" content="Solo training mode: practice color grading on real RAW files with a reference grade for comparison. No score, no opponents — just you and the photo.">
 
     <link rel="canonical"            href="https://grading-game.com/solo.html">
@@ -91,7 +91,7 @@
         </div>
         <div class="top-bar-right">
             <div class="version-tag">
-                <span>solo</span><span class="sep">·</span><span>session setup</span>
+                <span data-i18n="solo.tag_label">solo</span><span class="sep">·</span><span data-i18n="solo.tag_sub">session setup</span>
             </div>
         </div>
     </header>
@@ -99,8 +99,8 @@
     <!-- =================== MAIN — setup =================== -->
     <main class="setup-stage">
 
-        <div class="setup-eyebrow">01 · solo</div>
-        <h1 class="setup-title">session profile</h1>
+        <div class="setup-eyebrow" data-i18n="solo.eyebrow">01 · solo</div>
+        <h1 class="setup-title" data-i18n="solo.h1">session profile</h1>
 
         <div class="setup-grid setup-grid--single">
 
@@ -109,7 +109,7 @@
 
                 <!-- DURATION -->
                 <div class="control-block">
-                    <div class="control-label">duration</div>
+                    <div class="control-label" data-i18n="solo.duration">duration</div>
                     <div class="duration-display">
                         <span id="dur-min">20</span><span class="colon">:</span><span id="dur-sec">00</span>
                         <span class="unit">min</span>
@@ -141,42 +141,42 @@
 
                 <!-- CATEGORY -->
                 <div class="control-block">
-                    <div class="control-label">category</div>
+                    <div class="control-label" data-i18n="solo.category">category</div>
                     <select class="challenge-select" id="category-select">
-                        <option value="random">random · all categories</option>
-                        <option value="negative">negative · analog / film</option>
-                        <option value="digital">digital · sensor</option>
+                        <option value="random"   data-i18n="solo.cat_random">random · all categories</option>
+                        <option value="negative" data-i18n="solo.cat_negative">negative · analog / film</option>
+                        <option value="digital"  data-i18n="solo.cat_digital">digital · sensor</option>
                     </select>
-                    <div class="challenge-hint" id="category-hint">
+                    <div class="challenge-hint" id="category-hint" data-i18n="solo.category_hint">
                         pick a capture medium to filter the random pool
                     </div>
                 </div>
 
                 <!-- CHALLENGE -->
                 <div class="control-block">
-                    <div class="control-label">challenge</div>
+                    <div class="control-label" data-i18n="solo.challenge">challenge</div>
                     <select class="challenge-select" id="challenge-select">
-                        <option value="random">random pick · all categories</option>
+                        <option value="random" data-i18n="solo.chall_random">random pick · all categories</option>
                         <!-- options populated by solo-setup.js -->
                     </select>
-                    <div class="challenge-hint" id="challenge-hint">
+                    <div class="challenge-hint" id="challenge-hint" data-i18n="solo.challenge_hint">
                         sign in to unlock photos by playing &amp; replay them here
                     </div>
                 </div>
 
                 <!-- REFERENCE -->
                 <div class="control-block">
-                    <div class="control-label">reference grade</div>
+                    <div class="control-label" data-i18n="solo.reference">reference grade</div>
                     <label class="toggle">
                         <input type="checkbox" id="ref-toggle" checked>
                         <span class="toggle-slider"></span>
-                        <span class="toggle-text">show admin's reference after submission</span>
+                        <span class="toggle-text" data-i18n="solo.reference_help">show admin's reference after submission</span>
                     </label>
                 </div>
 
                 <!-- START -->
                 <button class="btn-start" id="start-btn">
-                    <span>start session</span>
+                    <span data-i18n="solo.start">start session</span>
                     <span class="btn-arrow">→</span>
                 </button>
 
@@ -185,13 +185,13 @@
 
         <!-- Bottom row -->
         <div class="setup-footer">
-            <a href="index.html" class="back-link">← back to menu</a>
+            <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
             <div class="setup-summary">
-                <span><strong id="sum-dur">20</strong> min</span>
+                <span><strong id="sum-dur">20</strong> <span data-i18n="solo.sum_min">min</span></span>
                 <span class="dot-sep">·</span>
-                <span>challenge <strong>random</strong></span>
+                <span><span data-i18n="solo.sum_challenge">challenge</span> <strong>random</strong></span>
                 <span class="dot-sep">·</span>
-                <span>reference <strong id="sum-ref">on</strong></span>
+                <span><span data-i18n="solo.sum_reference">reference</span> <strong id="sum-ref">on</strong></span>
             </div>
         </div>
 

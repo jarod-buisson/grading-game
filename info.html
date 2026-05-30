@@ -55,11 +55,11 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=1"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>info · grading-game — credits & patch notes</title>
+    <title data-i18n="info.meta_title">info · grading-game — credits & patch notes</title>
     <meta name="description" content="Credits and patch notes for grading-game.com. Built by Jarod Buisson with the help of Claude (Anthropic).">
 
     <link rel="canonical"            href="https://grading-game.com/info.html">
@@ -91,7 +91,7 @@
         </div>
         <div class="top-bar-right">
             <div class="version-tag">
-                <span>08</span><span class="sep">·</span><span>info</span>
+                <span>08</span><span class="sep">·</span><span data-i18n="chrome.info">info</span>
             </div>
         </div>
     </header>
@@ -100,11 +100,11 @@
         <div class="info-inner">
 
             <div>
-                <div class="info-eyebrow">08 · info</div>
-                <h1 class="info-title">Credits &amp; patch notes</h1>
+                <div class="info-eyebrow" data-i18n="info.eyebrow">08 · info</div>
+                <h1 class="info-title" data-i18n="info.h1">Credits &amp; patch notes</h1>
             </div>
 
-            <p class="info-intro">
+            <p class="info-intro" data-i18n="info.intro">
                 A photo color-grading game built solo, in the open. Every release lands here.
             </p>
 
@@ -112,20 +112,20 @@
             <nav class="info-toc" aria-label="info sections">
                 <a href="#credits" class="info-toc-item">
                     <span class="info-toc-num">01</span>
-                    <span class="info-toc-label">Credits</span>
+                    <span class="info-toc-label" data-i18n="info.toc_credits">Credits</span>
                 </a>
                 <a href="#patch-notes" class="info-toc-item">
                     <span class="info-toc-num">02</span>
-                    <span class="info-toc-label">Patch notes</span>
+                    <span class="info-toc-label" data-i18n="info.toc_patches">Patch notes</span>
                 </a>
             </nav>
 
             <!-- ─── SECTION 1 — CREDITS ─────────────────────── -->
             <section class="info-section" id="credits">
                 <div class="info-section-num">01</div>
-                <h2 class="info-section-title">Credits</h2>
+                <h2 class="info-section-title" data-i18n="info.credits_title">Credits</h2>
 
-                <p class="info-section-intro">
+                <p class="info-section-intro" data-i18n="info.credits_intro">
                     grading-game is an independent project. The two columns below cover
                     the human behind the design and the AI behind the code.
                 </p>
@@ -134,14 +134,14 @@
 
                     <!-- Creator card -->
                     <article class="credit-card">
-                        <div class="credit-card-label">creator · designer</div>
+                        <div class="credit-card-label" data-i18n="info.creator_label">creator · designer</div>
                         <h3 class="credit-card-title">Jarod Buisson</h3>
-                        <p class="credit-card-bio">
+                        <p class="credit-card-bio" data-i18n="info.creator_bio1">
                             Photographer &amp; colorist based in France. I shoot and develop a lot of
                             film, and I wanted a fun way for everyone to
                             practice grading on real RAWs and scans — so I built it.
                         </p>
-                        <p class="credit-card-bio">
+                        <p class="credit-card-bio" data-i18n-html="info.creator_bio2_html">
                             Every photo you grade in the random pool was contributed by
                             a real photographer. Hit the
                             <a href="contributors.html">Contributors</a> page if you
@@ -161,9 +161,9 @@
 
                     <!-- Claude / Anthropic card -->
                     <article class="credit-card">
-                        <div class="credit-card-label">code · co-author</div>
+                        <div class="credit-card-label" data-i18n="info.coauthor_label">code · co-author</div>
                         <h3 class="credit-card-title">Claude · Anthropic</h3>
-                        <p class="credit-card-bio">
+                        <p class="credit-card-bio" data-i18n-html="info.coauthor_bio_html">
                             The codebase was written in close collaboration with
                             <strong>Claude</strong>, Anthropic's AI assistant. I steered
                             the design, the look-and-feel and every product decision;
@@ -184,9 +184,9 @@
             <!-- ─── SECTION 2 — PATCH NOTES ──────────────────── -->
             <section class="info-section" id="patch-notes">
                 <div class="info-section-num">02</div>
-                <h2 class="info-section-title">Patch notes</h2>
+                <h2 class="info-section-title" data-i18n="info.patches_title">Patch notes</h2>
 
-                <p class="info-section-intro">
+                <p class="info-section-intro" data-i18n="info.patches_intro">
                     Changes made in each update. Newest first.
                 </p>
 
@@ -509,7 +509,7 @@
                 </div>
             </section>
 
-            <a href="index.html" class="back-link">← back to menu</a>
+            <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
 
         </div>
     </main>

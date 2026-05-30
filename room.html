@@ -55,11 +55,11 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=1"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>room · grading-game</title>
+    <title data-i18n="room.meta_title">room · grading-game</title>
     <meta name="description" content="Multiplayer grading-game room — lobby, live session, anonymous voting, results.">
     <!-- Room URL needs a ?code=XXXXXX param to function — don't index. -->
     <meta name="robots" content="noindex, follow">
@@ -89,70 +89,70 @@
         </div>
 
         <div class="room-bar-state">
-            <span>state ·</span>
+            <span data-i18n="room.state_label">state ·</span>
             <span class="state-val" id="state-label">lobby</span>
         </div>
 
         <div class="room-bar-code">
-            <span class="room-bar-code-label">room</span>
+            <span class="room-bar-code-label" data-i18n="room.code_label">room</span>
             <span class="room-bar-code-val" id="room-code-display">——————</span>
         </div>
 
-        <button class="room-bar-quit" id="quit-room">leave</button>
+        <button class="room-bar-quit" id="quit-room" data-i18n="room.leave">leave</button>
     </header>
 
     <!-- =================== STATE PANELS =================== -->
 
     <!-- ───────── LOBBY ───────── -->
     <section class="state-panel state-lobby is-active" data-state="lobby">
-        <div class="lobby-eyebrow">02 · waiting room</div>
-        <h1 class="lobby-title" id="lobby-title">Waiting for players to join</h1>
+        <div class="lobby-eyebrow" data-i18n="room.lobby_eyebrow">02 · waiting room</div>
+        <h1 class="lobby-title" id="lobby-title" data-i18n="room.lobby_title">Waiting for players to join</h1>
 
         <div class="lobby-code-display">
-            <div class="lobby-code-label">share this code</div>
+            <div class="lobby-code-label" data-i18n="room.share_code">share this code</div>
             <div class="lobby-code-big" id="lobby-code-big" title="click to copy">——————</div>
-            <div class="lobby-code-hint" id="lobby-code-hint">click to copy</div>
+            <div class="lobby-code-hint" id="lobby-code-hint" data-i18n="room.click_copy">click to copy</div>
         </div>
 
         <div class="lobby-grid">
             <!-- Players card -->
             <div class="lobby-card">
-                <div class="lobby-card-title">players · <span id="lobby-player-count">0/8</span></div>
+                <div class="lobby-card-title"><span data-i18n="room.players">players</span> · <span id="lobby-player-count">0/8</span></div>
                 <div class="player-list" id="lobby-player-list"></div>
             </div>
 
             <!-- Session card -->
             <div class="lobby-card">
-                <div class="lobby-card-title">session</div>
+                <div class="lobby-card-title" data-i18n="room.session">session</div>
                 <div class="session-row">
-                    <span class="session-row-label">duration</span>
+                    <span class="session-row-label" data-i18n="solo.duration">duration</span>
                     <span class="session-row-value" id="sess-duration">20 min</span>
                 </div>
                 <div class="session-row">
-                    <span class="session-row-label">challenge</span>
+                    <span class="session-row-label" data-i18n="solo.challenge">challenge</span>
                     <span class="session-row-value" id="sess-challenge">random</span>
                 </div>
                 <div class="session-row">
-                    <span class="session-row-label">category</span>
+                    <span class="session-row-label" data-i18n="solo.category">category</span>
                     <span class="session-row-value" id="sess-category">all</span>
                 </div>
                 <div class="session-row">
-                    <span class="session-row-label">visibility</span>
+                    <span class="session-row-label" data-i18n="multi.visibility">visibility</span>
                     <span class="session-row-value" id="sess-visibility">public</span>
                 </div>
                 <div class="session-row">
-                    <span class="session-row-label">min · max</span>
-                    <span class="session-row-value">2 · 8 players</span>
+                    <span class="session-row-label" data-i18n="room.min_max">min · max</span>
+                    <span class="session-row-value">2 · 8 <span data-i18n="room.players">players</span></span>
                 </div>
             </div>
         </div>
 
         <div class="lobby-actions">
             <button class="btn-room-start" id="btn-start" disabled>
-                <span id="btn-start-label">need at least 2 players</span>
+                <span id="btn-start-label" data-i18n="room.need_players">need at least 2 players</span>
                 <span class="btn-arrow">→</span>
             </button>
-            <div class="waiting-hint" id="waiting-hint" style="display:none;">
+            <div class="waiting-hint" id="waiting-hint" style="display:none;" data-i18n="room.waiting_host">
                 waiting for host to start…
             </div>
         </div>
@@ -163,14 +163,14 @@
 
         <div class="play-preview">
             <div class="preview-header">
-                <span class="preview-label">source preview · view only</span>
+                <span class="preview-label" data-i18n="game.preview_label">source preview · view only</span>
                 <span class="preview-meta" id="play-preview-meta">— · — · —</span>
             </div>
 
             <div class="play-preview-frame" id="play-preview-frame">
                 <div class="preview-placeholder" id="play-preview-ph">
                     <div class="ph-mark">◫</div>
-                    <div>preview not loaded</div>
+                    <div data-i18n="game.preview_not_loaded">preview not loaded</div>
                 </div>
                 <div class="preview-corners" aria-hidden="true">
                     <span></span><span></span><span></span><span></span>
@@ -192,24 +192,24 @@
         <aside class="play-rail">
 
             <div class="play-block">
-                <div class="rail-label">time remaining</div>
+                <div class="rail-label" data-i18n="game.time_remaining">time remaining</div>
                 <div class="timer-display" id="play-timer-display">
                     <span id="play-time-min">20</span><span class="colon">:</span><span id="play-time-sec">00</span>
                 </div>
-                <div class="timer-sub">grade externally · upload before timer ends</div>
+                <div class="timer-sub" data-i18n="room.grade_externally">grade externally · upload before timer ends</div>
             </div>
 
             <div class="play-block">
-                <div class="rail-label">submissions</div>
+                <div class="rail-label" data-i18n="room.submissions">submissions</div>
                 <div class="submission-status" id="submission-status">
                     <!-- rows injected -->
                 </div>
             </div>
 
             <div class="play-block">
-                <div class="rail-label">step 1 · download source</div>
+                <div class="rail-label" data-i18n="game.step1">step 1 · download source</div>
                 <button class="action-btn" id="play-download-btn">
-                    <span><span class="btn-icon">⤓</span> download original</span>
+                    <span><span class="btn-icon">⤓</span> <span data-i18n="game.download_btn">download original</span></span>
                     <span class="btn-arrow">→</span>
                 </button>
                 <div class="file-meta">
@@ -219,16 +219,16 @@
             </div>
 
             <div class="play-block">
-                <div class="rail-label">step 2 · upload your grade</div>
+                <div class="rail-label" data-i18n="game.step2">step 2 · upload your grade</div>
                 <label class="drop-zone" id="play-drop-zone">
                     <input type="file" id="play-grade-input" accept="image/*">
                     <span class="drop-icon" id="play-drop-icon">⤒</span>
-                    <span class="drop-text" id="play-drop-text">drop your jpeg here</span>
-                    <span class="drop-sub" id="play-drop-sub">or click to choose</span>
+                    <span class="drop-text" id="play-drop-text" data-i18n="game.drop_text">drop your jpeg here</span>
+                    <span class="drop-sub" id="play-drop-sub" data-i18n="room.drop_sub_short">or click to choose</span>
                     <span class="drop-filename" id="play-drop-filename" style="display:none;"></span>
                 </label>
                 <button class="btn-submit" id="play-submit-btn" disabled>
-                    <span>submit grade</span>
+                    <span data-i18n="game.submit">submit grade</span>
                     <span class="btn-arrow">→</span>
                 </button>
             </div>
@@ -240,12 +240,12 @@
     <section class="state-panel state-gallery" data-state="gallery">
         <div class="gallery-head">
             <div>
-                <div class="gallery-eyebrow">02 · anonymous voting</div>
-                <h1 class="gallery-title">Rate the grades</h1>
-                <div class="gallery-sub">1 = weakest · 5 = strongest · you cannot vote on your own</div>
+                <div class="gallery-eyebrow" data-i18n="room.gallery_eyebrow">02 · anonymous voting</div>
+                <h1 class="gallery-title" data-i18n="room.gallery_title">Rate the grades</h1>
+                <div class="gallery-sub" data-i18n="room.gallery_sub">1 = weakest · 5 = strongest · you cannot vote on your own</div>
             </div>
             <div class="gallery-progress">
-                <span><strong id="votes-done">0</strong> of <strong id="votes-total">0</strong> voted</span>
+                <span><strong id="votes-done">0</strong> <span data-i18n="room.of">of</span> <strong id="votes-total">0</strong> <span data-i18n="room.voted">voted</span></span>
             </div>
         </div>
 
@@ -254,9 +254,9 @@
         </div>
 
         <div class="gallery-footer">
-            <div class="section-meta">votes auto-submit when you've rated every submission</div>
+            <div class="section-meta" data-i18n="room.votes_auto_submit">votes auto-submit when you've rated every submission</div>
             <button class="btn-submit" id="finalize-votes" disabled style="width:auto;">
-                <span>finalize my votes</span>
+                <span data-i18n="room.finalize_votes">finalize my votes</span>
                 <span class="btn-arrow">→</span>
             </button>
         </div>
@@ -265,8 +265,8 @@
     <!-- ───────── RESULT (podium) ───────── -->
     <section class="state-panel state-result" data-state="result">
         <div>
-            <div class="result-eyebrow-2">02 · session complete</div>
-            <h1 class="result-title-2">Final scoreboard</h1>
+            <div class="result-eyebrow-2" data-i18n="room.result_eyebrow">02 · session complete</div>
+            <h1 class="result-title-2" data-i18n="room.result_title">Final scoreboard</h1>
             <div class="result-winner" id="result-winner">— winner —</div>
         </div>
 
@@ -277,16 +277,16 @@
         <div class="scoreboard">
             <div class="scoreboard-head">
                 <span>#</span>
-                <span>player</span>
-                <span>avg</span>
-                <span>votes</span>
+                <span data-i18n="room.sb_player">player</span>
+                <span data-i18n="room.sb_avg">avg</span>
+                <span data-i18n="room.sb_votes">votes</span>
             </div>
             <div id="scoreboard-rows"></div>
         </div>
 
         <div class="result-actions">
-            <button class="result-action" id="result-back">← back to lobby</button>
-            <button class="result-action is-primary" id="result-new">↻ new room</button>
+            <button class="result-action" id="result-back" data-i18n="room.back_lobby">← back to lobby</button>
+            <button class="result-action is-primary" id="result-new" data-i18n="room.new_room">↻ new room</button>
         </div>
     </section>
 

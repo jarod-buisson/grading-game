@@ -55,11 +55,11 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=1"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>contributors · grading-game — photographers behind the photos</title>
+    <title data-i18n="contributors.meta_title">contributors · grading-game — photographers behind the photos</title>
     <meta name="description" content="Meet the photographers who contributed their RAWs and scans to grading-game. Each contributor keeps full rights; their license is shown on every download.">
 
     <link rel="canonical"            href="https://grading-game.com/contributors.html">
@@ -90,7 +90,7 @@
         </div>
         <div class="top-bar-right">
             <div class="version-tag">
-                <span>04</span><span class="sep">·</span><span>contributors</span>
+                <span>04</span><span class="sep">·</span><span data-i18n="wheel.contributors">contributors</span>
             </div>
         </div>
     </header>
@@ -99,11 +99,11 @@
         <div class="contributors-inner">
 
             <div>
-                <div class="contributors-eyebrow">04 · contributors</div>
-                <h1 class="contributors-title">The photographers behind the photos</h1>
+                <div class="contributors-eyebrow" data-i18n="contributors.eyebrow">04 · contributors</div>
+                <h1 class="contributors-title" data-i18n="contributors.h1">The photographers behind the photos</h1>
             </div>
 
-            <p class="contributors-intro">
+            <p class="contributors-intro" data-i18n-html="contributors.intro_html">
                 The game wouldn't exist without these photographers who trusted us
                 with their work for educational use. Each of them keeps
                 <strong>all rights</strong> on their images — the license shown
@@ -112,17 +112,17 @@
             </p>
 
             <div class="contributors-meta-row" id="contributors-stats">
-                <span><strong>—</strong> photographers</span>
-                <span><strong>—</strong> photos available</span>
+                <span><strong>—</strong> <span data-i18n="contributors.photographers">photographers</span></span>
+                <span><strong>—</strong> <span data-i18n="contributors.photos_available">photos available</span></span>
             </div>
 
             <div class="contributors-grid" id="contributors-grid">
-                <div class="contributors-empty">loading…</div>
+                <div class="contributors-empty" data-i18n="gallery.loading">loading…</div>
             </div>
 
             <div class="contributors-cta">
-                <div class="contributors-cta-title">Want to contribute?</div>
-                <p class="contributors-cta-body">
+                <div class="contributors-cta-title" data-i18n="contributors.cta_title">Want to contribute?</div>
+                <p class="contributors-cta-body" data-i18n-html="contributors.cta_body_html">
                     Send us your work — we'll review and add it to the game. Use a
                     <strong>WeTransfer / SwissTransfer / Smash</strong> link with
                     a JPEG preview, your source file (RAW, TIFF, scan…) and the
@@ -136,41 +136,42 @@
 
                     <div class="contribute-row">
                         <label class="contribute-field">
-                            <span class="contribute-label">first name</span>
+                            <span class="contribute-label" data-i18n="contributors.first_name">first name</span>
                             <input type="text" name="first_name" required maxlength="100"
                                    autocomplete="given-name" spellcheck="false">
                         </label>
                         <label class="contribute-field">
-                            <span class="contribute-label">last name</span>
+                            <span class="contribute-label" data-i18n="contributors.last_name">last name</span>
                             <input type="text" name="last_name" required maxlength="100"
                                    autocomplete="family-name" spellcheck="false">
                         </label>
                     </div>
 
                     <label class="contribute-field">
-                        <span class="contribute-label">email</span>
+                        <span class="contribute-label" data-i18n="contributors.email">email</span>
                         <input type="email" name="email" required maxlength="200"
                                autocomplete="email" spellcheck="false"
                                placeholder="name@domain.com">
                     </label>
 
                     <label class="contribute-field">
-                        <span class="contribute-label">transfer link</span>
+                        <span class="contribute-label" data-i18n="contributors.transfer_link">transfer link</span>
                         <input type="url" name="transfer_link" required maxlength="500"
                                autocomplete="off" spellcheck="false"
                                placeholder="https://we.tl/… · https://www.swisstransfer.com/… · https://fromsmash.com/…">
                     </label>
 
                     <label class="contribute-field">
-                        <span class="contribute-label">message <span class="contribute-label-hint">(optional · license preference, Instagram handle, anything we should know)</span></span>
+                        <span class="contribute-label" data-i18n-html="contributors.message_label_html">message <span class="contribute-label-hint">(optional · license preference, Instagram handle, anything we should know)</span></span>
                         <textarea name="message" rows="3" maxlength="2000"
                                   spellcheck="false"
-                                  placeholder="e.g. CC BY-NC license · @yourhandle on Instagram"></textarea>
+                                  placeholder="e.g. CC BY-NC license · @yourhandle on Instagram"
+                                  data-i18n-attr="placeholder:contributors.message_placeholder"></textarea>
                     </label>
 
                     <div class="contribute-actions">
                         <button type="submit" class="contribute-submit" id="contribute-submit">
-                            <span>send my work</span>
+                            <span data-i18n="contributors.submit">send my work</span>
                             <span class="contribute-arrow">→</span>
                         </button>
                         <div class="contribute-status" id="contribute-status" aria-live="polite"></div>
@@ -178,8 +179,8 @@
                 </form>
 
                 <details class="contribute-tip">
-                    <summary>Tip: embed your copyright in the RAW before sending</summary>
-                    <p>
+                    <summary data-i18n="contributors.tip_summary">Tip: embed your copyright in the RAW before sending</summary>
+                    <p data-i18n-html="contributors.tip_body_html">
                         Most pro RAW formats support EXIF copyright fields. Using
                         <a href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool</a>
                         you can stamp your name + license once and re-export forever:
@@ -188,7 +189,7 @@
                 </details>
             </div>
 
-            <a href="index.html" class="back-link">← back to menu</a>
+            <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
 
         </div>
     </main>

@@ -55,11 +55,11 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=1"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>gallery · grading-game — your challenge collection</title>
+    <title data-i18n="gallery.meta_title">gallery · grading-game — your challenge collection</title>
     <meta name="description" content="Browse every photo available in grading-game. Challenges you've completed appear unlocked; the rest stay locked until you grade them.">
 
     <link rel="canonical"            href="https://grading-game.com/gallery.html">
@@ -91,7 +91,7 @@
         </div>
         <div class="top-bar-right">
             <div class="version-tag">
-                <span>03</span><span class="sep">·</span><span>gallery</span>
+                <span>03</span><span class="sep">·</span><span data-i18n="wheel.gallery">gallery</span>
             </div>
         </div>
     </header>
@@ -100,11 +100,11 @@
         <div class="gallery-inner">
 
             <div>
-                <div class="gallery-eyebrow">03 · gallery</div>
-                <h1 class="gallery-title">Your challenge collection</h1>
+                <div class="gallery-eyebrow" data-i18n="gallery.eyebrow">03 · gallery</div>
+                <h1 class="gallery-title" data-i18n="gallery.h1">Your challenge collection</h1>
             </div>
 
-            <p class="gallery-intro">
+            <p class="gallery-intro" data-i18n="gallery.intro">
                 Every photo currently available on grading-game. Once you submit a grade
                 for a challenge (solo or multiplayer), it unlocks here. Until then it
                 stays hidden — discover photos by playing.
@@ -112,27 +112,27 @@
 
             <!-- Sign-in banner for anonymous users -->
             <div class="gallery-anon-banner" id="gallery-anon-banner" hidden>
-                <div class="gallery-anon-text">
+                <div class="gallery-anon-text" data-i18n-html="gallery.anon_text">
                     <strong>Sign in to track your gallery.</strong>
                     Without an account, your unlocks aren't saved.
                 </div>
                 <button class="gallery-anon-cta" id="gallery-anon-signin" type="button">
-                    <span>sign in</span>
+                    <span data-i18n="signin.label">sign in</span>
                     <span aria-hidden="true">→</span>
                 </button>
             </div>
 
             <div class="gallery-counter-row" id="gallery-counter-row">
                 <span class="gallery-counter" id="gallery-counter">
-                    <strong>—</strong> / <strong>—</strong> unlocked
+                    <strong>—</strong> / <strong>—</strong> <span data-i18n="gallery.unlocked">unlocked</span>
                 </span>
             </div>
 
             <div class="gallery-grid" id="gallery-grid">
-                <div class="gallery-empty">loading…</div>
+                <div class="gallery-empty" data-i18n="gallery.loading">loading…</div>
             </div>
 
-            <a href="index.html" class="back-link">← back to menu</a>
+            <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
 
         </div>
     </main>

@@ -55,11 +55,11 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=1"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>result · grading-game</title>
+    <title data-i18n="result.meta_title">result · grading-game</title>
     <meta name="description" content="Side-by-side or wipe-mode comparison of your grade with the reference. Available after a solo session.">
     <!-- Result page only makes sense after a session — relies on sessionStorage. -->
     <meta name="robots" content="noindex, follow">
@@ -92,13 +92,13 @@
 
         <div class="result-header">
             <div>
-                <div class="result-eyebrow">solo · session complete</div>
-                <h1 class="result-title" id="result-title">Comparison</h1>
+                <div class="result-eyebrow" data-i18n="result.eyebrow">solo · session complete</div>
+                <h1 class="result-title" id="result-title" data-i18n="result.h1">Comparison</h1>
             </div>
             <div class="result-meta" id="result-meta">
-                <span><strong id="meta-challenge">—</strong> · challenge</span>
+                <span><strong id="meta-challenge">—</strong> · <span data-i18n="solo.challenge">challenge</span></span>
                 <span class="dot-sep">·</span>
-                <span><strong id="meta-duration">—</strong> min</span>
+                <span><strong id="meta-duration">—</strong> <span data-i18n="solo.sum_min">min</span></span>
                 <span class="dot-sep">·</span>
                 <span><strong id="meta-submitted">—</strong></span>
             </div>
@@ -108,11 +108,11 @@
         <div class="view-switcher" role="tablist" aria-label="comparison view">
             <button class="view-btn is-active" data-view="side" role="tab" aria-selected="true">
                 <span class="view-btn-icon" aria-hidden="true">⫷⫸</span>
-                <span>side by side</span>
+                <span data-i18n="result.side_by_side">side by side</span>
             </button>
             <button class="view-btn" data-view="wipe" role="tab" aria-selected="false">
                 <span class="view-btn-icon" aria-hidden="true">⇄</span>
-                <span>wipe</span>
+                <span data-i18n="result.wipe">wipe</span>
             </button>
         </div>
 
@@ -127,9 +127,9 @@
             <!-- Wipe view -->
             <div class="compare-wipe" id="compare-wipe" data-view="wipe">
                 <div class="wipe-labels">
-                    <span class="wipe-label-left">your grade</span>
+                    <span class="wipe-label-left" data-i18n="result.your_grade">your grade</span>
                     <span class="wipe-split-pct" id="wipe-pct">50%</span>
-                    <span class="wipe-label-right">reference</span>
+                    <span class="wipe-label-right" data-i18n="result.reference">reference</span>
                 </div>
                 <!-- wipe-stage centers an aspect-locked container in the
                      available vertical space, so the divider matches the
@@ -150,10 +150,10 @@
         </div>
 
         <div class="result-footer">
-            <a href="index.html" class="back-link">← back to menu</a>
+            <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
             <div class="result-actions">
-                <button class="result-action" id="download-grade">⤓ download my grade</button>
-                <button class="result-action is-primary" id="new-session">↻ new session</button>
+                <button class="result-action" id="download-grade" data-i18n="result.download_grade">⤓ download my grade</button>
+                <button class="result-action is-primary" id="new-session" data-i18n="result.new_session">↻ new session</button>
             </div>
         </div>
 

@@ -55,11 +55,11 @@
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=1"></script>
+    <script src="js/i18n-dict.js?v=2"></script>
     <script src="js/i18n.js?v=1"></script>
     <script src="js/chrome.js?v=6"></script>
     <!-- :head-common-end: -->
-    <title>profile · grading-game — your account & stats</title>
+    <title data-i18n="profile.meta_title">profile · grading-game — your account & stats</title>
     <meta name="description" content="Your grading-game profile: nickname, avatar, stats from solo and multiplayer sessions, plus account settings.">
     <!-- Profile content is user-specific and requires auth — don't index. -->
     <meta name="robots" content="noindex, follow">
@@ -84,7 +84,7 @@
         </div>
         <div class="top-bar-right">
             <div class="version-tag">
-                <span>06</span><span class="sep">·</span><span>profile</span>
+                <span>06</span><span class="sep">·</span><span data-i18n="profile.tag">profile</span>
             </div>
         </div>
     </header>
@@ -94,18 +94,18 @@
 
             <!-- ─── ANONYMOUS state ─────────────────────────── -->
             <section class="profile-anon" id="profile-anon" hidden>
-                <div class="profile-eyebrow">06 · profile</div>
-                <h1 class="profile-title-big">Sign in to see your profile</h1>
-                <p class="profile-intro">
+                <div class="profile-eyebrow" data-i18n="profile.eyebrow">06 · profile</div>
+                <h1 class="profile-title-big" data-i18n="profile.anon_title">Sign in to see your profile</h1>
+                <p class="profile-intro" data-i18n="profile.anon_intro">
                     Your profile keeps track of every game you play — how many
                     rounds, average score, wins. Stats start counting once you
                     sign in. Anonymous play stays anonymous: nothing is saved.
                 </p>
                 <button class="profile-cta-signin" id="profile-cta-signin" type="button">
-                    <span>sign in</span>
+                    <span data-i18n="signin.label">sign in</span>
                     <span class="profile-cta-arrow" aria-hidden="true">→</span>
                 </button>
-                <a href="index.html" class="back-link">← back to menu</a>
+                <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
             </section>
 
             <!-- ─── AUTHENTICATED state ─────────────────────── -->
@@ -117,82 +117,82 @@
                         <span class="profile-avatar-fallback" id="profile-avatar-fallback">—</span>
                     </div>
                     <div class="profile-identity">
-                        <div class="profile-eyebrow">06 · profile</div>
+                        <div class="profile-eyebrow" data-i18n="profile.eyebrow">06 · profile</div>
                         <h1 class="profile-display-name" id="profile-display-name">—</h1>
                         <div class="profile-handle-row">
                             <span class="profile-handle" id="profile-handle">@—</span>
-                            <button class="profile-edit-btn" id="profile-edit-btn" type="button" title="edit nickname">edit</button>
+                            <button class="profile-edit-btn" id="profile-edit-btn" type="button" title="edit nickname" data-i18n="profile.edit">edit</button>
                         </div>
                         <div class="profile-meta-row">
-                            <span>member since · <strong id="profile-since">—</strong></span>
+                            <span><span data-i18n="profile.member_since">member since</span> · <strong id="profile-since">—</strong></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Stats grid -->
-                <div class="profile-section-head">stats</div>
+                <div class="profile-section-head" data-i18n="profile.stats">stats</div>
                 <div class="profile-stats-grid">
                     <div class="stat-card">
-                        <div class="stat-label">total games</div>
+                        <div class="stat-label" data-i18n="profile.stat_total">total games</div>
                         <div class="stat-value" id="stat-total">0</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">multi games</div>
+                        <div class="stat-label" data-i18n="profile.stat_multi">multi games</div>
                         <div class="stat-value" id="stat-multi">0</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">solo games</div>
+                        <div class="stat-label" data-i18n="profile.stat_solo">solo games</div>
                         <div class="stat-value" id="stat-solo">0</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">wins</div>
+                        <div class="stat-label" data-i18n="profile.stat_wins">wins</div>
                         <div class="stat-value stat-value--accent" id="stat-wins">0</div>
-                        <div class="stat-sub">multi · rank 1</div>
+                        <div class="stat-sub" data-i18n="profile.stat_wins_sub">multi · rank 1</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">best score</div>
+                        <div class="stat-label" data-i18n="profile.stat_best">best score</div>
                         <div class="stat-value" id="stat-best">0</div>
-                        <div class="stat-sub">votes received</div>
+                        <div class="stat-sub" data-i18n="profile.stat_best_sub">votes received</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">avg score</div>
+                        <div class="stat-label" data-i18n="profile.stat_avg">avg score</div>
                         <div class="stat-value" id="stat-avg">0.0</div>
-                        <div class="stat-sub">votes per multi game</div>
+                        <div class="stat-sub" data-i18n="profile.stat_avg_sub">votes per multi game</div>
                     </div>
                 </div>
 
                 <!-- Settings -->
-                <div class="profile-section-head">account</div>
+                <div class="profile-section-head" data-i18n="profile.account">account</div>
                 <div class="profile-settings">
 
                     <div class="setting-row">
                         <div>
-                            <div class="setting-title">sign out</div>
-                            <div class="setting-desc">End your session on this device. You can sign back in anytime.</div>
+                            <div class="setting-title" data-i18n="profile.signout_title">sign out</div>
+                            <div class="setting-desc" data-i18n="profile.signout_desc">End your session on this device. You can sign back in anytime.</div>
                         </div>
-                        <button class="setting-btn" id="setting-signout-btn" type="button">sign out</button>
+                        <button class="setting-btn" id="setting-signout-btn" type="button" data-i18n="profile.signout_btn">sign out</button>
                     </div>
 
                     <div class="setting-row">
                         <div>
-                            <div class="setting-title setting-title--danger">delete account</div>
-                            <div class="setting-desc">
+                            <div class="setting-title setting-title--danger" data-i18n="profile.delete_title">delete account</div>
+                            <div class="setting-desc" data-i18n="profile.delete_desc">
                                 Permanently remove your profile and all your game history. This cannot be undone.
                             </div>
                         </div>
-                        <button class="setting-btn setting-btn--danger" id="setting-delete-btn" type="button">delete…</button>
+                        <button class="setting-btn setting-btn--danger" id="setting-delete-btn" type="button" data-i18n="profile.delete_btn">delete…</button>
                     </div>
 
                 </div>
 
-                <a href="index.html" class="back-link">← back to menu</a>
+                <a href="index.html" class="back-link" data-i18n="back.menu">← back to menu</a>
 
             </section>
 
             <!-- ─── LOADING state (initial) ─────────────────── -->
             <div class="profile-loading" id="profile-loading">
                 <div class="profile-loading-spinner" aria-hidden="true"></div>
-                <div>loading…</div>
+                <div data-i18n="gallery.loading">loading…</div>
             </div>
 
         </div>
@@ -202,11 +202,11 @@
     <div class="profile-modal" id="edit-modal" role="dialog" aria-modal="true" hidden>
         <div class="profile-modal-card">
             <div class="profile-modal-head">
-                <div class="profile-modal-title">edit nickname</div>
-                <button class="profile-modal-close" id="edit-close" type="button">esc ✕</button>
+                <div class="profile-modal-title" data-i18n="profile.edit_nickname">edit nickname</div>
+                <button class="profile-modal-close" id="edit-close" type="button" data-i18n="multi.modal_close">esc ✕</button>
             </div>
             <div class="profile-modal-body">
-                <label class="profile-modal-label">new nickname</label>
+                <label class="profile-modal-label" data-i18n="profile.new_nickname">new nickname</label>
                 <input
                     type="text"
                     class="profile-modal-input"
@@ -215,13 +215,13 @@
                     placeholder="your-nickname"
                     autocomplete="off"
                     spellcheck="false">
-                <div class="profile-modal-hint" id="edit-hint">
+                <div class="profile-modal-hint" id="edit-hint" data-i18n="profile.nick_hint">
                     lowercase letters, digits and underscore · max 20 chars · must be unique
                 </div>
             </div>
             <div class="profile-modal-actions">
-                <button class="profile-modal-btn profile-modal-btn--ghost" id="edit-cancel" type="button">cancel</button>
-                <button class="profile-modal-btn profile-modal-btn--primary" id="edit-save" type="button" disabled>save</button>
+                <button class="profile-modal-btn profile-modal-btn--ghost" id="edit-cancel" type="button" data-i18n="profile.cancel">cancel</button>
+                <button class="profile-modal-btn profile-modal-btn--primary" id="edit-save" type="button" disabled data-i18n="profile.save">save</button>
             </div>
         </div>
     </div>
@@ -230,15 +230,15 @@
     <div class="profile-modal" id="delete-modal" role="dialog" aria-modal="true" hidden>
         <div class="profile-modal-card">
             <div class="profile-modal-head">
-                <div class="profile-modal-title profile-modal-title--danger">delete account?</div>
-                <button class="profile-modal-close" id="delete-close" type="button">esc ✕</button>
+                <div class="profile-modal-title profile-modal-title--danger" data-i18n="profile.delete_modal_title">delete account?</div>
+                <button class="profile-modal-close" id="delete-close" type="button" data-i18n="multi.modal_close">esc ✕</button>
             </div>
             <div class="profile-modal-body">
                 <p class="profile-modal-warning">
-                    This will permanently delete <strong id="delete-confirm-handle">@—</strong>
-                    and every game in your history. There's no undo.
+                    <span data-i18n="profile.delete_warning_part1">This will permanently delete</span> <strong id="delete-confirm-handle">@—</strong>
+                    <span data-i18n="profile.delete_warning_part2">and every game in your history. There's no undo.</span>
                 </p>
-                <label class="profile-modal-label">type your nickname to confirm</label>
+                <label class="profile-modal-label" data-i18n="profile.delete_confirm_label">type your nickname to confirm</label>
                 <input
                     type="text"
                     class="profile-modal-input"
@@ -247,8 +247,8 @@
                     spellcheck="false">
             </div>
             <div class="profile-modal-actions">
-                <button class="profile-modal-btn profile-modal-btn--ghost" id="delete-cancel" type="button">cancel</button>
-                <button class="profile-modal-btn profile-modal-btn--danger" id="delete-confirm" type="button" disabled>delete forever</button>
+                <button class="profile-modal-btn profile-modal-btn--ghost" id="delete-cancel" type="button" data-i18n="profile.cancel">cancel</button>
+                <button class="profile-modal-btn profile-modal-btn--danger" id="delete-confirm" type="button" disabled data-i18n="profile.delete_forever">delete forever</button>
             </div>
         </div>
     </div>

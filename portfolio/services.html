@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Développement & scan de vos pellicules</title>
+  <meta name="description" content="Configurez votre commande : N&B ou couleur, rendu classique, contrasté ou flat, avec ou sans scan. Développement de pellicules par un photographe argentique.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================ NAV ============================ -->
+  <nav class="nav" id="nav">
+    <a href="index.html" class="brand"><span class="dot"></span> Atelier Argentique</a>
+    <div class="nav-links">
+      <a href="index.html#travail">Travail</a>
+      <a href="index.html#labo">Le labo</a>
+      <a href="index.html#apropos">À propos</a>
+      <a class="btn ghost" href="index.html">← Accueil</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close" id="menuClose" aria-label="Fermer">×</button>
+    <a href="index.html#travail">Travail</a>
+    <a href="index.html#labo">Le labo</a>
+    <a href="index.html#apropos">À propos</a>
+    <a href="index.html">Accueil</a>
+  </div>
+
+  <!-- ============================ SUB-HERO ============================ -->
+  <header class="subhero">
+    <div class="wrap">
+      <p class="eyebrow">Services</p>
+      <h1>Confiez-moi vos<br>pellicules.</h1>
+      <p class="lead">Composez votre commande étape par étape. Le récapitulatif et l'estimation tarifaire se mettent à jour en direct — aucun engagement, c'est une demande de devis.</p>
+    </div>
+  </header>
+
+  <!-- ============================ COMMENT ÇA MARCHE ============================ -->
+  <section class="section" style="padding-top:30px">
+    <div class="wrap">
+      <div class="howto">
+        <div class="step"><p class="k">ÉTAPE 1</p><h3>Vous configurez</h3><p>Type de film, rendu, et option scan.</p></div>
+        <div class="step"><p class="k">ÉTAPE 2</p><h3>Vous m'écrivez</h3><p>Coordonnées + détails de vos films.</p></div>
+        <div class="step"><p class="k">ÉTAPE 3</p><h3>Vous envoyez</h3><p>Je vous donne l'adresse postale.</p></div>
+        <div class="step"><p class="k">ÉTAPE 4</p><h3>Vous recevez</h3><p>Négatifs + scans selon l'option.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============================ CONFIGURATEUR ============================ -->
+  <section class="section">
+    <div class="wrap">
+      <form class="config" id="configForm">
+
+        <!-- Colonne choix -->
+        <div>
+          <!-- 1 · TYPE -->
+          <div class="opt-group">
+            <div class="glabel"><span class="step-no">01</span> Type de pellicule</div>
+            <div class="opts">
+              <label class="opt">
+                <input type="radio" name="type" value="N&B" data-price="9" checked>
+                <span class="swatch sw-bw"></span>
+                <span class="t">Noir &amp; Blanc</span>
+                <span class="d">Développement N&amp;B à la main.</span>
+                <span class="tick">✓</span><span class="pick-border"></span>
+              </label>
+              <label class="opt">
+                <input type="radio" name="type" value="Couleur" data-price="12">
+                <span class="swatch sw-color"></span>
+                <span class="t">Couleur</span>
+                <span class="d">Procédé C-41 (négatif couleur).</span>
+                <span class="tick">✓</span><span class="pick-border"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 2 · RENDU -->
+          <div class="opt-group">
+            <div class="glabel"><span class="step-no">02</span> Rendu d'étalonnage</div>
+            <div class="opts three">
+              <label class="opt">
+                <input type="radio" name="rendu" value="Classique" data-price="0" checked>
+                <span class="swatch sw-classic"></span>
+                <span class="t">Classique</span>
+                <span class="d">Fidèle au film, équilibré et naturel.</span>
+                <span class="tick">✓</span><span class="pick-border"></span>
+              </label>
+              <label class="opt">
+                <input type="radio" name="rendu" value="Contrasté" data-price="2">
+                <span class="swatch sw-contrast"></span>
+                <span class="t">Contrasté</span>
+                <span class="d">Noirs profonds, punch, look affirmé.</span>
+                <span class="tick">✓</span><span class="pick-border"></span>
+              </label>
+              <label class="opt">
+                <input type="radio" name="rendu" value="Flat" data-price="2">
+                <span class="swatch sw-flat"></span>
+                <span class="t">Flat</span>
+                <span class="d">Faible contraste, latitude max pour retoucher.</span>
+                <span class="tick">✓</span><span class="pick-border"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 3 · SCAN -->
+          <div class="opt-group">
+            <div class="glabel"><span class="step-no">03</span> Numérisation</div>
+            <div class="opts">
+              <label class="opt">
+                <input type="radio" name="scan" value="Avec scan HD" data-price="7" checked>
+                <span class="swatch sw-color"></span>
+                <span class="t">Avec scan</span>
+                <span class="d">Scans haute définition + retour des négatifs.</span>
+                <span class="tick">✓</span><span class="pick-border"></span>
+              </label>
+              <label class="opt">
+                <input type="radio" name="scan" value="Sans scan" data-price="0">
+                <span class="swatch sw-bw"></span>
+                <span class="t">Sans scan</span>
+                <span class="d">Développement seul, retour des négatifs.</span>
+                <span class="tick">✓</span><span class="pick-border"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 4 · FORMAT + QUANTITÉ -->
+          <div class="opt-group">
+            <div class="glabel"><span class="step-no">04</span> Films &amp; coordonnées</div>
+            <div class="row2">
+              <div class="field">
+                <label for="format">Format</label>
+                <select id="format" name="format">
+                  <option value="35mm">35 mm</option>
+                  <option value="120">120 (moyen format)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="qty">Nombre de pellicules</label>
+                <div class="stepper">
+                  <button type="button" id="minus" aria-label="moins">−</button>
+                  <input type="number" id="qty" name="qty" value="1" min="1" max="99" readonly>
+                  <button type="button" id="plus" aria-label="plus">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="name">Nom</label>
+                <input type="text" id="name" name="name" placeholder="Votre nom" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="vous@exemple.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="msg">Détails (sensibilité, push/pull, demandes…)</label>
+              <textarea id="msg" name="msg" placeholder="Ex : 2× HP5 poussée à 1600, 1× Portra 400 nominal…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne récap -->
+        <aside>
+          <div class="recap">
+            <h3>Votre commande</h3>
+            <p class="sub">Estimation · devis sans engagement</p>
+
+            <div class="recap-row"><span class="rk">Type</span><span class="rv" id="r-type">Noir &amp; Blanc</span></div>
+            <div class="recap-row"><span class="rk">Rendu</span><span class="rv" id="r-rendu">Classique</span></div>
+            <div class="recap-row"><span class="rk">Scan</span><span class="rv" id="r-scan">Avec scan HD</span></div>
+            <div class="recap-row"><span class="rk">Format</span><span class="rv" id="r-format">35 mm</span></div>
+            <div class="recap-row"><span class="rk">Quantité</span><span class="rv" id="r-qty">1 pellicule</span></div>
+            <div class="recap-row"><span class="rk">Prix unitaire</span><span class="rv" id="r-unit">16 €</span></div>
+
+            <div class="recap-total">
+              <span class="tk">Estimation</span>
+              <span class="tv" id="r-total">16 €</span>
+            </div>
+
+            <button type="submit" class="btn">Envoyer ma demande →</button>
+            <p class="note">Tarifs indicatifs de maquette. Le devis définitif est confirmé par email avant tout envoi de vos films.</p>
+
+            <div class="sent" id="sentMsg">
+              ✅ Merci&nbsp;! Votre demande est prête (maquette). Dans la version finale, elle me serait envoyée directement.
+            </div>
+          </div>
+        </aside>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="brand"><span class="dot"></span> Atelier Argentique</div>
+          <p class="lead" style="font-size:15px">Développement &amp; scan de pellicules, par un photographe argentique. Actuellement entre la France et le Brésil.</p>
+        </div>
+        <div>
+          <h4>Naviguer</h4>
+          <a href="index.html#travail">Travail</a>
+          <a href="index.html#labo">Le labo</a>
+          <a href="index.html#apropos">À propos</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="mailto:buissonjarod@gmail.com">buissonjarod@gmail.com</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Atelier Argentique — maquette</span>
+        <span>Fait à la pellicule 🎞️</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/services.js"></script>
+</body>
+</html>

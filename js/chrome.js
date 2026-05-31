@@ -21,7 +21,7 @@
        so the "v…" pill in the index.html top bar stays in sync.
        The pill is updated client-side so we don't need a build step.
        Exposed on window for potential future read-only consumers. */
-    const SITE_VERSION = '1.5.2';
+    const SITE_VERSION = '1.6.0';
     window.GG_VERSION = SITE_VERSION;
 
     if (document.readyState === 'loading') {

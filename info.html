@@ -50,14 +50,14 @@
          "Sign in / Avatar" widget can mount in the top bar regardless of
          where the user lands. Order matters: SDK → gg client → auth UI. -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js?v=11"></script>
-    <script src="js/auth-ui.js?v=5"></script>
+    <script src="js/supabase-client.js?v=13"></script>
+    <script src="js/auth-ui.js?v=8"></script>
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=3"></script>
+    <script src="js/i18n-dict.js?v=5"></script>
     <script src="js/i18n.js?v=2"></script>
-    <script src="js/chrome.js?v=6"></script>
+    <script src="js/chrome.js?v=7"></script>
     <!-- :head-common-end: -->
     <title data-i18n="info.meta_title">info · grading-game — credits & patch notes</title>
     <meta name="description" content="Credits and patch notes for grading-game.com. Built by Jarod Buisson with the help of Claude (Anthropic).">
@@ -196,6 +196,44 @@
                 </p>
 
                 <div class="patch-list">
+
+                    <!-- ===== 1.6.0 ===== -->
+                    <article class="patch-card">
+                        <div class="patch-head">
+                            <div class="patch-head-left">
+                                <div class="patch-version">1.6.0</div>
+                                <div class="patch-name">Email sign-up · third login option</div>
+                            </div>
+                            <div class="patch-date">2026-05-31</div>
+                        </div>
+                        <p class="patch-summary">
+                            Discord and Google were the only sign-in
+                            options until now &mdash; not great if you
+                            don't have either, or just don't want to
+                            connect a social account. The login modal
+                            picks up a full email + password flow with
+                            confirmation email, password reset, and the
+                            same nickname picker the OAuth flow uses.
+                        </p>
+                        <div class="patch-cols">
+                            <div class="patch-col">
+                                <div class="patch-col-label">highlights</div>
+                                <ul>
+                                    <li>Create an account with email + password + nickname &mdash; a confirmation link arrives in your inbox to activate</li>
+                                    <li>"Forgot password?" sends a reset link that drops you straight into your profile to pick a new one</li>
+                                    <li>Modal is fully translated in EN / FR / IT / ES, including all validation and error messages</li>
+                                    <li>Inline checks: nickname availability is validated against the server <em>before</em> the form is submitted &mdash; no more cryptic SQL conflict errors</li>
+                                </ul>
+                            </div>
+                            <div class="patch-col">
+                                <div class="patch-col-label">behind the scenes</div>
+                                <ul>
+                                    <li>Same SQL trigger as Discord OAuth seeds the profile from the nickname you pick &mdash; no schema change required</li>
+                                    <li>Common Supabase errors (email taken, invalid creds, rate-limit, not confirmed) get translated into readable messages instead of stack traces</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- ===== 1.5.2 ===== -->
                     <article class="patch-card">

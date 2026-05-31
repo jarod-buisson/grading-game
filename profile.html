@@ -50,14 +50,14 @@
          "Sign in / Avatar" widget can mount in the top bar regardless of
          where the user lands. Order matters: SDK → gg client → auth UI. -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js?v=11"></script>
-    <script src="js/auth-ui.js?v=5"></script>
+    <script src="js/supabase-client.js?v=13"></script>
+    <script src="js/auth-ui.js?v=8"></script>
     <script src="js/presence.js?v=3"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=3"></script>
+    <script src="js/i18n-dict.js?v=5"></script>
     <script src="js/i18n.js?v=2"></script>
-    <script src="js/chrome.js?v=6"></script>
+    <script src="js/chrome.js?v=7"></script>
     <!-- :head-common-end: -->
     <title data-i18n="profile.meta_title">profile · grading-game — your account & stats</title>
     <meta name="description" content="Your grading-game profile: nickname, avatar, stats from solo and multiplayer sessions, plus account settings.">
@@ -253,10 +253,55 @@
         </div>
     </div>
 
+    <!-- Password reset modal — opens automatically when the user arrives
+         here from a "forgot password" email link. Supabase fires the
+         PASSWORD_RECOVERY event on the auth state listener; profile.js
+         listens for it and pops this modal so the user can actually
+         pick a new password before doing anything else on the site. -->
+    <div class="profile-modal" id="pwd-modal" role="dialog" aria-modal="true" hidden>
+        <div class="profile-modal-card">
+            <div class="profile-modal-head">
+                <div class="profile-modal-title" data-i18n="profile.pwd_title">set a new password</div>
+            </div>
+            <div class="profile-modal-body">
+                <p class="profile-modal-warning" data-i18n="profile.pwd_intro">
+                    You're here from a password reset email. Choose a new password to finish &mdash; you're already signed in once it's saved.
+                </p>
+                <label class="profile-modal-label" data-i18n="profile.pwd_new">new password</label>
+                <input
+                    type="password"
+                    class="profile-modal-input"
+                    id="pwd-input"
+                    minlength="8"
+                    placeholder="at least 8 characters"
+                    data-i18n-attr="placeholder:auth.ph_password"
+                    autocomplete="new-password"
+                    spellcheck="false">
+                <label class="profile-modal-label" data-i18n="profile.pwd_confirm">confirm password</label>
+                <input
+                    type="password"
+                    class="profile-modal-input"
+                    id="pwd-confirm"
+                    minlength="8"
+                    placeholder="re-type your new password"
+                    data-i18n-attr="placeholder:profile.pwd_ph_confirm"
+                    autocomplete="new-password"
+                    spellcheck="false">
+                <div class="profile-modal-hint" id="pwd-hint" data-i18n="profile.pwd_hint">
+                    8 characters min &middot; must match
+                </div>
+            </div>
+            <div class="profile-modal-actions">
+                <button class="profile-modal-btn profile-modal-btn--ghost" id="pwd-cancel" type="button" data-i18n="profile.pwd_cancel">cancel &amp; sign out</button>
+                <button class="profile-modal-btn profile-modal-btn--primary" id="pwd-save" type="button" disabled data-i18n="profile.pwd_save">save password</button>
+            </div>
+        </div>
+    </div>
+
     <div class="vignette-overlay" aria-hidden="true"></div>
     <div class="grain-overlay"    aria-hidden="true"></div>
 
-    <script src="js/profile.js?v=3"></script>
+    <script src="js/profile.js?v=4"></script>
     <script src="js/audio-player.js?v=5"></script>
 </body>
 </html>

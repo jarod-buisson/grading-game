@@ -276,6 +276,106 @@
     }
 
     /**
+     * Sign UP with email + password + chosen nickname.
+     *
+     * Path for users who can't (or don't want to) use Google/Discord
+     * OAuth. We pass the nickname via `options.data.preferred_username`
+     * so the SQL trigger `handle_new_user()` picks it up exactly the
+     * same way it picks Discord's `preferred_username`.
+     *
+     * If "Confirm email" is enabled on the Supabase dashboard (which
+     * we recommend), the returned session is NULL — the user gets a
+     * confirmation email and only becomes authenticated after clicking
+     * the link. The auth-ui modal handles that "check your email"
+     * state via the resolved `data.user.identities[0]?.identity_data`
+     * shape.
+     *
+     * `nickname` is expected pre-validated (3-20 chars, lowercase
+     * alphanumeric + underscore) — the caller is responsible for the
+     * UX-level checks (is_nickname_available RPC + regex).
+     */
+    async function signUpWithEmail(email, password, nickname) {
+        const target = window.location.origin + '/';
+        const { data, error } = await supabase.auth.signUp({
+            email: email.trim(),
+            password: password,
+            options: {
+                // Where Supabase redirects after the user clicks the
+                // confirmation link. Use the origin so it works on
+                // both localhost dev and grading-game.com prod.
+                emailRedirectTo: target,
+                // The trigger reads this on auth.users INSERT to seed
+                // the profile row. Mirrors the Discord `user_metadata`
+                // shape so the trigger logic doesn't have to special-
+                // case email signups.
+                data: {
+                    preferred_username: nickname || undefined,
+                    name:               nickname || undefined
+                }
+            }
+        });
+        if (error) {
+            console.error('[gg] email sign-up failed:', error);
+            throw error;
+        }
+        return data;
+    }
+
+    /**
+     * Sign IN with email + password. Caller catches "Invalid login
+     * credentials" and shows it as a translated error.
+     */
+    async function signInWithEmail(email, password) {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email:    email.trim(),
+            password: password
+        });
+        if (error) {
+            console.error('[gg] email sign-in failed:', error);
+            throw error;
+        }
+        return data;
+    }
+
+    /**
+     * Trigger Supabase's "forgot password" email. The email contains a
+     * one-time link that opens our site (origin/) with a recovery
+     * token — Supabase handles the token automatically thanks to
+     * `detectSessionInUrl: true`. The user is then signed in and can
+     * update their password from /profile.html.
+     */
+    async function requestPasswordReset(email) {
+        const target = window.location.origin + '/profile.html';
+        const { error } = await supabase.auth.resetPasswordForEmail(
+            email.trim(),
+            { redirectTo: target }
+        );
+        if (error) {
+            console.error('[gg] password reset failed:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Update the current user's password. Called from /profile.html
+     * after the user arrives via a "forgot password" email link —
+     * Supabase fires PASSWORD_RECOVERY on the auth state listener and
+     * profile.js pops a modal to collect the new password, which gets
+     * persisted via this call. Throws on Supabase errors so the modal
+     * can display a friendly message.
+     */
+    async function updatePassword(newPassword) {
+        const { data, error } = await supabase.auth.updateUser({
+            password: newPassword
+        });
+        if (error) {
+            console.error('[gg] updatePassword failed:', error);
+            throw error;
+        }
+        return data;
+    }
+
+    /**
      * Sign out the current authenticated user. The onAuthStateChange
      * listener above will re-establish an anonymous session so the
      * UI keeps working without forcing a page refresh.
@@ -616,6 +716,10 @@
         onAuthChange,
         signInWithGoogle,
         signInWithDiscord,
+        signUpWithEmail,
+        signInWithEmail,
+        requestPasswordReset,
+        updatePassword,
         signOut,
         deleteAccount,
         loadProfile,

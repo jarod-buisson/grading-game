@@ -391,6 +391,222 @@
             color: var(--text-primary);
             border-color: var(--text-primary);
         }
+
+        /* ---------- Email form ---------- */
+        .auth-login-sep {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-quaternary);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            margin: 4px 0;
+        }
+        .auth-login-sep::before,
+        .auth-login-sep::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-faint);
+        }
+
+        .auth-email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .auth-email-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .auth-email-field label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+        }
+        .auth-email-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+        }
+        .auth-email-input-wrap input {
+            flex: 1;
+            background: var(--bg-elev-2);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            font-size: 14px;     /* >= 16px on mobile via .mobile-friendly below */
+            padding: 10px 12px;
+            outline: none;
+            transition: border-color var(--t-fast);
+        }
+        .auth-email-input-wrap input:focus {
+            border-color: var(--accent);
+        }
+        .auth-email-input-wrap input::placeholder {
+            color: var(--text-quaternary);
+        }
+        .auth-email-input-wrap input.is-invalid {
+            border-color: var(--accent-red, #d96055);
+        }
+        /* iOS Safari focus-zoom prevention */
+        @media (max-width: 799px) {
+            .auth-email-input-wrap input { font-size: 16px; }
+        }
+
+        .auth-password-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            transition: color var(--t-fast);
+        }
+        .auth-password-toggle:hover { color: var(--accent); }
+
+        .auth-field-hint {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--text-quaternary);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            margin-top: 2px;
+        }
+        .auth-field-hint.is-error {
+            color: var(--accent-red, #d96055);
+        }
+        .auth-field-hint.is-success {
+            color: var(--accent-green, #5fa86d);
+        }
+
+        .auth-submit-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 18px;
+            background: var(--accent-soft, rgba(212, 165, 116, 0.12));
+            border: 1px solid var(--accent);
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            cursor: pointer;
+            margin-top: 4px;
+            transition:
+                color var(--t-fast),
+                background var(--t-fast),
+                box-shadow var(--t-fast);
+        }
+        .auth-submit-btn:hover:not(:disabled) {
+            color: var(--bg-base);
+            background: var(--accent);
+            box-shadow: 0 0 20px rgba(212, 165, 116, 0.25);
+        }
+        .auth-submit-btn:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+
+        .auth-mode-switch {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+        .auth-mode-switch button {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font: inherit;
+            text-transform: inherit;
+            letter-spacing: inherit;
+            padding: 0;
+            border-bottom: 1px dotted var(--accent);
+            transition: color var(--t-fast);
+        }
+        .auth-mode-switch button:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
+        /* Hide elements that don't belong to the current mode */
+        .auth-login-card[data-mode="signin"]   [data-only="signup"],
+        .auth-login-card[data-mode="signin"]   [data-only="forgot"],
+        .auth-login-card[data-mode="signin"]   [data-only="success"],
+        .auth-login-card[data-mode="signup"]   [data-only="signin"],
+        .auth-login-card[data-mode="signup"]   [data-only="forgot"],
+        .auth-login-card[data-mode="signup"]   [data-only="success"],
+        .auth-login-card[data-mode="forgot"]   [data-only="signin"],
+        .auth-login-card[data-mode="forgot"]   [data-only="signup"],
+        .auth-login-card[data-mode="forgot"]   [data-only="success"],
+        .auth-login-card[data-mode="forgot"]   [data-hide-on-forgot],
+        .auth-login-card[data-mode="success"]  [data-only="signin"],
+        .auth-login-card[data-mode="success"]  [data-only="signup"],
+        .auth-login-card[data-mode="success"]  [data-only="forgot"],
+        .auth-login-card[data-mode="success"]  [data-hide-on-success] {
+            display: none;
+        }
+        /* Success view also hides the OAuth buttons section */
+        .auth-login-card[data-mode="success"] .auth-login-buttons,
+        .auth-login-card[data-mode="success"] .auth-login-sep,
+        .auth-login-card[data-mode="success"] .auth-login-disclaimer {
+            display: none;
+        }
+
+        /* "Check your email" success panel */
+        .auth-success-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 16px 16px;
+            background: var(--bg-elev-2);
+            border: 1px solid var(--accent-green, #5fa86d);
+            border-left-width: 3px;
+            border-radius: 3px;
+        }
+        .auth-success-panel strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .auth-success-panel-title {
+            font-family: var(--font-ui);
+            font-size: 14px;
+            color: var(--accent-green, #5fa86d);
+            font-weight: 500;
+        }
+        .auth-success-panel-body {
+            font-family: var(--font-ui);
+            font-size: 13px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
     `;
     const styleEl = document.createElement('style');
     styleEl.id = 'auth-widget-styles';
@@ -551,20 +767,28 @@
         modalEl.hidden = true;
         modalEl.innerHTML = `
             <div class="auth-login-backdrop" data-close></div>
-            <div class="auth-login-card">
+            <div class="auth-login-card" id="auth-login-card" data-mode="signin">
                 <button class="auth-login-close" type="button" data-close aria-label="Close">esc ✕</button>
-                <div class="auth-login-eyebrow">welcome</div>
-                <h2 class="auth-login-title" id="auth-login-title">Sign in</h2>
+                <div class="auth-login-eyebrow" data-i18n="auth.eyebrow">welcome</div>
+                <h2 class="auth-login-title" id="auth-login-title">
+                    <span data-only="signin"  data-i18n="auth.title_signin">Sign in</span>
+                    <span data-only="signup"  data-i18n="auth.title_signup">Create an account</span>
+                    <span data-only="forgot"  data-i18n="auth.title_forgot">Reset your password</span>
+                    <span data-only="success" data-i18n="auth.title_success">Check your email</span>
+                </h2>
                 <p class="auth-login-intro">
-                    Choose a provider to continue. Your stats and gallery
-                    sync across sessions and devices.
+                    <span data-only="signin"  data-i18n="auth.intro_signin">Welcome back. Your stats and gallery sync across sessions and devices.</span>
+                    <span data-only="signup"  data-i18n="auth.intro_signup">Set up an account to keep your stats, unlocked photos and pseudo across devices.</span>
+                    <span data-only="forgot"  data-i18n="auth.intro_forgot">Enter the email you used to sign up. We'll send you a link to set a new password.</span>
                 </p>
-                <div class="auth-login-buttons">
+
+                <!-- OAuth buttons (hidden on forgot/success modes via CSS) -->
+                <div class="auth-login-buttons" data-hide-on-success>
                     <button class="auth-login-btn auth-login-btn--discord" id="auth-login-discord" type="button">
                         <svg class="auth-login-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill="currentColor" d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.06.02.09.01 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12z"/>
                         </svg>
-                        <span>continue with Discord</span>
+                        <span data-i18n="auth.with_discord">continue with Discord</span>
                     </button>
                     <button class="auth-login-btn auth-login-btn--google" id="auth-login-google" type="button">
                         <svg class="auth-login-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -573,19 +797,112 @@
                             <path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.13-1.44.34-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.77.43 3.45 1.18 4.93l3.66-2.83Z"/>
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.83C6.71 7.3 9.14 5.38 12 5.38Z"/>
                         </svg>
-                        <span>continue with Google</span>
+                        <span data-i18n="auth.with_google">continue with Google</span>
                     </button>
                 </div>
+
+                <!-- Separator "or with email" (hidden on forgot/success) -->
+                <div class="auth-login-sep" data-hide-on-success data-i18n="auth.or_email">or with email</div>
+
+                <!-- Email + password (+ nickname for signup) form -->
+                <form class="auth-email-form" id="auth-email-form" novalidate data-hide-on-success>
+                    <div class="auth-email-field" data-only="signup">
+                        <label for="auth-email-nick" data-i18n="auth.label_nickname">nickname</label>
+                        <div class="auth-email-input-wrap">
+                            <input type="text"
+                                   id="auth-email-nick"
+                                   name="nickname"
+                                   maxlength="20"
+                                   placeholder="your-nickname"
+                                   data-i18n-attr="placeholder:auth.ph_nickname"
+                                   autocomplete="username"
+                                   spellcheck="false"
+                                   required>
+                        </div>
+                        <div class="auth-field-hint" data-i18n="auth.hint_nickname">3-20 chars · lowercase letters, digits, underscore</div>
+                    </div>
+
+                    <div class="auth-email-field">
+                        <label for="auth-email-email" data-i18n="auth.label_email">email</label>
+                        <div class="auth-email-input-wrap">
+                            <input type="email"
+                                   id="auth-email-email"
+                                   name="email"
+                                   placeholder="name@domain.com"
+                                   data-i18n-attr="placeholder:auth.ph_email"
+                                   autocomplete="email"
+                                   spellcheck="false"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="auth-email-field" data-hide-on-forgot>
+                        <label for="auth-email-pwd" data-i18n="auth.label_password">password</label>
+                        <div class="auth-email-input-wrap">
+                            <input type="password"
+                                   id="auth-email-pwd"
+                                   name="password"
+                                   placeholder="at least 8 characters"
+                                   data-i18n-attr="placeholder:auth.ph_password"
+                                   autocomplete="current-password"
+                                   minlength="8"
+                                   required>
+                            <button type="button" class="auth-password-toggle" id="auth-pwd-toggle"
+                                    title="show password" aria-label="toggle password visibility"
+                                    data-i18n="auth.pwd_show">show</button>
+                        </div>
+                        <div class="auth-field-hint" data-only="signup" data-i18n="auth.hint_password">8 chars min · used only to sign you back in</div>
+                    </div>
+
+                    <div class="auth-field-hint" id="auth-form-error" hidden></div>
+
+                    <button class="auth-submit-btn" id="auth-email-submit" type="submit">
+                        <span data-only="signin" data-i18n="auth.btn_signin">sign in</span>
+                        <span data-only="signup" data-i18n="auth.btn_signup">create account</span>
+                        <span data-only="forgot" data-i18n="auth.btn_forgot">send reset link</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <!-- Success panel — shown after sign-up (confirmation email sent)
+                     or forgot-password (reset link sent). Body text is set
+                     dynamically depending on which flow we came from. -->
+                <div class="auth-success-panel" data-only="success">
+                    <div class="auth-success-panel-title" id="auth-success-title" data-i18n="auth.success_title">Check your inbox.</div>
+                    <div class="auth-success-panel-body" id="auth-success-body" data-i18n="auth.success_body_signup">We've sent a confirmation link to your email address. Click it to activate your account, then come back and sign in.</div>
+                </div>
+
+                <!-- Mode switcher (sign in ↔ sign up + forgot) -->
+                <div class="auth-mode-switch" data-hide-on-success>
+                    <span data-only="signin">
+                        <span data-i18n="auth.no_account">No account yet?</span>
+                        <button type="button" data-go="signup" data-i18n="auth.go_signup">Create one</button>
+                    </span>
+                    <span data-only="signup">
+                        <span data-i18n="auth.have_account">Already registered?</span>
+                        <button type="button" data-go="signin" data-i18n="auth.go_signin">Sign in</button>
+                    </span>
+                    <span data-only="forgot">
+                        <button type="button" data-go="signin" data-i18n="auth.back_signin">← back to sign in</button>
+                    </span>
+                    <button type="button" data-only="signin" data-go="forgot" data-i18n="auth.forgot_link">Forgot password?</button>
+                </div>
+
                 <p class="auth-login-disclaimer">
-                    By signing in you agree to our
-                    <a href="legal.html#terms" target="_blank" rel="noopener">Terms</a>
-                    and <a href="legal.html#privacy" target="_blank" rel="noopener">Privacy Policy</a>.
-                    We only read your <strong>name, email and avatar</strong> from
-                    your provider — nothing else.
+                    <span data-i18n="auth.disclaimer_pre">By continuing you agree to our</span>
+                    <a href="legal.html#terms" target="_blank" rel="noopener" data-i18n="auth.disclaimer_terms">Terms</a>
+                    <span data-i18n="auth.disclaimer_and">and</span>
+                    <a href="legal.html#privacy" target="_blank" rel="noopener" data-i18n="auth.disclaimer_privacy">Privacy Policy</a>.
                 </p>
             </div>
         `;
         document.body.appendChild(modalEl);
+
+        // Re-apply i18n to the freshly-injected modal so the new
+        // [data-i18n] elements pick up the active language. If i18n
+        // hasn't booted yet we'll catch them on its DOMContentLoaded
+        // pass — apply() is idempotent.
+        if (window.gg_i18n) window.gg_i18n.apply(modalEl);
 
         // Close handlers: backdrop, X button, ESC
         modalEl.querySelectorAll('[data-close]').forEach(el => {
@@ -595,13 +912,170 @@
             if (e.key === 'Escape' && !modalEl.hidden) closeLoginModal();
         });
 
-        // Provider buttons
+        // OAuth provider buttons
         modalEl.querySelector('#auth-login-discord')
             .addEventListener('click', () => onProviderClick('discord'));
         modalEl.querySelector('#auth-login-google')
             .addEventListener('click', () => onProviderClick('google'));
 
+        // Mode switcher (signin ↔ signup ↔ forgot)
+        modalEl.querySelectorAll('[data-go]').forEach(btn => {
+            btn.addEventListener('click', () => setMode(btn.dataset.go));
+        });
+
+        // Password show/hide toggle
+        const pwdToggle = modalEl.querySelector('#auth-pwd-toggle');
+        const pwdInput  = modalEl.querySelector('#auth-email-pwd');
+        pwdToggle.addEventListener('click', () => {
+            const isPwd = pwdInput.type === 'password';
+            pwdInput.type = isPwd ? 'text' : 'password';
+            // Flip data-i18n key so a later lang-switch re-applies the right label
+            const newKey = isPwd ? 'auth.pwd_hide' : 'auth.pwd_show';
+            pwdToggle.dataset.i18n = newKey;
+            pwdToggle.textContent = (window.gg_i18n && window.gg_i18n.t)
+                ? window.gg_i18n.t(newKey)
+                : (isPwd ? 'hide' : 'show');
+        });
+
+        // Email form submit — dispatch based on current mode
+        modalEl.querySelector('#auth-email-form')
+            .addEventListener('submit', onEmailFormSubmit);
+
         return modalEl;
+    }
+
+    /* Switch the modal between signin / signup / forgot / success */
+    function setMode(mode) {
+        if (!modalEl) return;
+        const card = modalEl.querySelector('#auth-login-card');
+        card.dataset.mode = mode;
+        clearFormError();
+        // Reset password-toggle to "hidden" state on mode change so the
+        // password isn't accidentally exposed if the user switched from
+        // signin (with text visible) to signup.
+        const pwdInput = modalEl.querySelector('#auth-email-pwd');
+        const pwdToggle = modalEl.querySelector('#auth-pwd-toggle');
+        if (pwdInput && pwdToggle) {
+            pwdInput.type = 'password';
+            pwdToggle.dataset.i18n = 'auth.pwd_show';
+            pwdToggle.textContent = (window.gg_i18n && window.gg_i18n.t)
+                ? window.gg_i18n.t('auth.pwd_show')
+                : 'show';
+        }
+        // Focus the first relevant input for keyboard users
+        setTimeout(() => {
+            const focusOrder = mode === 'signup'
+                ? ['#auth-email-nick', '#auth-email-email', '#auth-email-pwd']
+                : mode === 'forgot'
+                    ? ['#auth-email-email']
+                    : ['#auth-email-email', '#auth-email-pwd'];
+            for (const sel of focusOrder) {
+                const el = modalEl.querySelector(sel);
+                if (el && el.offsetParent !== null) { el.focus(); break; }
+            }
+        }, 30);
+    }
+
+    function clearFormError() {
+        const err = modalEl && modalEl.querySelector('#auth-form-error');
+        if (err) { err.hidden = true; err.textContent = ''; err.classList.remove('is-error'); }
+    }
+    function showFormError(msg) {
+        const err = modalEl && modalEl.querySelector('#auth-form-error');
+        if (err) { err.hidden = false; err.textContent = msg; err.classList.add('is-error'); }
+    }
+
+    /* Form submit — handles signin, signup and forgot in one entry point */
+    async function onEmailFormSubmit(e) {
+        e.preventDefault();
+        const card    = modalEl.querySelector('#auth-login-card');
+        const mode    = card.dataset.mode;
+        const emailEl = modalEl.querySelector('#auth-email-email');
+        const pwdEl   = modalEl.querySelector('#auth-email-pwd');
+        const nickEl  = modalEl.querySelector('#auth-email-nick');
+        const submit  = modalEl.querySelector('#auth-email-submit');
+        const t       = (window.gg_i18n && window.gg_i18n.t) || ((k) => k);
+
+        const email = (emailEl.value || '').trim();
+        const password = pwdEl.value || '';
+        const nickname = ((nickEl && nickEl.value) || '').toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
+
+        clearFormError();
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+            showFormError(t('auth.err_invalid_email'));
+            emailEl.focus();
+            return;
+        }
+        if (mode !== 'forgot' && password.length < 8) {
+            showFormError(t('auth.err_password_short'));
+            pwdEl.focus();
+            return;
+        }
+        if (mode === 'signup' && (!nickname || nickname.length < 3)) {
+            showFormError(t('auth.err_nickname_short'));
+            nickEl.focus();
+            return;
+        }
+
+        // For signup: pre-check nickname availability so the user gets
+        // a friendly error instead of a generic SQL conflict.
+        if (mode === 'signup') {
+            try {
+                const { data: avail } = await window.gg.supabase
+                    .rpc('is_nickname_available', { p_nickname: nickname });
+                if (!avail) {
+                    showFormError(t('auth.err_nickname_taken'));
+                    nickEl.focus();
+                    return;
+                }
+            } catch (_) { /* RPC unavailable → fall through, server will catch dup */ }
+        }
+
+        submit.disabled = true;
+        try {
+            if (mode === 'signin') {
+                await window.gg.signInWithEmail(email, password);
+                // onAuthStateChange will render the avatar widget;
+                // close the modal so the user sees the page.
+                closeLoginModal();
+            } else if (mode === 'signup') {
+                const data = await window.gg.signUpWithEmail(email, password, nickname);
+                // If Confirm-email is enabled, data.session is null until
+                // the user clicks the confirmation link. Show the "check
+                // your email" panel either way — it's the same UX.
+                const body = modalEl.querySelector('#auth-success-body');
+                if (body) {
+                    body.dataset.i18n   = 'auth.success_body_signup';
+                    body.textContent    = t('auth.success_body_signup');
+                }
+                setMode('success');
+                // If no confirmation needed and they're auto-signed-in,
+                // the auth state listener will close the modal next tick.
+                if (data && data.session) {
+                    setTimeout(closeLoginModal, 1800);
+                }
+            } else if (mode === 'forgot') {
+                await window.gg.requestPasswordReset(email);
+                const body = modalEl.querySelector('#auth-success-body');
+                if (body) {
+                    body.dataset.i18n   = 'auth.success_body_forgot';
+                    body.textContent    = t('auth.success_body_forgot');
+                }
+                setMode('success');
+            }
+        } catch (err) {
+            // Translate the most common Supabase errors to friendly messages.
+            const raw = (err && (err.message || err.error_description || '')) || '';
+            const lower = raw.toLowerCase();
+            let key = 'auth.err_generic';
+            if (lower.includes('already registered') || lower.includes('already exists')) key = 'auth.err_email_taken';
+            else if (lower.includes('invalid login') || lower.includes('invalid credentials')) key = 'auth.err_invalid_creds';
+            else if (lower.includes('email not confirmed') || lower.includes('not confirmed')) key = 'auth.err_not_confirmed';
+            else if (lower.includes('rate limit') || lower.includes('429')) key = 'auth.err_rate_limit';
+            showFormError(t(key));
+        } finally {
+            submit.disabled = false;
+        }
     }
 
     function openLoginModal() {

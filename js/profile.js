@@ -46,6 +46,13 @@
     const delInput    = $('delete-confirm-input');
     const delConfirm  = $('delete-confirm');
 
+    const pwdModal    = $('pwd-modal');
+    const pwdInput    = $('pwd-input');
+    const pwdConfirm  = $('pwd-confirm');
+    const pwdHint     = $('pwd-hint');
+    const pwdSave     = $('pwd-save');
+    const pwdCancel   = $('pwd-cancel');
+
 
     /* ---------- Utilities ---------- */
     function show(el) { if (el) el.hidden = false; }
@@ -258,11 +265,126 @@
     });
 
 
+    /* ---------- Password reset modal ----------
+       Opens automatically when the user arrives from a "forgot password"
+       email link. Supabase processes the recovery token in the URL
+       fragment and fires PASSWORD_RECOVERY on our auth state listener;
+       we react to it below by popping this modal. The user must either
+       set a new password or cancel (which signs them out) — there is
+       no "X" close button, because closing without doing either would
+       leave them in a half-state where they're signed in but can't do
+       anything useful.
+
+       Note: PASSWORD_RECOVERY fires once on initial page load IF the
+       URL contains the recovery hash. We additionally check the hash
+       manually because the auth event might arrive *before* this
+       script subscribes (race in older Supabase SDKs). */
+
+    function isRecoveryUrl() {
+        // Recovery URL looks like: /profile.html#access_token=...&type=recovery&...
+        const h = window.location.hash || '';
+        return h.includes('type=recovery');
+    }
+
+    function openPwdModal() {
+        if (!pwdModal) return;
+        pwdInput.value   = '';
+        pwdConfirm.value = '';
+        pwdHint.classList.remove('is-error');
+        pwdHint.textContent = '8 characters min · must match';
+        pwdSave.disabled = true;
+        // Hide the rest of the profile UI underneath — the user is in a
+        // recovery session, they shouldn't see stats / settings yet.
+        hide(loadingEl);
+        hide(anonEl);
+        hide(authEl);
+        show(pwdModal);
+        setTimeout(() => pwdInput.focus(), 40);
+    }
+
+    function closePwdModal() {
+        if (pwdModal) hide(pwdModal);
+    }
+
+    function validatePwdForm() {
+        const v1 = pwdInput.value;
+        const v2 = pwdConfirm.value;
+        let valid = true;
+        if (v1.length < 8) {
+            valid = false;
+            pwdHint.textContent = '8 characters min · must match';
+            pwdHint.classList.remove('is-error');
+        } else if (v2.length > 0 && v1 !== v2) {
+            valid = false;
+            pwdHint.textContent = 'passwords don\'t match';
+            pwdHint.classList.add('is-error');
+        } else if (v1 === v2) {
+            pwdHint.textContent = '✓ ready to save';
+            pwdHint.classList.remove('is-error');
+        }
+        pwdSave.disabled = !valid || v1 !== v2 || v2.length === 0;
+    }
+
+    if (pwdInput)   pwdInput.addEventListener('input', validatePwdForm);
+    if (pwdConfirm) pwdConfirm.addEventListener('input', validatePwdForm);
+
+    if (pwdSave) pwdSave.addEventListener('click', async () => {
+        const newPwd = pwdInput.value;
+        if (newPwd.length < 8 || newPwd !== pwdConfirm.value) return;
+        pwdSave.disabled = true;
+        pwdHint.textContent = 'updating…';
+        pwdHint.classList.remove('is-error');
+        try {
+            await window.gg.updatePassword(newPwd);
+            // Strip the recovery hash so a refresh doesn't re-open
+            // the modal (and so the URL looks clean).
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname);
+            }
+            closePwdModal();
+            // The session is now fully-fledged — render the profile.
+            // onAuthChange would also re-render on the next USER_UPDATED
+            // event, but doing it here avoids a flicker.
+            if (window.gg.profile) {
+                renderAuthenticated(window.gg.profile);
+            } else {
+                await window.gg.loadProfile();
+                if (window.gg.profile) renderAuthenticated(window.gg.profile);
+                else renderAnonymous();
+            }
+        } catch (err) {
+            console.error('[profile] update password failed:', err);
+            pwdHint.textContent = err?.message || 'something went wrong — try again';
+            pwdHint.classList.add('is-error');
+            pwdSave.disabled = false;
+        }
+    });
+
+    if (pwdCancel) pwdCancel.addEventListener('click', async () => {
+        pwdCancel.disabled = true;
+        try {
+            await window.gg.signOut();
+        } catch (err) {
+            console.error('[profile] cancel-reset sign-out failed:', err);
+        }
+        // Strip the recovery hash so refresh / back doesn't re-trigger
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname);
+        }
+        closePwdModal();
+        // signOut auto-establishes an anon session; auth listener will
+        // render the anon panel. Redirect home for cleanliness.
+        window.location.href = 'index.html';
+    });
+
+
     /* ---------- Esc to close modals ---------- */
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
         if (!editModal.hidden) closeEditModal();
         if (!delModal.hidden)  closeDeleteModal();
+        // Intentionally no Esc handler for pwd-modal — recovery flow
+        // requires an explicit save or cancel.
     });
     // Click outside modal card to close
     [editModal, delModal].forEach(m => {
@@ -271,12 +393,32 @@
 
 
     /* ---------- Auth state coordination ---------- */
+    let recoveryHandled = false;
+
     window.gg.onAuthChange((state) => {
+        // PASSWORD_RECOVERY hijacks the normal anon/auth render until
+        // the user finishes the reset flow.
+        if (state.event === 'PASSWORD_RECOVERY' && !recoveryHandled) {
+            recoveryHandled = true;
+            openPwdModal();
+            return;
+        }
+        // Don't re-render normal profile UI while pwd-modal is up
+        if (pwdModal && !pwdModal.hidden) return;
+
         if (state.isAnon || !state.profile) {
             renderAnonymous();
         } else {
             renderAuthenticated(state.profile);
         }
     });
+
+    // Race-safe fallback: if the page loaded with a recovery hash but
+    // PASSWORD_RECOVERY fired before our listener attached, force-open
+    // the modal here. The double-trigger is guarded by recoveryHandled.
+    if (isRecoveryUrl() && !recoveryHandled) {
+        recoveryHandled = true;
+        openPwdModal();
+    }
 
 })();

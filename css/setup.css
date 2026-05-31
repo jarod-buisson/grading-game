@@ -228,76 +228,132 @@
     text-transform: uppercase;
 }
 
-/* ---------- Duration track (ruler with ticks) ---------- */
-.duration-track {
+/* ---------- Duration wheel (horizontal "knurled barrel" picker à la
+   DaVinci Resolve sliders) -----------------------------------------------
+   A thin horizontal cylinder of vertical ridges. The user drags /
+   scrolls / taps a ridge to pick a value. Edges darken with a vignette
+   overlay to suggest the 3D curvature of a rotating barrel. The numeric
+   value is shown OUTSIDE the wheel — either in the big duration-display
+   (solo) or in the .duration-wheel-readout below it (multi modal). */
+
+.duration-wheel {
     position: relative;
-    display: flex;
-    align-items: center;
-    height: 44px;
-    padding: 0 8px;
-    margin-top: 8px;
+    width: 100%;
+    height: 30px;
+    margin-top: 12px;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+    overflow: hidden;
+    border-radius: 3px;
+    /* Subtle barrel shading top→bottom — darker rims, faint highlight
+       through the middle so the ridges read as a metal cylinder. */
+    background:
+        linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(255, 255, 255, 0.03) 50%,
+            rgba(0, 0, 0, 0.55) 100%);
+    border-top:    1px solid rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.duration-wheel:active { cursor: grabbing; }
+.duration-wheel:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 2px;
 }
 
-.track-line {
+/* Vignette overlay — darkens the left & right ends of the wheel so the
+   visible ridges fade into the barrel's edge instead of getting clipped
+   abruptly. Sits above the track but below the centre indicator. */
+.duration-wheel::after {
+    content: "";
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 1px;
-    background: var(--border-subtle);
-    transform: translateY(-50%);
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(to right,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(0, 0, 0, 0)    22%,
+        rgba(0, 0, 0, 0)    78%,
+        rgba(0, 0, 0, 0.85) 100%);
 }
 
-.track-progress {
+.duration-wheel-track {
     position: absolute;
+    top: 0;
     left: 0;
-    top: 50%;
-    height: 1px;
-    background: var(--accent);
-    transform: translateY(-50%);
-    transition: width var(--t);
-}
-
-.dur-tick {
-    flex: 1;
-    position: relative;
     height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 0;
-    cursor: pointer;
-    transition: color var(--t-fast);
-    color: var(--text-tertiary);
+    will-change: transform;
 }
 
-.dur-tick::before {
-    content: "";
+.duration-wheel-tick {
+    flex-grow: 0;
+    flex-shrink: 0;
+    /* flex-basis is set inline by JS so the JS-computed offsets match. */
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Each tick is a single thin vertical ridge — like the knurling on a
+   metal dial. Major ticks (every 15 min) are slightly brighter so the
+   user has a coarse rhythm to anchor to while scrolling. */
+.duration-wheel-tick-mark {
     width: 1px;
-    height: 10px;
-    background: var(--border-strong);
+    height: 60%;
+    background: rgba(220, 220, 220, 0.32);
     transition: background var(--t-fast), height var(--t-fast);
 }
 
-.dur-tick:hover { color: var(--text-primary); }
-.dur-tick:hover::before { background: var(--text-secondary); }
-
-.dur-tick.is-active {
-    color: var(--accent);
+.duration-wheel-tick--major .duration-wheel-tick-mark {
+    height: 80%;
+    background: rgba(240, 240, 240, 0.55);
 }
 
-.dur-tick.is-active::before {
+.duration-wheel-tick.is-active .duration-wheel-tick-mark {
     background: var(--accent);
-    height: 16px;
-    box-shadow: 0 0 8px rgba(212, 165, 116, 0.6);
+    height: 100%;
 }
 
-.dur-tick-label {
+/* Labels are hidden in the knurled-barrel design — the value lives in
+   the big display / readout outside the wheel. Kept in the DOM so the
+   component can be reused with labels elsewhere if needed. */
+.duration-wheel-tick-label { display: none; }
+
+/* Centre indicator — single thin accent line, no dot caps; the barrel
+   look doesn't want the extra visual noise. */
+.duration-wheel-center {
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(212, 148, 107, 0.7);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Small inline readout used by the multi modal (the solo page already
+   has the big duration-display, so it doesn't need this). */
+.duration-wheel-readout {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: 10px;
     letter-spacing: var(--tracking-mono);
+}
+.duration-wheel-readout strong {
+    color: var(--accent);
+    font-weight: 500;
 }
 
 /* ---------- Toggle switch ---------- */

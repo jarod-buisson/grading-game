@@ -70,7 +70,7 @@
     <meta name="twitter:title"       content="Solo training · grading-game">
     <meta name="twitter:description" content="Practice color grading on real RAW files with a reference grade for comparison.">
     <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
-    <link rel="stylesheet" href="css/setup.css?v=3">
+    <link rel="stylesheet" href="css/setup.css?v=5">
     <link rel="stylesheet" href="css/mobile.css?v=5">
 </head>
 <body class="mobile-friendly">
@@ -107,35 +107,23 @@
             <!-- Controls (full width — tone curve has moved to landing) -->
             <div class="setup-controls">
 
-                <!-- DURATION -->
+                <!-- DURATION — horizontal "DaVinci-style" wheel: drag with
+                     mouse/touch, scroll with trackpad, click a tick, or
+                     use Arrow keys. Range 5-120 min in 5-min steps. The
+                     wheel logic lives in js/duration-wheel.js. -->
                 <div class="control-block">
                     <div class="control-label" data-i18n="solo.duration">duration</div>
                     <div class="duration-display">
                         <span id="dur-min">20</span><span class="colon">:</span><span id="dur-sec">00</span>
                         <span class="unit">min</span>
                     </div>
-                    <div class="duration-track" id="dur-track">
-                        <button class="dur-tick" data-min="5">
-                            <span class="dur-tick-label">05</span>
-                        </button>
-                        <button class="dur-tick" data-min="10">
-                            <span class="dur-tick-label">10</span>
-                        </button>
-                        <button class="dur-tick" data-min="15">
-                            <span class="dur-tick-label">15</span>
-                        </button>
-                        <button class="dur-tick is-active" data-min="20">
-                            <span class="dur-tick-label">20</span>
-                        </button>
-                        <button class="dur-tick" data-min="30">
-                            <span class="dur-tick-label">30</span>
-                        </button>
-                        <button class="dur-tick" data-min="45">
-                            <span class="dur-tick-label">45</span>
-                        </button>
-                        <button class="dur-tick" data-min="60">
-                            <span class="dur-tick-label">60</span>
-                        </button>
+                    <div class="duration-wheel"
+                         id="dur-wheel"
+                         tabindex="0"
+                         role="slider"
+                         aria-label="session duration in minutes">
+                        <div class="duration-wheel-track" id="dur-wheel-track"></div>
+                        <div class="duration-wheel-center" aria-hidden="true"></div>
                     </div>
                 </div>
 
@@ -200,7 +188,8 @@
     <div class="vignette-overlay" aria-hidden="true"></div>
     <div class="grain-overlay"    aria-hidden="true"></div>
 
-    <script src="js/solo-setup.js?v=4"></script>
+    <script src="js/duration-wheel.js?v=3"></script>
+    <script src="js/solo-setup.js?v=6"></script>
     <script src="js/audio-player.js?v=5"></script>
 </body>
 </html>

@@ -11,14 +11,17 @@
         window.BezierCurve.init('curve-svg');
     }
 
-    /* ---------- Duration picker ---------- */
+    /* ---------- Duration picker ----------
+       The big mm:ss display + the bottom-row summary both mirror the
+       current value of the horizontal duration-wheel. The wheel itself
+       owns the user input (drag / scroll / click / keys) — we just
+       react to its onChange. */
     const durMinEl  = document.getElementById('dur-min');
     const durSecEl  = document.getElementById('dur-sec');
     const sumDurEl  = document.getElementById('sum-dur');
     const refToggle = document.getElementById('ref-toggle');
     const sumRefEl  = document.getElementById('sum-ref');
     const startBtn  = document.getElementById('start-btn');
-    const ticks     = document.querySelectorAll('.dur-tick');
 
     let durationMin = 20;
     let showReference = true;
@@ -28,15 +31,23 @@
         if (durMinEl) durMinEl.textContent = String(min).padStart(2, '0');
         if (durSecEl) durSecEl.textContent = '00';
         if (sumDurEl) sumDurEl.textContent = String(min);
-        ticks.forEach(t => t.classList.toggle('is-active',
-            parseInt(t.dataset.min, 10) === min));
     }
 
-    ticks.forEach(t => {
-        t.addEventListener('click', () => {
-            setDuration(parseInt(t.dataset.min, 10));
+    const wheelEl = document.getElementById('dur-wheel');
+    if (wheelEl && window.DurationWheel) {
+        window.DurationWheel.init(wheelEl, {
+            min:        5,
+            max:        120,
+            step:       5,
+            value:      durationMin,
+            tickWidth:  14,
+            labelEvery: 15,
+            onChange:   setDuration
         });
-    });
+    }
+    // Apply the initial label even if the wheel is missing — keeps the
+    // display in sync with the static "20" default in markup.
+    setDuration(durationMin);
 
     /* ---------- Reference toggle ---------- */
     if (refToggle) {

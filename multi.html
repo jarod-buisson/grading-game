@@ -74,7 +74,7 @@
     <!-- setup.css carries the .btn-start rules that the create-room modal
          relies on (was loading only on solo.html; the multi modal needed
          it too — fixing here so the create button renders properly). -->
-    <link rel="stylesheet" href="css/setup.css?v=3">
+    <link rel="stylesheet" href="css/setup.css?v=5">
     <link rel="stylesheet" href="css/mobile.css?v=5">
 </head>
 <body class="mobile-friendly">
@@ -209,11 +209,19 @@
 
             <div class="modal-block">
                 <div class="modal-label" data-i18n="solo.duration">duration</div>
-                <div class="radio-row" data-radio="duration">
-                    <button class="radio-option" data-value="5">05<span class="opt-sub" data-i18n="multi.dur_quick">quick</span></button>
-                    <button class="radio-option" data-value="10">10<span class="opt-sub" data-i18n="multi.dur_short">short</span></button>
-                    <button class="radio-option is-selected" data-value="20">20<span class="opt-sub" data-i18n="multi.dur_standard">standard</span></button>
-                    <button class="radio-option" data-value="45">45<span class="opt-sub" data-i18n="multi.dur_long">long</span></button>
+                <!-- Same horizontal "DaVinci-style" wheel as solo.html.
+                     Range 5-120 min in 5-min steps. The host's pick locks
+                     in for every player in the room (timer is server-side). -->
+                <div class="duration-wheel"
+                     id="multi-dur-wheel"
+                     tabindex="0"
+                     role="slider"
+                     aria-label="round duration in minutes">
+                    <div class="duration-wheel-track" id="multi-dur-wheel-track"></div>
+                    <div class="duration-wheel-center" aria-hidden="true"></div>
+                </div>
+                <div class="duration-wheel-readout">
+                    <strong id="multi-dur-readout">20</strong> <span data-i18n="solo.sum_min">min</span>
                 </div>
             </div>
 
@@ -260,7 +268,8 @@
     <div class="grain-overlay"    aria-hidden="true"></div>
 
     <script src="js/file-io.js?v=2"></script>
-    <script src="js/multi-lobby.js?v=4"></script>
+    <script src="js/duration-wheel.js?v=3"></script>
+    <script src="js/multi-lobby.js?v=6"></script>
     <script src="js/audio-player.js?v=5"></script>
 </body>
 </html>

@@ -295,6 +295,11 @@
     function openModal() {
         if (!nicknameOK()) { flashNickname(); return; }
         modal.classList.add('is-open');
+        // The wheel was initialised on page load while the modal was
+        // hidden (offsetWidth = 0), so the track translation may be off.
+        // Nudging the value through setValueSilent forces a re-centre
+        // now that the modal is laid out with its real width.
+        if (durationWheel) durationWheel.setValueSilent(durationWheel.getValue());
     }
     function closeModal() { modal.classList.remove('is-open'); }
 
@@ -321,10 +326,28 @@
         return grp?.querySelector('.is-selected')?.dataset.value;
     }
 
+    /* ---------- Duration wheel (replaces the old radio-row) ---------- */
+    let durationWheel = null;
+    const durWheelEl = $('multi-dur-wheel');
+    const durReadout = $('multi-dur-readout');
+    if (durWheelEl && window.DurationWheel) {
+        durationWheel = window.DurationWheel.init(durWheelEl, {
+            min:        5,
+            max:        120,
+            step:       5,
+            value:      20,
+            tickWidth:  14,
+            labelEvery: 15,
+            onChange: (v) => {
+                if (durReadout) durReadout.textContent = String(v);
+            }
+        });
+    }
+
     modalCreateBtn?.addEventListener('click', async () => {
         if (!nicknameOK()) { flashNickname(); return; }
         const visibility = getRadio('visibility')  || 'public';
-        const duration   = parseInt(getRadio('duration') || '20', 10);
+        const duration   = durationWheel ? durationWheel.getValue() : 20;
         const challenge  = getRadio('challenge')   || 'random';
         // Category filter — "random" means no filter, anything else
         // (negative / digital) constrains the host's random pick to

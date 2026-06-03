@@ -620,7 +620,7 @@
     widget.id = 'auth-widget';
     widget.innerHTML = `<!-- populated by renderState() -->`;
 
-    // Pick the best mount point in priority order, mirroring audio-player.js
+    // Pick the best mount point in priority order.
     const mount =
         document.querySelector('.top-bar-right') ||
         document.querySelector('.game-header-pills') ||
@@ -631,15 +631,8 @@
         return;
     }
     console.log('[auth-ui] mounting in', '.' + mount.className.split(' ')[0]);
-    // Insert the widget BEFORE the audio widget if it's already there,
-    // otherwise prepend so it sits to the left of any other right-side
-    // controls.
-    const audioWidget = mount.querySelector('.audio-widget');
-    if (audioWidget) {
-        mount.insertBefore(widget, audioWidget);
-    } else {
-        mount.insertBefore(widget, mount.firstChild);
-    }
+    // Prepend so it sits to the left of any other right-side controls.
+    mount.insertBefore(widget, mount.firstChild);
 
 
     /* ---------- Render helpers ---------- */

@@ -37,6 +37,20 @@ window.GG_I18N_DICT = {
         'hero.tagline_html':       'A photo color-grading game for photographers. Pick a flat <strong>RAW</strong> or scan, grade it in your favorite software (Lightroom, Capture One, DarkTable…), then compete with other photographers in timed rounds with anonymous voting.',
         'hero.callout_html':       'Edit on <strong>any device</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… download the source, develop your grade in your favorite app, then upload your JPEG. Works on phone, tablet and desktop alike.',
 
+        /* ----- Intro hero (new comprehension-first landing) ----- */
+        'intro.eyebrow':           'the photo color-grading game',
+        'intro.title_html':        'Start from a flat photo.<br>Make it <span class="accent">yours</span>.',
+        'intro.sub_html':          'We hand you a photographer’s <strong>RAW</strong> — you develop it however you want.',
+        'intro.step1_html':        '<strong>Download</strong> the RAW source file.',
+        'intro.step2_html':        '<strong>Edit it</strong> locally, right on your computer.',
+        'intro.step3_html':        '<strong>Re-import &amp; compare</strong> your render with the original photographer’s. Discover new artists and how they treat a photo!',
+        'intro.cta_play':          'Try it — solo',
+        'intro.cta_multi':         'play multiplayer',
+        'intro.before':            'RAW',
+        'intro.after':             'edited',
+        'intro.caption_html':      'Same photo · <strong>your eye decides where it goes</strong>',
+        'intro.scroll':            'explore',
+
         /* ----- Nickname input ----- */
         'nick.label':              'nickname',
         'nick.placeholder':        'pick a nickname',
@@ -44,6 +58,7 @@ window.GG_I18N_DICT = {
 
         /* ----- Common CTAs ----- */
         'donate.label':            'donate',
+        'donate.title':            'Support the project',
         'signin.label':            'sign in',
         'back.menu':               '← back to menu',
 
@@ -390,6 +405,20 @@ window.GG_I18N_DICT = {
         'hero.tagline_html':       'Un jeu d’étalonnage couleur photo pour photographes. Choisissez un <strong>RAW</strong> brut ou un scan, étalonnez-le dans votre logiciel préféré (Lightroom, Capture One, DarkTable…), puis affrontez d’autres photographes en rounds chronométrés avec vote anonyme.',
         'hero.callout_html':       'Étalonnez sur <strong>n’importe quel appareil</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… téléchargez la source, développez votre grade dans votre app préférée, puis uploadez votre JPEG. Fonctionne sur téléphone, tablette et bureau.',
 
+        /* ----- Intro hero ----- */
+        'intro.eyebrow':           'le jeu du color grading photo',
+        'intro.title_html':        'Pars d’une photo brute.<br>Donne-lui <span class="accent">ton style</span>.',
+        'intro.sub_html':          'On te donne le <strong>RAW</strong> d’un photographe, toi tu la retouches comme tu en as envie !',
+        'intro.step1_html':        '<strong>Télécharge</strong> le fichier RAW source.',
+        'intro.step2_html':        '<strong>Retouche</strong> en local, sur ton PC.',
+        'intro.step3_html':        '<strong>Réimporte &amp; compare</strong> ton rendu à celui du photographe original. Découvre de nouveaux artistes et leur façon de traiter une photo !',
+        'intro.cta_play':          'Essayer — solo',
+        'intro.cta_multi':         'jouer en multi',
+        'intro.before':            'RAW',
+        'intro.after':             'retouchée',
+        'intro.caption_html':      'Même photo · <strong>ton œil décide où elle va</strong>',
+        'intro.scroll':            'explorer',
+
         /* ----- Nick ----- */
         'nick.label':              'pseudo',
         'nick.placeholder':        'choisissez un pseudo',
@@ -397,6 +426,7 @@ window.GG_I18N_DICT = {
 
         /* ----- Common ----- */
         'donate.label':            'soutenir',
+        'donate.title':            'Soutenir le projet',
         'signin.label':            'connexion',
         'back.menu':               '← retour au menu',
 
@@ -742,6 +772,20 @@ window.GG_I18N_DICT = {
         'hero.tagline_html':       'Un gioco di color grading fotografico per fotografi. Scegli un <strong>RAW</strong> piatto o una scansione, sviluppalo nel tuo software preferito (Lightroom, Capture One, DarkTable…), poi sfida altri fotografi in round a tempo con voto anonimo.',
         'hero.callout_html':       'Sviluppa su <strong>qualsiasi dispositivo</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… scarica la sorgente, sviluppa il tuo grade nell’app che preferisci, poi carica il tuo JPEG. Funziona su telefono, tablet e desktop.',
 
+        /* ----- Intro hero ----- */
+        'intro.eyebrow':           'il gioco del color grading fotografico',
+        'intro.title_html':        'Parti da una foto piatta.<br>Rendila <span class="accent">tua</span>.',
+        'intro.sub_html':          'Ti diamo il <strong>RAW</strong> di un fotografo — lo sviluppi come ti pare!',
+        'intro.step1_html':        '<strong>Scarica</strong> il file RAW sorgente.',
+        'intro.step2_html':        '<strong>Ritoccalo</strong> in locale, sul tuo computer.',
+        'intro.step3_html':        '<strong>Reimporta &amp; confronta</strong> il tuo render con quello del fotografo originale. Scopri nuovi artisti e come trattano una foto!',
+        'intro.cta_play':          'Prova — solo',
+        'intro.cta_multi':         'gioca in multi',
+        'intro.before':            'RAW',
+        'intro.after':             'ritoccata',
+        'intro.caption_html':      'Stessa foto · <strong>il tuo occhio decide dove va</strong>',
+        'intro.scroll':            'esplora',
+
         /* ----- Nick ----- */
         'nick.label':              'nickname',
         'nick.placeholder':        'scegli un nickname',
@@ -749,6 +793,7 @@ window.GG_I18N_DICT = {
 
         /* ----- Common ----- */
         'donate.label':            'sostieni',
+        'donate.title':            'Sostieni il progetto',
         'signin.label':            'accedi',
         'back.menu':               '← torna al menu',
 
@@ -1094,6 +1139,20 @@ window.GG_I18N_DICT = {
         'hero.tagline_html':       'Un juego de color grading fotográfico para fotógrafos. Elige un <strong>RAW</strong> plano o un escaneo, revélalo en tu software favorito (Lightroom, Capture One, DarkTable…), y compite con otros fotógrafos en rondas cronometradas con voto anónimo.',
         'hero.callout_html':       'Revela en <strong>cualquier dispositivo</strong> — Lightroom Mobile, Snapseed, VSCO, Polarr… descarga la fuente, desarrolla tu grade en tu app favorita, y sube tu JPEG. Funciona en teléfono, tableta y escritorio.',
 
+        /* ----- Intro hero ----- */
+        'intro.eyebrow':           'el juego del color grading fotográfico',
+        'intro.title_html':        'Parte de una foto plana.<br>Hazla <span class="accent">tuya</span>.',
+        'intro.sub_html':          'Te damos el <strong>RAW</strong> de un fotógrafo — ¡lo revelas como quieras!',
+        'intro.step1_html':        '<strong>Descarga</strong> el archivo RAW fuente.',
+        'intro.step2_html':        '<strong>Edítalo</strong> en local, en tu propio ordenador.',
+        'intro.step3_html':        '<strong>Reimporta &amp; compara</strong> tu render con el del fotógrafo original. ¡Descubre nuevos artistas y cómo tratan una foto!',
+        'intro.cta_play':          'Probar — solo',
+        'intro.cta_multi':         'jugar en multi',
+        'intro.before':            'RAW',
+        'intro.after':             'editada',
+        'intro.caption_html':      'Misma foto · <strong>tu ojo decide adónde va</strong>',
+        'intro.scroll':            'explorar',
+
         /* ----- Nick ----- */
         'nick.label':              'apodo',
         'nick.placeholder':        'elige un apodo',
@@ -1101,6 +1160,7 @@ window.GG_I18N_DICT = {
 
         /* ----- Common ----- */
         'donate.label':            'donar',
+        'donate.title':            'Apoya el proyecto',
         'signin.label':            'iniciar sesión',
         'back.menu':               '← volver al menú',
 

@@ -146,8 +146,7 @@
         // join the chrome footer (info + legal) at the bottom of the
         // page so the pill is actually visible — the desktop top-bar
         // is too cramped under 800 px. On desktop we keep the existing
-        // top-bar behavior so the pill sits next to the auth + audio
-        // widgets.
+        // top-bar behavior so the pill sits next to the auth widget.
         const isMobile = window.matchMedia
             && window.matchMedia('(max-width: 799px)').matches;
 
@@ -162,14 +161,7 @@
         }
 
         if (mount) {
-            // Insert before the audio widget if it's already there
-            // (keeps audio rightmost). Otherwise just append.
-            const audioWidget = mount.querySelector('.audio-widget');
-            if (audioWidget) {
-                mount.insertBefore(pillEl, audioWidget);
-            } else {
-                mount.appendChild(pillEl);
-            }
+            mount.appendChild(pillEl);
         } else {
             // No top bar on this page — fall back to a floating pill
             // in the bottom-LEFT corner (less crowded than bottom-right).

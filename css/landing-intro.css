@@ -1,0 +1,317 @@
+/* =========================================================
+   landing-intro.css — hero-first landing (comprehension pass)
+
+   Adds an explanatory hero ABOVE the chromatic wheel so a brand-new
+   visitor understands the concept in a few seconds: a clear headline,
+   a real before/after, the 3-step loop, and one primary CTA.
+
+   Everything here is scoped to `html.landing` / the new `.intro-*`
+   classes so no other page is affected. The wheel + scopes stay
+   exactly as they were — they just live below the fold now.
+   ========================================================= */
+
+/* ---- Turn the landing into a scrollable document ----------------
+   The global rule is `html, body { height:100%; overflow:hidden }`
+   (good for the fixed full-screen tool pages). On the landing we
+   opt back into normal document scrolling so the hero can sit above
+   the wheel. Scoped to html.landing only. */
+html.landing,
+html.landing body {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+html.landing body {
+    display: block;          /* drop the fixed flex column */
+    min-height: 100vh;
+}
+
+/* Keep the top bar reachable while scrolling through the page. */
+html.landing .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(8, 8, 11, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-faint, rgba(255,255,255,0.05));
+}
+
+/* The wheel area was `flex:1` inside a full-height flex body. In
+   scroll mode that no longer fills the viewport, so give it a
+   sensible min-height to breathe under the hero. */
+html.landing .menu-stage {
+    min-height: 86vh;
+}
+
+/* The old mobile-only text hero (inside menu-stage) is now redundant —
+   the new .intro-hero is the universal hero on every viewport. Hide it
+   so mobile users don't see the explanation twice. The mobile-nav list
+   below it stays (the wheel doesn't work on touch). */
+html.landing .mobile-hero { display: none !important; }
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.intro-hero {
+    position: relative;
+    z-index: 5;
+    min-height: calc(100vh - 54px);   /* first screen, minus top bar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 40px 72px;
+    box-sizing: border-box;
+}
+
+.intro-hero-inner {
+    width: 100%;
+    max-width: 1180px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items: center;
+}
+
+/* ---- Left: copy + CTA ---- */
+.intro-copy { min-width: 0; }
+
+.intro-title {
+    font-family: var(--font-ui, sans-serif);
+    font-size: clamp(34px, 4vw, 52px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--text-primary, #f0eee9);
+    margin: 0 0 20px;
+}
+.intro-title .accent { color: var(--accent, #d4a574); }
+
+.intro-sub {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary, #b4b2ad);
+    max-width: 30em;
+    margin: 0 0 32px;
+}
+.intro-sub strong { color: var(--text-primary, #f0eee9); font-weight: 500; }
+
+/* ---- 3-step loop ---- */
+.intro-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.intro-step {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 14.5px;
+    line-height: 1.4;
+    color: var(--text-secondary, #b4b2ad);
+}
+.intro-step-num {
+    flex-shrink: 0;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    color: var(--accent, #d4a574);
+    letter-spacing: 0.1em;
+    min-width: 20px;
+}
+.intro-step strong { color: var(--text-primary, #f0eee9); font-weight: 500; }
+
+/* ---- CTAs ---- */
+.intro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+}
+.intro-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border-radius: 3px;
+    font-family: var(--font-mono, monospace);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 160ms ease, background 160ms ease,
+                color 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+.intro-cta--primary {
+    background: var(--accent, #d4a574);
+    color: #0a0a0b;
+    border: 1px solid var(--accent, #d4a574);
+}
+.intro-cta--primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px -8px rgba(212, 148, 107, 0.6);
+}
+.intro-cta--primary .intro-cta-arrow { transition: transform 160ms ease; }
+.intro-cta--primary:hover .intro-cta-arrow { transform: translateX(4px); }
+
+.intro-cta--ghost {
+    background: transparent;
+    color: var(--text-secondary, #b4b2ad);
+    border: 1px solid var(--border-subtle, rgba(255,255,255,0.12));
+}
+.intro-cta--ghost:hover {
+    color: var(--text-primary, #f0eee9);
+    border-color: var(--text-tertiary, #8a8680);
+}
+
+/* =========================================================
+   BEFORE / AFTER (side by side)
+   ========================================================= */
+.intro-demo { min-width: 0; }
+
+.ba-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+}
+
+.ba-card {
+    position: relative;
+    margin: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle, rgba(255,255,255,0.1));
+    background: #000;
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 18px 50px -20px rgba(0,0,0,0.8);
+}
+.ba-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    /* deter casual right-click-save on contributor photos */
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* The "after" card gets a subtle accent ring + lift so the eye lands
+   on the developed result. */
+.ba-card--after {
+    border-color: rgba(212, 148, 107, 0.45);
+    box-shadow: 0 18px 50px -18px rgba(0,0,0,0.85),
+                0 0 0 1px rgba(212, 148, 107, 0.18);
+}
+
+.ba-tag {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    z-index: 2;
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border-radius: 2px;
+    background: rgba(8, 8, 11, 0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: var(--text-secondary, #c8c6c1);
+    border: 1px solid var(--border-faint, rgba(255,255,255,0.08));
+}
+.ba-card--after .ba-tag {
+    color: var(--accent, #d4a574);
+    border-color: rgba(212, 148, 107, 0.4);
+}
+
+/* Arrow chip sitting between the two cards */
+.ba-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--accent, #d4a574);
+    color: #0a0a0b;
+    font-size: 15px;
+    box-shadow: 0 4px 16px -4px rgba(0,0,0,0.8);
+    pointer-events: none;
+}
+
+.intro-demo-caption {
+    margin-top: 14px;
+    text-align: center;
+    font-family: var(--font-mono, monospace);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary, #8a8680);
+}
+.intro-demo-caption strong { color: var(--text-secondary, #b4b2ad); font-weight: 400; }
+
+/* ---- Scroll hint to the wheel below ---- */
+.intro-scroll {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-tertiary, #8a8680);
+    text-decoration: none;
+    transition: color 160ms ease;
+}
+.intro-scroll:hover { color: var(--accent, #d4a574); }
+.intro-scroll-arrow { animation: intro-bob 1.8s ease-in-out infinite; }
+@keyframes intro-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(4px); }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+    .intro-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        max-width: 560px;
+    }
+    /* image first on small screens — show, then tell */
+    .intro-demo { order: -1; }
+    .intro-hero { padding: 32px 22px 64px; min-height: calc(100vh - 50px); }
+    .intro-steps { gap: 11px; }
+    .intro-actions { width: 100%; }
+    .intro-cta { flex: 1; justify-content: center; }
+}
+
+@media (max-width: 420px) {
+    .ba-pair { gap: 10px; }
+    .ba-tag { font-size: 9px; padding: 4px 7px; }
+    .intro-title { font-size: clamp(28px, 8vw, 40px); }
+}
+
+/* Honor reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .intro-scroll-arrow { animation: none; }
+    .intro-cta { transition: none; }
+}

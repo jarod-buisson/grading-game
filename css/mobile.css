@@ -411,8 +411,8 @@
     }
 
     /* On pages with a dense pill row (game.html / room.html), the
-       brand text + pills + auth widget + audio widget no longer fit
-       on a 375 px row and the brand wraps onto two lines. Hide the
+       brand text + pills + auth widget no longer fit on a 375 px row
+       and the brand wraps onto two lines. Hide the
        text part — the logo mark is enough identity once the user is
        inside a session. Other pages keep the full "grading-game"
        wordmark. */

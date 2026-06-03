@@ -134,7 +134,7 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'dismiss this introduction',
 
         /* ----- Rules page (about.html) ----- */
-        'meta.title.home':         'grading-game — photo color-grading game',
+        'meta.title.home':         'grading-game',
         'meta.title.rules':        'rules · grading-game — how to play',
         'rules.eyebrow':           '05 · rules',
         'rules.title':             'How to play',
@@ -887,7 +887,7 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'chiudi questa introduzione',
 
         /* ----- Rules ----- */
-        'meta.title.home':         'grading-game — gioco di color grading fotografico',
+        'meta.title.home':         'grading-game',
         'meta.title.rules':        'regole · grading-game — come si gioca',
         'rules.eyebrow':           '05 · regole',
         'rules.title':             'Come si gioca',
@@ -1263,7 +1263,7 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'cerrar esta introducción',
 
         /* ----- Rules ----- */
-        'meta.title.home':         'grading-game — juego de color grading fotográfico',
+        'meta.title.home':         'grading-game',
         'meta.title.rules':        'reglas · grading-game — cómo jugar',
         'rules.eyebrow':           '05 · reglas',
         'rules.title':             'Cómo jugar',

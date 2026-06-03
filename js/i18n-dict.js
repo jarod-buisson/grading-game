@@ -511,7 +511,7 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'fermer cette introduction',
 
         /* ----- Rules ----- */
-        'meta.title.home':         'grading-game — jeu d’étalonnage couleur photo',
+        'meta.title.home':         'grading-game',
         'meta.title.rules':        'règles · grading-game — comment jouer',
         'rules.eyebrow':           '05 · règles',
         'rules.title':             'Comment jouer',

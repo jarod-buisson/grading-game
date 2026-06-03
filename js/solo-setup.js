@@ -99,10 +99,11 @@
         Array.from(challengeSelect.querySelectorAll('option[data-injected="1"]'))
             .forEach(o => o.remove());
 
-        // Update the default "random pick" option's label to reflect category
+        // Keep the default "random" option label simple ("Aléatoire" /
+        // "Random" / …) regardless of the selected category.
         const defaultOpt = challengeSelect.querySelector('option[value="random"]');
         if (defaultOpt) {
-            defaultOpt.textContent = tt('solo.chall_randompick') + ' · ' + categoryLabel(catFilter);
+            defaultOpt.textContent = tt('solo.chall_random');
         }
 
         // Filter the challenge list by category (unless "random" = no filter)

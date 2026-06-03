@@ -55,7 +55,7 @@
     <script src="js/presence.js?v=4"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=13"></script>
+    <script src="js/i18n-dict.js?v=14"></script>
     <script src="js/i18n.js?v=2"></script>
     <script src="js/chrome.js?v=9"></script>
     <!-- :head-common-end: -->
@@ -331,28 +331,18 @@
             <h1 class="about-title" data-i18n="rules.title">How to play</h1>
             <div class="about-body">
                 <p data-i18n-html="rules.intro1_html">
-                    <strong>grading-game</strong> is a photo editing game.
-                    You're given an image — a RAW file, a negative scan — and
-                    a time limit to develop it in the software of your choice
-                    before re-importing it into the round.
+                    <strong>grading-game</strong> hands you an image and a time
+                    limit to develop it in the software of your choice before
+                    re-importing it.
                 </p>
                 <p data-i18n="rules.intro_solo">
                     In solo, you'll see the original photographer's edit at the
                     end so you can compare your vision to theirs.
                 </p>
                 <p data-i18n="rules.intro2">
-                    In multiplayer, every submission is then revealed anonymously.
-                    Each player rates the others' edits (except their own).
-                    A winner is declared at the end.
+                    In multiplayer, you rate the others — whoever scores highest
+                    wins the round!
                 </p>
-
-                <ol class="rules-list">
-                    <li data-i18n="rules.rule1">A source image is picked at random and presented to every player.</li>
-                    <li data-i18n="rules.rule2">Download the original (RAW / TIFF / DNG depending on the challenge).</li>
-                    <li data-i18n="rules.rule3">Edit it however you like in the software you prefer — Lightroom, Capture One, DaVinci, Darktable...</li>
-                    <li data-i18n="rules.rule4">Re-import your final JPEG before the timer runs out.</li>
-                    <li data-i18n="rules.rule5">In multiplayer, vote on the other players' edits.</li>
-                </ol>
             </div>
 
             <!-- FAQ section — mirrors the FAQPage JSON-LD in the <head> so

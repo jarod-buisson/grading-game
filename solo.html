@@ -55,7 +55,7 @@
     <script src="js/presence.js?v=4"></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=13"></script>
+    <script src="js/i18n-dict.js?v=14"></script>
     <script src="js/i18n.js?v=2"></script>
     <script src="js/chrome.js?v=9"></script>
     <!-- :head-common-end: -->
@@ -131,12 +131,12 @@
                 <div class="control-block">
                     <div class="control-label" data-i18n="solo.category">category</div>
                     <select class="challenge-select" id="category-select">
-                        <option value="random"   data-i18n="solo.cat_random">random · all categories</option>
-                        <option value="negative" data-i18n="solo.cat_negative">negative · analog / film</option>
-                        <option value="digital"  data-i18n="solo.cat_digital">digital · sensor</option>
+                        <option value="random"   data-i18n="solo.cat_random">Random</option>
+                        <option value="negative" data-i18n="solo.cat_negative">Film negative</option>
+                        <option value="digital"  data-i18n="solo.cat_digital">Digital</option>
                     </select>
                     <div class="challenge-hint" id="category-hint" data-i18n="solo.category_hint">
-                        pick a capture medium to filter the random pool
+                        pick a medium
                     </div>
                 </div>
 
@@ -144,11 +144,11 @@
                 <div class="control-block">
                     <div class="control-label" data-i18n="solo.challenge">challenge</div>
                     <select class="challenge-select" id="challenge-select">
-                        <option value="random" data-i18n="solo.chall_random">random pick · all categories</option>
+                        <option value="random" data-i18n="solo.chall_random">Random</option>
                         <!-- options populated by solo-setup.js -->
                     </select>
                     <div class="challenge-hint" id="challenge-hint" data-i18n="solo.challenge_hint">
-                        sign in to unlock photos by playing &amp; replay them here
+                        sign in to unlock photos
                     </div>
                 </div>
 
@@ -189,6 +189,6 @@
     <div class="grain-overlay"    aria-hidden="true"></div>
 
     <script src="js/duration-wheel.js?v=3"></script>
-    <script src="js/solo-setup.js?v=7"></script>
+    <script src="js/solo-setup.js?v=8"></script>
 </body>
 </html>

@@ -48,7 +48,7 @@ window.GG_I18N_DICT = {
         'intro.cta_multi':         'play multiplayer',
         'intro.before':            'RAW',
         'intro.after':             'edited',
-        'intro.caption_html':      'Same photo · <strong>your eye decides where it goes</strong>',
+        'intro.caption_html':      'photo credit: <a href="https://www.instagram.com/fleursjaune/" target="_blank" rel="noopener">FLEURSJAUNE</a>',
         'intro.scroll':            'explore',
 
         /* ----- Nickname input ----- */
@@ -426,7 +426,7 @@ window.GG_I18N_DICT = {
         'intro.cta_multi':         'jouer en multi',
         'intro.before':            'RAW',
         'intro.after':             'retouchée',
-        'intro.caption_html':      'Même photo · <strong>ton œil décide où elle va</strong>',
+        'intro.caption_html':      'crédit photo : <a href="https://www.instagram.com/fleursjaune/" target="_blank" rel="noopener">FLEURSJAUNE</a>',
         'intro.scroll':            'explorer',
 
         /* ----- Nick ----- */
@@ -802,7 +802,7 @@ window.GG_I18N_DICT = {
         'intro.cta_multi':         'gioca in multi',
         'intro.before':            'RAW',
         'intro.after':             'ritoccata',
-        'intro.caption_html':      'Stessa foto · <strong>il tuo occhio decide dove va</strong>',
+        'intro.caption_html':      'crediti foto: <a href="https://www.instagram.com/fleursjaune/" target="_blank" rel="noopener">FLEURSJAUNE</a>',
         'intro.scroll':            'esplora',
 
         /* ----- Nick ----- */
@@ -1178,7 +1178,7 @@ window.GG_I18N_DICT = {
         'intro.cta_multi':         'jugar en multi',
         'intro.before':            'RAW',
         'intro.after':             'editada',
-        'intro.caption_html':      'Misma foto · <strong>tu ojo decide adónde va</strong>',
+        'intro.caption_html':      'crédito foto: <a href="https://www.instagram.com/fleursjaune/" target="_blank" rel="noopener">FLEURSJAUNE</a>',
         'intro.scroll':            'explorar',
 
         /* ----- Nick ----- */

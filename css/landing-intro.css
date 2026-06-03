@@ -263,6 +263,16 @@ html.landing .mobile-hero { display: none !important; }
     color: var(--text-tertiary, #8a8680);
 }
 .intro-demo-caption strong { color: var(--text-secondary, #b4b2ad); font-weight: 400; }
+.intro-demo-caption a {
+    color: var(--accent, #d4a574);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212, 148, 107, 0.4);
+    transition: color var(--t-fast, 140ms), border-color var(--t-fast, 140ms);
+}
+.intro-demo-caption a:hover {
+    color: var(--text-primary, #f0eee9);
+    border-color: var(--text-primary, #f0eee9);
+}
 
 /* ---- Scroll hint to the wheel below ---- */
 .intro-scroll {
@@ -327,10 +337,11 @@ html.landing .mobile-hero { display: none !important; }
     .intro-steps { gap: 7px; margin-bottom: 16px; }
 }
 
-/* Very short viewports (small phones, landscape) — hide the decorative
-   caption so the functional content (CTAs) wins the vertical budget. */
+/* Very short viewports (small phones, landscape) — compact further so
+   the functional content (CTAs) wins the vertical budget. The photo
+   credit stays visible (it's an attribution to the contributor). */
 @media (max-width: 900px) and (max-height: 720px) {
-    .intro-demo-caption { display: none; }
+    .intro-demo-caption { margin-top: 7px; }
     .ba-pair { max-width: 230px; }
     .intro-title { font-size: 22px; }
 }

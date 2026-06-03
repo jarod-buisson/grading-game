@@ -75,10 +75,15 @@
     let unlockedSet   = new Set();
     let isAuth        = false;
 
+    // Tiny i18n helper — falls back to the key if the engine isn't ready.
+    function tt(key) {
+        return (window.gg_i18n && window.gg_i18n.t) ? window.gg_i18n.t(key) : key;
+    }
+
     function categoryLabel(cat) {
-        if (cat === 'negative') return 'negative';
-        if (cat === 'digital')  return 'digital';
-        return 'all categories';
+        if (cat === 'negative') return tt('solo.catlabel_negative');
+        if (cat === 'digital')  return tt('solo.catlabel_digital');
+        return tt('solo.catlabel_all');
     }
 
     function getCategoryFilter() {
@@ -97,7 +102,7 @@
         // Update the default "random pick" option's label to reflect category
         const defaultOpt = challengeSelect.querySelector('option[value="random"]');
         if (defaultOpt) {
-            defaultOpt.textContent = 'random pick · ' + categoryLabel(catFilter);
+            defaultOpt.textContent = tt('solo.chall_randompick') + ' · ' + categoryLabel(catFilter);
         }
 
         // Filter the challenge list by category (unless "random" = no filter)
@@ -130,26 +135,26 @@
         if (challengeHint) {
             const unlockedInPool = filtered.filter(c => unlockedSet.has(String(c.id))).length;
             if (!isAuth) {
-                challengeHint.textContent = 'sign in to unlock photos by playing & replay them here';
+                challengeHint.textContent = tt('solo.challenge_hint');
             } else if (filtered.length === 0) {
-                challengeHint.textContent = 'no challenges in this category yet — try another';
+                challengeHint.textContent = tt('solo.chall_hint_empty');
             } else if (unlockedInPool === 0) {
-                challengeHint.textContent =
-                    'play a few rounds to unlock specific challenges in this category';
+                challengeHint.textContent = tt('solo.chall_hint_locked');
             } else {
-                challengeHint.textContent =
-                    unlockedInPool + ' / ' + filtered.length + ' unlocked in this category';
+                challengeHint.textContent = tt('solo.chall_hint_progress')
+                    .replace('{n}', unlockedInPool)
+                    .replace('{total}', filtered.length);
             }
         }
 
         // Hint for the category dropdown itself
         if (categoryHint) {
             if (catFilter === 'random') {
-                categoryHint.textContent = 'pick a capture medium to filter the random pool';
+                categoryHint.textContent = tt('solo.category_hint');
             } else {
                 const inCat = allChallenges.filter(c => c.category === catFilter).length;
-                categoryHint.textContent =
-                    inCat + ' photo' + (inCat > 1 ? 's' : '') + ' in this category';
+                const key = inCat > 1 ? 'solo.cat_hint_many' : 'solo.cat_hint_one';
+                categoryHint.textContent = tt(key).replace('{n}', inCat);
             }
         }
     }

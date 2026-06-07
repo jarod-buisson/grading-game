@@ -85,11 +85,11 @@ html.landing .mobile-hero { display: none !important; }
 .intro-hero {
     position: relative;
     z-index: 5;
-    min-height: calc(100vh - 54px);   /* first screen, minus top bar */
+    min-height: calc(100vh - 66px);   /* first screen, minus the (taller) top bar */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px 40px 72px;
+    padding: 40px 40px 64px;
     box-sizing: border-box;
 }
 
@@ -305,7 +305,7 @@ html.landing .mobile-hero { display: none !important; }
 /* ---- Scroll hint to the wheel below ---- */
 .intro-scroll {
     position: absolute;
-    bottom: 24px;
+    bottom: 100px;
     left: 50%;
     transform: translateX(-50%);
     display: inline-flex;
@@ -369,6 +369,9 @@ html.landing .mobile-hero { display: none !important; }
     .intro-step  { font-size: 12.5px; }
     .intro-actions { width: 100%; gap: 10px; }
     .intro-cta { flex: 1; justify-content: center; padding: 12px 14px; }
+    /* Mobile hero is packed, so keep the explore pill near the bottom
+       (the desktop value would push it up into the CTAs). */
+    .intro-scroll { bottom: 18px; }
 }
 
 @media (max-width: 420px) {

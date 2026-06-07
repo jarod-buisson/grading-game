@@ -32,10 +32,38 @@ html.landing .top-bar {
     position: sticky;
     top: 0;
     z-index: 50;
+    padding: 20px 40px;                 /* taller, roomier bar */
     background: rgba(8, 8, 11, 0.72);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-faint, rgba(255,255,255,0.05));
+}
+/* Scale the brand up a touch so the bigger bar feels balanced. */
+html.landing .brand-name      { font-size: 19px; }
+html.landing .brand-mark svg  { width: 26px; height: 26px; }
+
+/* ---- Make the sign-in CTA pop on the landing ----
+   Elsewhere the auth widget's "sign in" is a neutral pill; on the
+   landing we fill it with the accent so a first-time visitor is
+   actively nudged to create an account. Scoped to html.landing so
+   the in-session pages (game / room) keep the quiet version. */
+html.landing .auth-signin-btn {
+    background: var(--accent);
+    color: #0a0a0b;
+    border-color: var(--accent);
+    font-weight: 600;
+    padding: 8px 20px;
+    font-size: 12px;
+    box-shadow: 0 2px 16px -4px rgba(212, 148, 107, 0.55);
+    transition: transform 150ms ease, box-shadow 150ms ease,
+                background 150ms ease;
+}
+html.landing .auth-signin-btn:hover {
+    background: var(--accent);
+    color: #0a0a0b;
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 20px -4px rgba(212, 148, 107, 0.8);
 }
 
 /* The wheel area was `flex:1` inside a full-height flex body. In
@@ -277,25 +305,40 @@ html.landing .mobile-hero { display: none !important; }
 /* ---- Scroll hint to the wheel below ---- */
 .intro-scroll {
     position: absolute;
-    bottom: 22px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
+    padding: 9px 20px;
     font-family: var(--font-mono, monospace);
-    font-size: 10px;
-    letter-spacing: 0.16em;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--text-tertiary, #8a8680);
+    color: var(--accent, #d4a574);
     text-decoration: none;
-    transition: color 160ms ease;
+    border: 1px solid rgba(212, 148, 107, 0.4);
+    border-radius: 999px;
+    background: rgba(212, 148, 107, 0.07);
+    box-shadow: 0 4px 18px -6px rgba(212, 148, 107, 0.35);
+    transition: color 160ms ease, border-color 160ms ease,
+                background 160ms ease, box-shadow 160ms ease;
 }
-.intro-scroll:hover { color: var(--accent, #d4a574); }
-.intro-scroll-arrow { animation: intro-bob 1.8s ease-in-out infinite; }
+.intro-scroll:hover {
+    color: var(--text-primary, #f0eee9);
+    border-color: var(--accent, #d4a574);
+    background: rgba(212, 148, 107, 0.16);
+    box-shadow: 0 6px 22px -6px rgba(212, 148, 107, 0.6);
+}
+/* The whole pill gently bobs to signal there's more below the fold. */
+.intro-scroll { animation: intro-bob 1.6s ease-in-out infinite; }
+.intro-scroll:hover { animation-play-state: paused; }
+.intro-scroll-arrow { font-size: 14px; line-height: 1; }
 @keyframes intro-bob {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(4px); }
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(6px); }
 }
 
 /* =========================================================
@@ -348,6 +391,6 @@ html.landing .mobile-hero { display: none !important; }
 
 /* Honor reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-    .intro-scroll-arrow { animation: none; }
+    .intro-scroll { animation: none; }
     .intro-cta { transition: none; }
 }

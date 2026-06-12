@@ -250,6 +250,185 @@
 
 
     /* =========================================================
+       COMMUNITY WALL (migration 010)
+       =========================================================
+       Publish-to-view: the feed only unlocks once YOUR edit is on
+       it. The server enforces the gate (get_wall returns empty
+       items until you've published) — this code just renders the
+       three states: anonymous teaser / publish CTA / open grid. */
+    (async function wireWall() {
+        const section = $('wall-section');
+        if (!section || !window.gg || !session?.challenge?.id) return;
+
+        const challengeId = String(session.challenge.id);
+        const t = (k) => (window.gg_i18n && window.gg_i18n.t) ? window.gg_i18n.t(k) : k;
+
+        const lockedEl  = $('wall-locked');
+        const gridEl    = $('wall-grid');
+        const subEl     = $('wall-sub');
+        const ctaEl     = $('wall-cta');
+        const hintEl    = $('wall-hint');
+        const actionsEl = $('wall-actions');
+        const updateBtn = $('wall-update-btn');
+
+        try { await window.gg.ready; } catch (_) { return; }
+
+        let wall;
+        try {
+            wall = await window.gg.getWall(challengeId);
+        } catch (e) {
+            console.warn('[result] wall unavailable:', e);
+            return;                       // migration not run yet → stay hidden
+        }
+        section.hidden = false;
+        render();
+
+        function teaser(count) {
+            if (count === 0) return t('wall.teaser_none');
+            if (count === 1) return t('wall.teaser_one');
+            return t('wall.teaser_many').replace('{n}', count);
+        }
+
+        function render() {
+            subEl.textContent = teaser(wall.count);
+
+            if (wall.can_view) {
+                lockedEl.hidden  = true;
+                renderGrid(wall.items);
+                gridEl.hidden    = false;
+                // Offer "replace with this session's edit" only when a fresh
+                // grade exists in the session (not after a bare revisit).
+                actionsEl.hidden = !session.gradeDataUrl;
+                return;
+            }
+
+            gridEl.hidden    = true;
+            actionsEl.hidden = true;
+            lockedEl.hidden  = false;
+
+            if (!window.gg.isAuthenticated) {
+                ctaEl.textContent  = t('wall.signin_btn');
+                ctaEl.disabled     = false;
+                hintEl.textContent = t('wall.signin_hint');
+                ctaEl.onclick = () => window.gg.openLoginModal && window.gg.openLoginModal();
+            } else if (!session.gradeDataUrl) {
+                ctaEl.textContent  = t('wall.publish_btn');
+                ctaEl.disabled     = true;
+                hintEl.textContent = t('wall.no_grade');
+            } else {
+                ctaEl.textContent  = t('wall.publish_btn');
+                ctaEl.disabled     = false;
+                hintEl.textContent = t('wall.publish_hint');
+                ctaEl.onclick = publish;
+            }
+        }
+
+        async function publish() {
+            ctaEl.disabled    = true;
+            ctaEl.textContent = t('wall.publishing');
+            try {
+                await window.gg.publishToWall(challengeId, session.gradeDataUrl);
+                wall = await window.gg.getWall(challengeId);
+                render();
+            } catch (e) {
+                ctaEl.disabled     = false;
+                ctaEl.textContent  = t('wall.publish_btn');
+                hintEl.textContent = t('wall.publish_error');
+            }
+        }
+
+        updateBtn?.addEventListener('click', async () => {
+            if (!session.gradeDataUrl) return;
+            updateBtn.disabled = true;
+            try {
+                await window.gg.publishToWall(challengeId, session.gradeDataUrl);
+                wall = await window.gg.getWall(challengeId);
+                render();
+            } catch (e) {
+                console.warn('[result] wall update failed:', e);
+            }
+            updateBtn.disabled = false;
+        });
+
+        function renderGrid(items) {
+            gridEl.innerHTML = '';
+            // The photographer's reference opens the wall when it exists —
+            // that's the deal with contributors (their visibility) and it
+            // seeds the wall so it's never empty on curated photos.
+            if (ch.reference) {
+                gridEl.appendChild(card({
+                    src:     ch.reference,
+                    nick:    ch.photographer || 'photographer',
+                    badge:   'ref'
+                }));
+            }
+            (items || []).forEach((it) => {
+                gridEl.appendChild(card({
+                    src:   window.gg.wallImageUrl(it.image_path, it.updated_at),
+                    nick:  it.nickname || 'player',
+                    badge: it.is_you ? 'you' : null,
+                    id:    it.id,
+                    isYou: !!it.is_you
+                }));
+            });
+        }
+
+        /* Build a card via DOM APIs — nicknames are user content, never
+           feed them through innerHTML. */
+        function card(opts) {
+            const el = document.createElement('div');
+            el.className = 'wall-card'
+                + (opts.isYou ? ' is-you' : '')
+                + (opts.badge === 'ref' ? ' is-reference' : '');
+
+            const frame = document.createElement('div');
+            frame.className = 'wall-card-frame';
+            const img = new Image();
+            img.loading = 'lazy';
+            img.alt = '';
+            img.src = opts.src;
+            frame.appendChild(img);
+
+            const meta = document.createElement('div');
+            meta.className = 'wall-card-meta';
+
+            const nick = document.createElement('span');
+            nick.className = 'wall-card-nick';
+            nick.textContent = opts.nick;
+            meta.appendChild(nick);
+
+            if (opts.badge === 'ref') {
+                const b = document.createElement('span');
+                b.className = 'wall-badge wall-badge--ref';
+                b.textContent = t('wall.badge_ref');
+                meta.appendChild(b);
+            } else if (opts.badge === 'you') {
+                const b = document.createElement('span');
+                b.className = 'wall-badge wall-badge--you';
+                b.textContent = t('wall.badge_you');
+                meta.appendChild(b);
+            } else if (opts.id) {
+                const rep = document.createElement('button');
+                rep.className = 'wall-report';
+                rep.type = 'button';
+                rep.textContent = t('wall.report');
+                rep.addEventListener('click', async () => {
+                    rep.disabled = true;
+                    const ok = await window.gg.reportWallSubmission(opts.id);
+                    rep.textContent = ok ? t('wall.reported') : t('wall.report');
+                    if (!ok) rep.disabled = false;
+                });
+                meta.appendChild(rep);
+            }
+
+            el.appendChild(frame);
+            el.appendChild(meta);
+            return el;
+        }
+    })();
+
+
+    /* =========================================================
        FOOTER ACTIONS
        ========================================================= */
     wireFooter(session);

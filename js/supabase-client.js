@@ -682,6 +682,96 @@
 
 
     /* ============================================================
+       Community wall (migration 010)
+       ============================================================
+       Publish-to-view: you only see the other players' edits of a
+       photo once your own is on the wall. Publishing requires a real
+       (non-anonymous) account — enforced by RLS, mirrored here for
+       friendlier errors. */
+
+    /** Convert the sessionStorage dataURL grade into an upload Blob. */
+    function dataUrlToBlob(dataUrl) {
+        const [head, b64] = dataUrl.split(',');
+        const mime = (head.match(/data:(.*?);/) || [])[1] || 'image/jpeg';
+        const bin = atob(b64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return new Blob([bytes], { type: mime });
+    }
+
+    /**
+     * Publish (or replace) the caller's grade for a challenge.
+     * Uploads the downscaled JPEG to the `wall` bucket under
+     * {user_id}/{challenge_id}.jpg, then upserts the wall_submissions
+     * row. Throws on failure so the UI can show an error state.
+     */
+    async function publishToWall(challengeId, gradeDataUrl) {
+        if (isAnon || !userId) throw new Error('wall: real account required');
+        if (!gradeDataUrl)     throw new Error('wall: no grade to publish');
+
+        const path = `${userId}/${challengeId}.jpg`;
+        const blob = dataUrlToBlob(gradeDataUrl);
+
+        const { error: upErr } = await supabase.storage
+            .from('wall')
+            .upload(path, blob, {
+                upsert: true,
+                contentType: 'image/jpeg',
+                cacheControl: '3600'
+            });
+        if (upErr) {
+            console.error('[gg] wall upload failed:', upErr);
+            throw upErr;
+        }
+
+        const { error: rowErr } = await supabase
+            .from('wall_submissions')
+            .upsert(
+                { challenge_id: challengeId, user_id: userId, image_path: path },
+                { onConflict: 'challenge_id,user_id' }
+            );
+        if (rowErr) {
+            console.error('[gg] wall row upsert failed:', rowErr);
+            throw rowErr;
+        }
+        return path;
+    }
+
+    /**
+     * Fetch the wall for a challenge. Returns
+     *   { count, can_view, items: [{id, nickname, image_path, updated_at, is_you}] }
+     * — items is [] until the caller has published (server-side gate).
+     */
+    async function getWall(challengeId) {
+        const { data, error } = await supabase
+            .rpc('get_wall', { p_challenge_id: String(challengeId) });
+        if (error) {
+            console.error('[gg] get_wall failed:', error);
+            throw error;
+        }
+        return data || { count: 0, can_view: false, items: [] };
+    }
+
+    /** Public URL for a wall image path (+ cache-buster for re-submits). */
+    function wallImageUrl(path, version) {
+        const { data } = supabase.storage.from('wall').getPublicUrl(path);
+        const v = version ? '?v=' + encodeURIComponent(version) : '';
+        return data.publicUrl + v;
+    }
+
+    /** Flag a wall submission for review. Fire-and-forget friendly. */
+    async function reportWallSubmission(submissionId) {
+        const { data, error } = await supabase
+            .rpc('report_submission', { p_submission_id: submissionId });
+        if (error) {
+            console.warn('[gg] report failed:', error);
+            return false;
+        }
+        return !!data;
+    }
+
+
+    /* ============================================================
        Subscriptions
        ============================================================ */
 
@@ -723,7 +813,11 @@
         signOut,
         deleteAccount,
         loadProfile,
-        getUnlockedChallengeIds
+        getUnlockedChallengeIds,
+        publishToWall,
+        getWall,
+        wallImageUrl,
+        reportWallSubmission
     };
 
     boot();

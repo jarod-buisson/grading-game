@@ -303,6 +303,24 @@ window.GG_I18N_DICT = {
         'result.download_grade':   '⤓ download my grade',
         'result.new_session':      '↻ new session',
 
+        /* ----- Community wall (result page) ----- */
+        'wall.title':              'The community wall',
+        'wall.teaser_none':        'no one has published on this photo yet — be the first 🥇',
+        'wall.teaser_one':         '1 edit published on this photo',
+        'wall.teaser_many':        '{n} edits published on this photo',
+        'wall.signin_btn':         'sign in to publish',
+        'wall.signin_hint':        'a free account is needed to publish your edit & discover everyone else’s',
+        'wall.publish_btn':        'publish my edit & unlock the wall',
+        'wall.publish_hint':       'your edit joins the wall — then you see how everyone else treated this photo',
+        'wall.publishing':         'publishing…',
+        'wall.publish_error':      'publish failed — try again',
+        'wall.no_grade':           'no edit in this session to publish — play a round first',
+        'wall.update_btn':         '↻ replace my edit with this session’s',
+        'wall.badge_you':          'you',
+        'wall.badge_ref':          'original',
+        'wall.report':             'report',
+        'wall.reported':           '✓',
+
         /* ----- Gallery (gallery.html) ----- */
         'gallery.meta_title':      'gallery · grading-game — your challenge collection',
         'gallery.eyebrow':         '03 · gallery',
@@ -678,6 +696,24 @@ window.GG_I18N_DICT = {
         'result.reference':        'référence',
         'result.download_grade':   '⤓ télécharger mon grade',
         'result.new_session':      '↻ nouvelle session',
+
+        /* ----- Mur communautaire (page résultat) ----- */
+        'wall.title':              'Le mur de la communauté',
+        'wall.teaser_none':        'personne n’a encore publié sur cette photo — sois le premier 🥇',
+        'wall.teaser_one':         '1 rendu publié sur cette photo',
+        'wall.teaser_many':        '{n} rendus publiés sur cette photo',
+        'wall.signin_btn':         'se connecter pour publier',
+        'wall.signin_hint':        'un compte gratuit est nécessaire pour publier ton rendu & découvrir ceux des autres',
+        'wall.publish_btn':        'publier mon rendu & débloquer le mur',
+        'wall.publish_hint':       'ton rendu rejoint le mur — tu découvres ensuite comment les autres ont traité cette photo',
+        'wall.publishing':         'publication…',
+        'wall.publish_error':      'échec de la publication — réessaie',
+        'wall.no_grade':           'aucun rendu à publier dans cette session — joue d’abord une partie',
+        'wall.update_btn':         '↻ remplacer mon rendu par celui de cette session',
+        'wall.badge_you':          'toi',
+        'wall.badge_ref':          'original',
+        'wall.report':             'signaler',
+        'wall.reported':           '✓',
 
         /* ----- Gallery ----- */
         'gallery.meta_title':      'galerie · grading-game — votre collection de challenges',
@@ -1055,6 +1091,24 @@ window.GG_I18N_DICT = {
         'result.download_grade':   '⤓ scarica il mio grade',
         'result.new_session':      '↻ nuova sessione',
 
+        /* ----- Muro della community (pagina risultato) ----- */
+        'wall.title':              'Il muro della community',
+        'wall.teaser_none':        'nessuno ha ancora pubblicato su questa foto — sii il primo 🥇',
+        'wall.teaser_one':         '1 ritocco pubblicato su questa foto',
+        'wall.teaser_many':        '{n} ritocchi pubblicati su questa foto',
+        'wall.signin_btn':         'accedi per pubblicare',
+        'wall.signin_hint':        'serve un account gratuito per pubblicare il tuo ritocco & scoprire quelli degli altri',
+        'wall.publish_btn':        'pubblica il mio ritocco & sblocca il muro',
+        'wall.publish_hint':       'il tuo ritocco entra nel muro — poi scopri come gli altri hanno trattato questa foto',
+        'wall.publishing':         'pubblicazione…',
+        'wall.publish_error':      'pubblicazione fallita — riprova',
+        'wall.no_grade':           'nessun ritocco da pubblicare in questa sessione — gioca prima una partita',
+        'wall.update_btn':         '↻ sostituisci il mio ritocco con quello di questa sessione',
+        'wall.badge_you':          'tu',
+        'wall.badge_ref':          'originale',
+        'wall.report':             'segnala',
+        'wall.reported':           '✓',
+
         /* ----- Gallery ----- */
         'gallery.meta_title':      'galleria · grading-game — la tua collezione di sfide',
         'gallery.eyebrow':         '03 · galleria',
@@ -1430,6 +1484,24 @@ window.GG_I18N_DICT = {
         'result.reference':        'referencia',
         'result.download_grade':   '⤓ descargar mi grade',
         'result.new_session':      '↻ nueva sesión',
+
+        /* ----- Muro de la comunidad (página resultado) ----- */
+        'wall.title':              'El muro de la comunidad',
+        'wall.teaser_none':        'nadie ha publicado en esta foto todavía — sé el primero 🥇',
+        'wall.teaser_one':         '1 edición publicada en esta foto',
+        'wall.teaser_many':        '{n} ediciones publicadas en esta foto',
+        'wall.signin_btn':         'inicia sesión para publicar',
+        'wall.signin_hint':        'se necesita una cuenta gratuita para publicar tu edición & descubrir las de los demás',
+        'wall.publish_btn':        'publicar mi edición & desbloquear el muro',
+        'wall.publish_hint':       'tu edición entra al muro — luego descubres cómo los demás trataron esta foto',
+        'wall.publishing':         'publicando…',
+        'wall.publish_error':      'la publicación falló — vuelve a intentarlo',
+        'wall.no_grade':           'no hay edición que publicar en esta sesión — juega primero una partida',
+        'wall.update_btn':         '↻ reemplazar mi edición por la de esta sesión',
+        'wall.badge_you':          'tú',
+        'wall.badge_ref':          'original',
+        'wall.report':             'denunciar',
+        'wall.reported':           '✓',
 
         /* ----- Gallery ----- */
         'gallery.meta_title':      'galería · grading-game — tu colección de desafíos',

@@ -7,7 +7,11 @@
     display: flex;
     flex-direction: column;
     padding: 24px 32px;
-    overflow: hidden;
+    /* The page scrolls now that the community wall lives below the
+       comparison — the global html/body overflow:hidden still applies,
+       so this element is the scroll container. */
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     z-index: 5;
     min-height: 0;
@@ -106,10 +110,15 @@
    `[hidden] { display: none; }` rule on equal specificity).
    ========================================================= */
 .compare-views {
-    flex: 1;
+    /* Stable, viewport-based analysis area. It used to be flex:1 of a
+       fixed-height page; with the wall added below, flex would let the
+       wall squeeze the comparison down to a thumbnail — pin it to the
+       viewport instead so the images stay big enough to judge a grade. */
+    flex: 0 0 auto;
+    height: calc(100vh - 250px);
+    min-height: 460px;
     display: flex;
     flex-direction: column;
-    min-height: 0;
 }
 
 .compare-views > [data-view] {
@@ -450,6 +459,13 @@
     color: var(--text-tertiary);
     margin: 0;
 }
+
+/* The wall sub-blocks carry display:flex / display:grid, which beats
+   the user-agent's [hidden] { display:none } in the cascade — the same
+   trap the compare-views comment warns about. Make hidden win. */
+.wall-locked[hidden],
+.wall-grid[hidden],
+.wall-actions[hidden] { display: none !important; }
 
 /* ---------- Locked state ---------- */
 .wall-locked {

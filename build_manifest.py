@@ -97,8 +97,12 @@ def build_entry(folder: Path) -> dict | None:
 
     # Source URL on Cloudflare R2 — built from the source file's extension.
     # We keep the local file only to detect its presence + read its size.
+    # IMPORTANT: preserve the extension's ORIGINAL case. R2 object keys are
+    # case-sensitive, and the manifest must mirror exactly what's uploaded
+    # there + what's on disk. (A `.RAF` file uploaded as `source.RAF` is a
+    # 404 if the manifest asks for `source.raf`.)
     if source:
-        source_url = f"{R2_SOURCE_BASE_URL}/{folder_id}/source{source.suffix.lower()}"
+        source_url = f"{R2_SOURCE_BASE_URL}/{folder_id}/source{source.suffix}"
         source_size = source.stat().st_size
     else:
         source_url = None

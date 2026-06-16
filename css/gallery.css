@@ -222,15 +222,45 @@
 
 /* ---------- UNLOCKED state ---------- */
 .gallery-card.is-unlocked {
-    cursor: default;
+    cursor: pointer;
 }
-.gallery-card.is-unlocked:hover {
+.gallery-card.is-unlocked:hover,
+.gallery-card.is-unlocked:focus-visible {
     border-color: var(--accent);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+    outline: none;
 }
-.gallery-card.is-unlocked:hover .gallery-card-img {
+.gallery-card.is-unlocked:hover .gallery-card-img,
+.gallery-card.is-unlocked:focus-visible .gallery-card-img {
     transform: scale(1.04);
+}
+
+/* Hover hint: "see all edits" pill, revealed over the photo. Hidden by
+   default so an unlocked card still reads as a clean trophy at rest. */
+.gallery-card-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    background: rgba(10, 10, 11, 0.78);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity var(--t-fast), transform var(--t-fast);
+    pointer-events: none;
+}
+.gallery-card-view svg { color: var(--accent); }
+.gallery-card.is-unlocked:hover .gallery-card-view,
+.gallery-card.is-unlocked:focus-visible .gallery-card-view {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 

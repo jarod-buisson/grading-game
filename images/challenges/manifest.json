@@ -253,6 +253,48 @@
       "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
       "instagram": "clem_brrz",
       "category": "digital"
+    },
+    {
+      "id": "019",
+      "title": "Challenge 019",
+      "meta": "—",
+      "cover": "images/challenges/019/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/019/source.rw2",
+      "sourceSize": 35073024,
+      "reference": "images/challenges/019/reference.jpg",
+      "photographer": "Jarod Buisson",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": null,
+      "category": "negative"
+    },
+    {
+      "id": "020",
+      "title": "Challenge 020",
+      "meta": "—",
+      "cover": "images/challenges/020/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/020/source.rw2",
+      "sourceSize": 32246784,
+      "reference": "images/challenges/020/reference.jpg",
+      "photographer": "Jarod Buisson",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": null,
+      "category": "negative"
+    },
+    {
+      "id": "021",
+      "title": "Challenge 021",
+      "meta": "—",
+      "cover": "images/challenges/021/cover.jpg",
+      "source": "https://sources.grading-game.com/challenges/021/source.rw2",
+      "sourceSize": 32822272,
+      "reference": "images/challenges/021/reference.jpg",
+      "photographer": "Jarod Buisson",
+      "license": "CC BY-NC",
+      "terms": "Personal grading practice only. Do not redistribute the source file or use commercially.",
+      "instagram": null,
+      "category": "negative"
     }
   ]
 }

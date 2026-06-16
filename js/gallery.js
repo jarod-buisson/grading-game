@@ -44,6 +44,12 @@
         return String(id).padStart(3, '0');
     }
 
+    // i18n helper for strings built after first paint (cards are created
+    // async, so data-i18n auto-translation has already run by then).
+    function tt(key) {
+        return (window.gg_i18n && window.gg_i18n.t) ? window.gg_i18n.t(key) : key;
+    }
+
 
     /* ---------- Main render ---------- */
     async function init() {
@@ -112,11 +118,21 @@
         // fall back to the cover for locked or missing reference.
         const imgSrc = challenge.reference || challenge.cover || '';
 
+        // Unlocked cards open the community wall for that photo. The hover
+        // hint tells the player the card is a doorway, not just a trophy.
+        const unlockedOverlay =
+            `<span class="gallery-card-view">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M3 5h8v6H3V5zm10 0h8v6h-8V5zM3 13h8v6H3v-6zm10 0h8v6h-8v-6z"/></svg>
+                <span>${escHTML(tt('gallery.view_edits'))}</span>
+            </span>`;
+        const lockedOverlay =
+            '<svg class="gallery-card-lock" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm0 2a3 3 0 0 1 3 3v3H9V6a3 3 0 0 1 3-3z"/></svg>';
+
         card.innerHTML = `
             <div class="gallery-card-frame">
                 ${imgSrc ? `<div class="gallery-card-img" style="background-image:url('${escHTML(imgSrc)}')"></div>` : ''}
                 <div class="gallery-card-overlay">
-                    ${isUnlocked ? '' : '<svg class="gallery-card-lock" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm0 2a3 3 0 0 1 3 3v3H9V6a3 3 0 0 1 3-3z"/></svg>'}
+                    ${isUnlocked ? unlockedOverlay : lockedOverlay}
                 </div>
             </div>
             <div class="gallery-card-info">
@@ -126,6 +142,22 @@
                     : `<div class="gallery-card-photographer gallery-card-photographer--locked">— locked —</div>`}
             </div>
         `;
+
+        // Make the whole unlocked card a link to its wall. Locked cards
+        // stay inert (no spoiling, no navigation).
+        if (isUnlocked) {
+            const href = 'challenge.html?c=' + encodeURIComponent(challenge.id);
+            card.setAttribute('role', 'link');
+            card.setAttribute('tabindex', '0');
+            const go = () => { window.location.href = href; };
+            card.addEventListener('click', go);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    go();
+                }
+            });
+        }
 
         return card;
     }

@@ -329,6 +329,18 @@ window.GG_I18N_DICT = {
         'gallery.anon_text':       "<strong>Sign in to track your gallery.</strong> Without an account, your unlocks aren't saved.",
         'gallery.unlocked':        'unlocked',
         'gallery.loading':         'loading…',
+        'gallery.view_edits':      'see all edits',
+
+        /* ----- Challenge wall (challenge.html) ----- */
+        'challenge.meta_title':    'community wall · grading-game',
+        'challenge.eyebrow':       'challenge',
+        'challenge.h1':            'Every edit of this photo',
+        'challenge.original_by':   'Original grade by {name} — then every edit the community has published on it.',
+        'challenge.locked':        'Unlock this photo by editing it first, then come back to see everyone’s take.',
+        'challenge.locked_cta':    'play a session',
+        'challenge.back':          '← back to gallery',
+        'challenge.not_found':     'this photo doesn’t exist (or isn’t available anymore)',
+        'challenge.empty':         'no edits on this photo yet — be the first to publish one',
 
         /* ----- Contributors (contributors.html) ----- */
         'contributors.meta_title':         'contributors · grading-game — photographers behind the photos',
@@ -723,6 +735,18 @@ window.GG_I18N_DICT = {
         'gallery.anon_text':       "<strong>Connectez-vous pour suivre votre galerie.</strong> Sans compte, vos déblocages ne sont pas sauvegardés.",
         'gallery.unlocked':        'débloqués',
         'gallery.loading':         'chargement…',
+        'gallery.view_edits':      'voir tous les rendus',
+
+        /* ----- Mur d’une photo (challenge.html) ----- */
+        'challenge.meta_title':    'mur de la communauté · grading-game',
+        'challenge.eyebrow':       'challenge',
+        'challenge.h1':            'Tous les rendus de cette photo',
+        'challenge.original_by':   'Rendu original par {name} — puis tous les rendus publiés par la communauté sur cette photo.',
+        'challenge.locked':        'Débloque cette photo en la retouchant, puis reviens découvrir la version de chacun.',
+        'challenge.locked_cta':    'lancer une session',
+        'challenge.back':          '← retour à la galerie',
+        'challenge.not_found':     'cette photo n’existe pas (ou n’est plus disponible)',
+        'challenge.empty':         'aucun rendu sur cette photo pour l’instant — sois le premier à en publier un',
 
         /* ----- Contributors ----- */
         'contributors.meta_title':         'contributeurs · grading-game — les photographes derrière les photos',
@@ -1117,6 +1141,18 @@ window.GG_I18N_DICT = {
         'gallery.anon_text':       "<strong>Accedi per tracciare la tua galleria.</strong> Senza un account, gli sblocchi non vengono salvati.",
         'gallery.unlocked':        'sbloccate',
         'gallery.loading':         'caricamento…',
+        'gallery.view_edits':      'vedi tutti i ritocchi',
+
+        /* ----- Muro di una foto (challenge.html) ----- */
+        'challenge.meta_title':    'muro della community · grading-game',
+        'challenge.eyebrow':       'sfida',
+        'challenge.h1':            'Tutti i ritocchi di questa foto',
+        'challenge.original_by':   'Ritocco originale di {name} — poi tutti i ritocchi pubblicati dalla community su questa foto.',
+        'challenge.locked':        'Sblocca questa foto ritoccandola, poi torna a scoprire la versione di ognuno.',
+        'challenge.locked_cta':    'avvia una sessione',
+        'challenge.back':          '← torna alla galleria',
+        'challenge.not_found':     'questa foto non esiste (o non è più disponibile)',
+        'challenge.empty':         'ancora nessun ritocco su questa foto — sii il primo a pubblicarne uno',
 
         /* ----- Contributors ----- */
         'contributors.meta_title':         'contributori · grading-game — i fotografi dietro le foto',
@@ -1511,6 +1547,18 @@ window.GG_I18N_DICT = {
         'gallery.anon_text':       "<strong>Inicia sesión para seguir tu galería.</strong> Sin cuenta, tus desbloqueos no se guardan.",
         'gallery.unlocked':        'desbloqueados',
         'gallery.loading':         'cargando…',
+        'gallery.view_edits':      'ver todas las ediciones',
+
+        /* ----- Muro de una foto (challenge.html) ----- */
+        'challenge.meta_title':    'muro de la comunidad · grading-game',
+        'challenge.eyebrow':       'desafío',
+        'challenge.h1':            'Todas las ediciones de esta foto',
+        'challenge.original_by':   'Edición original de {name} — y luego todas las ediciones que la comunidad ha publicado en esta foto.',
+        'challenge.locked':        'Desbloquea esta foto editándola primero, luego vuelve a ver la versión de cada uno.',
+        'challenge.locked_cta':    'iniciar una sesión',
+        'challenge.back':          '← volver a la galería',
+        'challenge.not_found':     'esta foto no existe (o ya no está disponible)',
+        'challenge.empty':         'aún no hay ediciones en esta foto — sé el primero en publicar una',
 
         /* ----- Contributors ----- */
         'contributors.meta_title':         'colaboradores · grading-game — los fotógrafos detrás de las fotos',

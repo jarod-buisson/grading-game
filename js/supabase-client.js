@@ -752,6 +752,23 @@
         return data || { count: 0, can_view: false, items: [] };
     }
 
+    /**
+     * Fetch the wall for a challenge from the GALLERY entry point
+     * (challenge.html). Same shape as getWall, but the server gate is
+     * UNLOCKED (you've played this challenge) rather than published —
+     * see migration 011. Used so any photo in your gallery lets you
+     * browse everyone's edits, even ones you never published on.
+     */
+    async function getChallengeWall(challengeId) {
+        const { data, error } = await supabase
+            .rpc('get_challenge_wall', { p_challenge_id: String(challengeId) });
+        if (error) {
+            console.error('[gg] get_challenge_wall failed:', error);
+            throw error;
+        }
+        return data || { count: 0, can_view: false, items: [] };
+    }
+
     /** Public URL for a wall image path (+ cache-buster for re-submits). */
     function wallImageUrl(path, version) {
         const { data } = supabase.storage.from('wall').getPublicUrl(path);
@@ -816,6 +833,7 @@
         getUnlockedChallengeIds,
         publishToWall,
         getWall,
+        getChallengeWall,
         wallImageUrl,
         reportWallSubmission
     };

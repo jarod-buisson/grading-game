@@ -1,0 +1,238 @@
+/* =========================================================
+   challenge.css — per-photo community wall page (challenge.html).
+
+   Opened from the gallery: shows the original (reference) plus every
+   published edit of one photo. The card grid reuses the SAME class
+   names as the result-screen wall (.wall-grid / .wall-card / …) so the
+   two surfaces stay visually identical — result.css isn't loaded here,
+   so the rules are duplicated below rather than shared.
+   ========================================================= */
+
+.cw-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 48px 40px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 5;
+    min-height: 0;
+}
+
+.cw-inner {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.cw-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.cw-title {
+    font-family: var(--font-ui);
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.15;
+    margin: 6px 0 0;
+}
+
+.cw-credit {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+}
+.cw-credit[hidden] { display: none; }
+
+.cw-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin: 0;
+}
+
+
+/* ---------- Locked / not-unlocked state ---------- */
+.cw-locked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding: 48px 24px 52px;
+    border: 1px dashed var(--border-subtle);
+    border-radius: 4px;
+    background: var(--bg-elev-1);
+}
+.cw-locked[hidden] { display: none; }
+
+.cw-locked-icon {
+    color: var(--text-tertiary);
+    opacity: 0.8;
+}
+
+.cw-locked-text {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 420px;
+    margin: 0;
+}
+
+.cw-locked-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-primary);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    text-decoration: none;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+.cw-locked-cta:hover { background: var(--accent); color: #0a0a0b; }
+
+
+/* ---------- Empty fallback ---------- */
+.cw-empty {
+    grid-column: 1 / -1;
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    border: 1px dashed var(--border-subtle);
+    border-radius: 3px;
+}
+
+
+/* ---------- Wall grid + cards (mirror of result.css) ---------- */
+.wall-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 4px;
+}
+.wall-grid[hidden] { display: none !important; }
+
+.wall-card {
+    border: 1px solid var(--border-faint);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-elev-1);
+}
+.wall-card.is-you       { border-color: rgba(212, 148, 107, 0.5); }
+.wall-card.is-reference { border-color: rgba(120, 160, 200, 0.45); }
+
+.wall-card-frame {
+    aspect-ratio: 4 / 3;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.wall-card-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.wall-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+}
+
+.wall-card-nick {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wall-badge {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+}
+.wall-badge--you { color: var(--accent); }
+.wall-badge--ref { color: #8fb4d8; }
+
+.wall-report {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-quaternary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    opacity: 0;
+    transition: opacity 140ms ease, color 140ms ease;
+}
+.wall-card:hover .wall-report { opacity: 1; }
+.wall-report:hover { color: var(--accent-red, #d96055); }
+
+
+/* ---------- Back link ---------- */
+.back-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 2px;
+    transition: color var(--t-fast), border-color var(--t-fast);
+    align-self: flex-start;
+    margin-top: 10px;
+    text-decoration: none;
+}
+.back-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+
+/* ---------- Mobile ---------- */
+@media (max-width: 800px) {
+    .cw-stage { padding: 24px 18px 32px; }
+    .cw-title { font-size: 24px; }
+    .wall-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .wall-report { opacity: 0.6; }
+}

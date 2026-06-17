@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    i18n-dict.js — translation strings for the visible UI.
 
    Phase 1: landing + rules + welcome + chrome
@@ -338,9 +338,14 @@ window.GG_I18N_DICT = {
         'challenge.original_by':   'Original grade by {name} — then every edit the community has published on it.',
         'challenge.locked':        'Unlock this photo by editing it first, then come back to see everyone’s take.',
         'challenge.locked_cta':    'play a session',
+        'challenge.locked_anon':   'Sign in to see how the community edited this photo.',
+        'challenge.locked_cta_anon': 'sign in',
         'challenge.back':          '← back to gallery',
         'challenge.not_found':     'this photo doesn’t exist (or isn’t available anymore)',
         'challenge.empty':         'no edits on this photo yet — be the first to publish one',
+        'challenge.open_comparator': 'open the comparator',
+        'challenge.comparator_hint': 'Drag a thumbnail onto A or B, pick from the lists, or tap a card to fill the next slot.',
+        'challenge.cmp_original':    'original',
 
         /* ----- Contributors (contributors.html) ----- */
         'contributors.meta_title':         'contributors · grading-game — photographers behind the photos',
@@ -744,9 +749,14 @@ window.GG_I18N_DICT = {
         'challenge.original_by':   'Rendu original par {name} — puis tous les rendus publiés par la communauté sur cette photo.',
         'challenge.locked':        'Débloque cette photo en la retouchant, puis reviens découvrir la version de chacun.',
         'challenge.locked_cta':    'lancer une session',
+        'challenge.locked_anon':   'Connecte-toi pour voir comment la communauté a retouché cette photo.',
+        'challenge.locked_cta_anon': 'se connecter',
         'challenge.back':          '← retour à la galerie',
         'challenge.not_found':     'cette photo n’existe pas (ou n’est plus disponible)',
         'challenge.empty':         'aucun rendu sur cette photo pour l’instant — sois le premier à en publier un',
+        'challenge.open_comparator': 'ouvrir le comparateur',
+        'challenge.comparator_hint': 'Glisse une vignette sur A ou B, choisis dans les listes, ou tape une carte pour remplir l’emplacement suivant.',
+        'challenge.cmp_original':    'original',
 
         /* ----- Contributors ----- */
         'contributors.meta_title':         'contributeurs · grading-game — les photographes derrière les photos',
@@ -1150,9 +1160,14 @@ window.GG_I18N_DICT = {
         'challenge.original_by':   'Ritocco originale di {name} — poi tutti i ritocchi pubblicati dalla community su questa foto.',
         'challenge.locked':        'Sblocca questa foto ritoccandola, poi torna a scoprire la versione di ognuno.',
         'challenge.locked_cta':    'avvia una sessione',
+        'challenge.locked_anon':   'Accedi per vedere come la community ha ritoccato questa foto.',
+        'challenge.locked_cta_anon': 'accedi',
         'challenge.back':          '← torna alla galleria',
         'challenge.not_found':     'questa foto non esiste (o non è più disponibile)',
         'challenge.empty':         'ancora nessun ritocco su questa foto — sii il primo a pubblicarne uno',
+        'challenge.open_comparator': 'apri il comparatore',
+        'challenge.comparator_hint': 'Trascina una miniatura su A o B, scegli dalle liste, o tocca una carta per riempire lo slot successivo.',
+        'challenge.cmp_original':    'originale',
 
         /* ----- Contributors ----- */
         'contributors.meta_title':         'contributori · grading-game — i fotografi dietro le foto',
@@ -1556,9 +1571,14 @@ window.GG_I18N_DICT = {
         'challenge.original_by':   'Edición original de {name} — y luego todas las ediciones que la comunidad ha publicado en esta foto.',
         'challenge.locked':        'Desbloquea esta foto editándola primero, luego vuelve a ver la versión de cada uno.',
         'challenge.locked_cta':    'iniciar una sesión',
+        'challenge.locked_anon':   'Inicia sesión para ver cómo la comunidad editó esta foto.',
+        'challenge.locked_cta_anon': 'iniciar sesión',
         'challenge.back':          '← volver a la galería',
         'challenge.not_found':     'esta foto no existe (o ya no está disponible)',
         'challenge.empty':         'aún no hay ediciones en esta foto — sé el primero en publicar una',
+        'challenge.open_comparator': 'abrir el comparador',
+        'challenge.comparator_hint': 'Arrastra una miniatura a A o B, elige de las listas, o toca una tarjeta para llenar el siguiente hueco.',
+        'challenge.cmp_original':    'original',
 
         /* ----- Contributors ----- */
         'contributors.meta_title':         'colaboradores · grading-game — los fotógrafos detrás de las fotos',

@@ -23,21 +23,36 @@ html.landing body {
     overflow-y: auto;
 }
 html.landing body {
-    display: block;          /* drop the fixed flex column */
+    display: block;
     min-height: 100vh;
+    padding-top: 66px; /* compensate fixed top bar */
 }
 
-/* Keep the top bar reachable while scrolling through the page. */
+/* Top bar fixed so it always follows on scroll. */
 html.landing .top-bar {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
-    padding: 20px 40px;                 /* taller, roomier bar */
-    background: rgba(8, 8, 11, 0.72);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 20px 40px;
+    background: rgba(8, 8, 11, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border-faint, rgba(255,255,255,0.05));
 }
+
+/* Side panels fixed to viewport edges, vertically centred. */
+html.landing .side-panel {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 200px;
+    padding: 24px 20px;
+}
+html.landing .side-panel--left  { left: 0; }
+html.landing .side-panel--right { right: 0; align-items: flex-end; text-align: right; }
 /* Scale the brand up a touch so the bigger bar feels balanced. */
 html.landing .brand-name      { font-size: 19px; }
 html.landing .brand-mark svg  { width: 26px; height: 26px; }

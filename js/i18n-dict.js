@@ -40,7 +40,7 @@ window.GG_I18N_DICT = {
         /* ----- Intro hero (new comprehension-first landing) ----- */
         'intro.eyebrow':           'the photo color-grading game',
         'intro.title_html':        'Start from a flat photo.<br>Make it <span class="accent">yours</span>.',
-        'intro.sub_html':          'We hand you a photographer’s <strong>RAW</strong> — you develop it however you want.',
+        'intro.sub_html':          'The free online <strong>color grading game</strong>: we hand you a photographer’s <strong>RAW</strong> — you develop it however you want.',
         'intro.step1_html':        '<strong>Download</strong> the source file.',
         'intro.step2_html':        '<strong>Edit it</strong> locally, right on your computer.',
         'intro.step3_html':        '<strong>Re-import &amp; compare</strong> your render with the original photographer’s. Discover new artists and how they treat a photo!',
@@ -134,8 +134,8 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'dismiss this introduction',
 
         /* ----- Rules page (about.html) ----- */
-        'meta.title.home':         'grading-game',
-        'meta.title.rules':        'rules · grading-game — how to play',
+        'meta.title.home':         'Grading Game — Free Online Photo Color-Grading Game for Photographers',
+        'meta.title.rules':        'How to Play — Rules & FAQ | Grading Game',
         'rules.eyebrow':           '05 · rules',
         'rules.title':             'How to play',
         'rules.intro1_html':       '<strong>grading-game</strong> hands you an image and a time limit to develop it in the software of your choice before re-importing it.',
@@ -453,7 +453,7 @@ window.GG_I18N_DICT = {
         /* ----- Intro hero ----- */
         'intro.eyebrow':           'le jeu du color grading photo',
         'intro.title_html':        'Pars d’une photo brute.<br>Donne-lui <span class="accent">ton style</span>.',
-        'intro.sub_html':          'On te donne le <strong>RAW</strong> d’un photographe, retouche-la comme tu en as envie !',
+        'intro.sub_html':          'Le <strong>jeu de color grading</strong> gratuit en ligne : on te donne le <strong>RAW</strong> d’un photographe, retouche-la comme tu en as envie !',
         'intro.step1_html':        '<strong>Télécharge</strong> le fichier source.',
         'intro.step2_html':        '<strong>Retouche</strong> en local, sur ton PC.',
         'intro.step3_html':        '<strong>Réimporte &amp; compare</strong> ton rendu à celui du photographe original. Découvre de nouveaux artistes et leur façon de traiter une photo !',
@@ -546,8 +546,8 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'fermer cette introduction',
 
         /* ----- Rules ----- */
-        'meta.title.home':         'grading-game',
-        'meta.title.rules':        'règles · grading-game — comment jouer',
+        'meta.title.home':         'Grading Game — le jeu gratuit de color grading photo en ligne',
+        'meta.title.rules':        'Comment jouer — Règles & FAQ | Grading Game',
         'rules.eyebrow':           '05 · règles',
         'rules.title':             'Comment jouer',
         'rules.intro1_html':       '<strong>grading-game</strong> vous donne une image et une limite de temps pour la retoucher dans le logiciel de votre choix avant de la réimporter.',
@@ -864,7 +864,7 @@ window.GG_I18N_DICT = {
         /* ----- Intro hero ----- */
         'intro.eyebrow':           'il gioco del color grading fotografico',
         'intro.title_html':        'Parti da una foto piatta.<br>Rendila <span class="accent">tua</span>.',
-        'intro.sub_html':          'Ti diamo il <strong>RAW</strong> di un fotografo — lo sviluppi come ti pare!',
+        'intro.sub_html':          'Il <strong>gioco di color grading</strong> online gratuito: ti diamo il <strong>RAW</strong> di un fotografo — lo sviluppi come ti pare!',
         'intro.step1_html':        '<strong>Scarica</strong> il file sorgente.',
         'intro.step2_html':        '<strong>Ritoccalo</strong> in locale, sul tuo computer.',
         'intro.step3_html':        '<strong>Reimporta &amp; confronta</strong> il tuo render con quello del fotografo originale. Scopri nuovi artisti e come trattano una foto!',
@@ -957,8 +957,8 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'chiudi questa introduzione',
 
         /* ----- Rules ----- */
-        'meta.title.home':         'grading-game',
-        'meta.title.rules':        'regole · grading-game — come si gioca',
+        'meta.title.home':         'Grading Game — il gioco gratuito di color grading fotografico online',
+        'meta.title.rules':        'Come si gioca — Regole & FAQ | Grading Game',
         'rules.eyebrow':           '05 · regole',
         'rules.title':             'Come si gioca',
         'rules.intro1_html':       '<strong>grading-game</strong> ti dà un’immagine e un limite di tempo per ritoccarla nel software che preferisci prima di reimportarla.',
@@ -1275,7 +1275,7 @@ window.GG_I18N_DICT = {
         /* ----- Intro hero ----- */
         'intro.eyebrow':           'el juego del color grading fotográfico',
         'intro.title_html':        'Parte de una foto plana.<br>Hazla <span class="accent">tuya</span>.',
-        'intro.sub_html':          'Te damos el <strong>RAW</strong> de un fotógrafo — ¡lo revelas como quieras!',
+        'intro.sub_html':          'El <strong>juego de color grading</strong> online gratuito: te damos el <strong>RAW</strong> de un fotógrafo — ¡lo revelas como quieras!',
         'intro.step1_html':        '<strong>Descarga</strong> el archivo fuente.',
         'intro.step2_html':        '<strong>Edítalo</strong> en local, en tu propio ordenador.',
         'intro.step3_html':        '<strong>Reimporta &amp; compara</strong> tu render con el del fotógrafo original. ¡Descubre nuevos artistas y cómo tratan una foto!',
@@ -1368,8 +1368,8 @@ window.GG_I18N_DICT = {
         'welcome.close_aria':      'cerrar esta introducción',
 
         /* ----- Rules ----- */
-        'meta.title.home':         'grading-game',
-        'meta.title.rules':        'reglas · grading-game — cómo jugar',
+        'meta.title.home':         'Grading Game — el juego gratuito de color grading fotográfico online',
+        'meta.title.rules':        'Cómo jugar — Reglas y FAQ | Grading Game',
         'rules.eyebrow':           '05 · reglas',
         'rules.title':             'Cómo jugar',
         'rules.intro1_html':       '<strong>grading-game</strong> te da una imagen y un límite de tiempo para editarla en el software que elijas antes de reimportarla.',

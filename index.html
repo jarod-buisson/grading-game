@@ -48,16 +48,19 @@
 
     <!-- Supabase client + global auth widget — loaded on every page so the
          "Sign in / Avatar" widget can mount in the top bar regardless of
-         where the user lands. Order matters: SDK → gg client → auth UI. -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js?v=15"></script>
-    <script src="js/auth-ui.js?v=9"></script>
-    <script src="js/presence.js?v=4"></script>
+         where the user lands. Order matters: SDK → gg client → auth UI.
+         All deferred (none touch the DOM before DOMContentLoaded, each
+         already guards on document.readyState) so they don't block the
+         initial render — `defer` preserves this relative execution order. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="js/supabase-client.js?v=15" defer></script>
+    <script src="js/auth-ui.js?v=9" defer></script>
+    <script src="js/presence.js?v=4" defer></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=22"></script>
-    <script src="js/i18n.js?v=2"></script>
-    <script src="js/chrome.js?v=9"></script>
+    <script src="js/i18n-dict.js?v=23" defer></script>
+    <script src="js/i18n.js?v=2" defer></script>
+    <script src="js/chrome.js?v=9" defer></script>
     <!-- :head-common-end: -->
     <title data-i18n="meta.title.home">Grading Game — Free Online Photo Color-Grading Game for Photographers</title>
     <meta name="description" content="Free online photo color-grading game. Practice on real RAW files from photographers, develop your grade in Lightroom / Capture One / DaVinci / Darktable, then compete in timed multiplayer rounds with anonymous voting.">
@@ -214,12 +217,13 @@
 
             <!-- Copy + CTA -->
             <div class="intro-copy">
-                <h1 class="intro-title" data-i18n-html="intro.title_html">
+                <h2 class="intro-title" data-i18n-html="intro.title_html">
                     Start from a flat photo.<br>Make it <span class="accent">yours</span>.
-                </h1>
+                </h2>
                 <p class="intro-sub" data-i18n-html="intro.sub_html">
-                    We hand you a photographer's <strong>RAW</strong> — you develop
-                    it however you want.
+                    The free online <strong>color grading game</strong>: we hand you
+                    a photographer’s <strong>RAW</strong> — you develop it however
+                    you want.
                 </p>
 
                 <ol class="intro-steps">
@@ -250,7 +254,7 @@
             <div class="intro-demo">
                 <div class="ba-pair">
                     <figure class="ba-card ba-card--before">
-                        <img src="images/hero/before.jpg" alt="A flat, undeveloped RAW photo" width="1000" height="1500">
+                        <img src="images/hero/before.jpg" alt="A flat, undeveloped RAW photo" width="1000" height="1500" fetchpriority="high">
                         <figcaption class="ba-tag" data-i18n="intro.before">RAW</figcaption>
                     </figure>
                     <figure class="ba-card ba-card--after">

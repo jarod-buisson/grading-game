@@ -24,7 +24,7 @@
                     <span class="mobile-gate-name">grading<span class="mobile-gate-dot">-</span>game</span>
                 </div>
                 <div class="mobile-gate-eyebrow">display requirement</div>
-                <h1 class="mobile-gate-title">Desktop only</h1>
+                <h2 class="mobile-gate-title">Desktop only</h2>
                 <p class="mobile-gate-body">
                     The game is designed for a screen at least
                     <strong>800&nbsp;px wide</strong>.

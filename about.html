@@ -48,19 +48,22 @@
 
     <!-- Supabase client + global auth widget — loaded on every page so the
          "Sign in / Avatar" widget can mount in the top bar regardless of
-         where the user lands. Order matters: SDK → gg client → auth UI. -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js?v=15"></script>
-    <script src="js/auth-ui.js?v=9"></script>
-    <script src="js/presence.js?v=4"></script>
+         where the user lands. Order matters: SDK → gg client → auth UI.
+         All deferred (none touch the DOM before DOMContentLoaded, each
+         already guards on document.readyState) so they don't block the
+         initial render — `defer` preserves this relative execution order. -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="js/supabase-client.js?v=15" defer></script>
+    <script src="js/auth-ui.js?v=9" defer></script>
+    <script src="js/presence.js?v=4" defer></script>
     <!-- i18n must load BEFORE chrome.js so the language picker (and any
          data-i18n elements in the page) can be populated on first paint. -->
-    <script src="js/i18n-dict.js?v=22"></script>
-    <script src="js/i18n.js?v=2"></script>
-    <script src="js/chrome.js?v=9"></script>
+    <script src="js/i18n-dict.js?v=23" defer></script>
+    <script src="js/i18n.js?v=2" defer></script>
+    <script src="js/chrome.js?v=9" defer></script>
     <!-- :head-common-end: -->
-    <title data-i18n="meta.title.rules">Rules &amp; FAQ — How to Play Grading Game (Color Grading Game)</title>
-    <meta name="description" content="Rules of Grading Game, the free online photo color-grading game. Step-by-step workflow, supported file formats (RAW, TIFF, DNG), solo vs multiplayer, and a FAQ for common questions.">
+    <title data-i18n="meta.title.rules">How to Play — Rules &amp; FAQ | Grading Game</title>
+    <meta name="description" content="How to play Grading Game: step-by-step color-grading workflow, supported file formats (RAW, TIFF, DNG), solo vs multiplayer, and a FAQ for common questions.">
 
     <link rel="canonical"            href="https://grading-game.com/about.html">
     <link rel="alternate" hreflang="x-default" href="https://grading-game.com/about.html">
@@ -69,11 +72,11 @@
     <link rel="alternate" hreflang="it" href="https://grading-game.com/about.html?lang=it">
     <link rel="alternate" hreflang="es" href="https://grading-game.com/about.html?lang=es">
     <meta property="og:url"          content="https://grading-game.com/about.html">
-    <meta property="og:title"        content="Rules &amp; FAQ — Grading Game">
-    <meta property="og:description"  content="How to play Grading Game — color grading rules, workflow, FAQ. Free, browser-based, RAW-friendly.">
+    <meta property="og:title"        content="How to Play — Rules &amp; FAQ | Grading Game">
+    <meta property="og:description"  content="Step-by-step color-grading workflow, file formats, solo vs multiplayer, and FAQ. Free, browser-based, RAW-friendly.">
     <meta property="og:image"        content="https://grading-game.com/images/og-image.jpg">
-    <meta name="twitter:title"       content="Rules &amp; FAQ — Grading Game">
-    <meta name="twitter:description" content="How to play Grading Game — color grading rules, workflow, FAQ. Free, browser-based, RAW-friendly.">
+    <meta name="twitter:title"       content="How to Play — Rules &amp; FAQ | Grading Game">
+    <meta name="twitter:description" content="Step-by-step color-grading workflow, file formats, solo vs multiplayer, and FAQ. Free, browser-based, RAW-friendly.">
     <meta name="twitter:image"       content="https://grading-game.com/images/og-image.jpg">
 
     <!-- FAQ schema — Google can render a "People also ask" dropdown

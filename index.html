@@ -156,22 +156,11 @@
     </script>
 
     <link rel="stylesheet" href="css/mobile.css?v=5">
-    <link rel="stylesheet" href="css/landing-intro.css?v=8">
+    <link rel="stylesheet" href="css/landing-intro.css?v=11">
 </head>
 
 <body class="bg-graded mobile-friendly">
     <script src="js/mobile-gate.js"></script>
-
-    <!--
-      Background stack (z-index goes from back to front):
-        bg-grade-layer  → dark gradient + SVG LUT filter from the tone curve
-        bg-grade-tint   → mode-dependent hue tint, fades in on menu hover
-      The SVG filter #tone-lut-filter is kept in sync with the bezier curve
-      by js/bezier-curve.js. The hue tint is driven by chromatic-wheel.js
-      via CSS variables --menu-hue + --menu-tint-alpha.
-    -->
-    <div class="bg-grade-layer" aria-hidden="true"></div>
-    <div class="bg-grade-tint"  aria-hidden="true"></div>
 
     <!-- SVG filter definition — invisible, just a defs container -->
     <svg class="svg-filter-defs" aria-hidden="true" focusable="false">
@@ -278,6 +267,19 @@
 
     <!-- =================== MAIN — wheel menu =================== -->
     <main class="menu-stage" id="explore">
+
+        <!--
+          Background stack, scoped to the wheel section so it stays
+          centered behind the wheel and scrolls with it instead of
+          tracking the viewport (z-index goes from back to front):
+            bg-grade-layer  → dark gradient + SVG LUT filter from the tone curve
+            bg-grade-tint   → mode-dependent hue tint, fades in on menu hover
+          The SVG filter #tone-lut-filter is kept in sync with the bezier curve
+          by js/bezier-curve.js. The hue tint is driven by chromatic-wheel.js
+          via CSS variables --menu-hue + --menu-tint-alpha.
+        -->
+        <div class="bg-grade-layer" aria-hidden="true"></div>
+        <div class="bg-grade-tint"  aria-hidden="true"></div>
 
         <!-- =================== MOBILE-ONLY hero + nav ===================
              These three blocks are hidden above 800 px viewport via

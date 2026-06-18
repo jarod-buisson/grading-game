@@ -22,6 +22,22 @@ html.landing body {
     overflow-x: hidden;
     overflow-y: auto;
 }
+html.landing {
+    /* UN SEUL fond pour toute la page : quasi noir en haut (hero), qui se
+       relève très légèrement vers le bas. Le halo coloré derrière la roue
+       est apporté par .bg-grade-layer, dont le bord supérieur est fondu
+       (mask, plus bas) pour qu'il se fonde dans ce fond sans aucune ligne
+       de coupure. */
+    background: linear-gradient(
+        180deg,
+        #08080a 0%,
+        #08080a 40%,    /* le hero reste quasi noir sur sa partie haute */
+        #0a0b10 49%,    /* ~niveau du bouton EXPLORER : 1er éclaircissement */
+        #0e0f18 58%,
+        #14151f 74%,    /* zone de la roue : base sous le halo coloré */
+        #161728 100%
+    );
+}
 html.landing body {
     display: block;
     min-height: 100vh;
@@ -106,6 +122,17 @@ html.landing .mobile-hero { display: none !important; }
     justify-content: center;
     padding: 40px 40px 64px;
     box-sizing: border-box;
+}
+
+/* Fondu du bord SUPÉRIEUR du halo de la roue (.bg-grade-layer) dans le
+   fond de la page : le haut du halo devient transparent et laisse voir le
+   fond quasi noir du html, ce qui supprime la ligne de coupure entre le
+   hero et la section roue. Le halo reste pleinement visible derrière la
+   roue (en dessous de 34 %). Idem pour le tint coloré au survol. */
+html.landing .bg-grade-layer,
+html.landing .bg-grade-tint {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 34%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 34%);
 }
 
 .intro-hero-inner {

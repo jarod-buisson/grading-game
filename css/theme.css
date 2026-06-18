@@ -125,13 +125,18 @@ a {
                            applies the curve's LUT in real time
      2. .bg-grade-overlay → a dark translucent layer ON TOP of the image
                            so the UI text stays readable
-   The SVG filter `#tone-lut-filter` lives in the HTML defs section.   */
+   The SVG filter `#tone-lut-filter` lives in the HTML defs section.
+   Both layers live inside `.menu-stage` (the wheel section, which is
+   `position: relative`) and are `position: absolute` rather than
+   `fixed` — that keeps the gradient centered behind the chromatic
+   wheel and scrolling along with it instead of staying pinned to the
+   viewport while the page scrolls underneath it.                    */
 body.bg-graded {
     background: transparent !important;
 }
 
 .bg-grade-layer {
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: -2;
     pointer-events: none;
@@ -160,7 +165,7 @@ body.bg-graded {
      --menu-hue        : in degrees (rotation from the red base)
      --menu-tint-alpha : 0 → 1 (0 = no tint, 1 = full tint visible) */
 .bg-grade-tint {
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;

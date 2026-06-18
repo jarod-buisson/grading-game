@@ -60,12 +60,13 @@
         // Find the challenge in the manifest (for the reference image +
         // photographer credit). The wall data itself comes from the RPC.
         let challenge = null;
+        let manifestList = [];
         try {
             const r = await fetch('images/challenges/manifest.json?t=' + Date.now(), { cache: 'no-store' });
             if (r.ok) {
                 const manifest = await r.json();
-                const list = (manifest && manifest.challenges) || [];
-                challenge = list.find(c => String(c.id) === String(wantId)) || null;
+                manifestList = (manifest && manifest.challenges) || [];
+                challenge = manifestList.find(c => String(c.id) === String(wantId)) || null;
             }
         } catch (e) {
             console.warn('[challenge] manifest load failed:', e);
@@ -91,7 +92,7 @@
             renderLocked();
             return;
         }
-        renderOpen(challenge, wall);
+        renderOpen(challenge, wall, manifestList);
     }
 
     function renderLocked() {
@@ -106,8 +107,11 @@
         return t('wall.teaser_many').replace('{n}', count);
     }
 
-    function renderOpen(challenge, wall) {
+    function renderOpen(challenge, wall, manifestList) {
         lockedEl.hidden = true;
+
+        setupSwitcher(challenge, manifestList)
+            .catch(err => console.warn('[challenge] switcher failed:', err));
 
         // Photographer credit line (the "original").
         if (challenge.photographer && challenge.reference) {
@@ -166,6 +170,89 @@
         if (participants.length >= 2) {
             setupComparator(participants, byKey);
         }
+    }
+
+    /* =========================================================
+       SWITCHER — jump to another unlocked challenge's wall
+       ========================================================= */
+    async function setupSwitcher(challenge, manifestList) {
+        const bar      = $('cw-switcher-bar');
+        const trigger  = $('cw-switcher-trigger');
+        const panel    = $('cw-switcher-panel');
+        const thumbImg = $('cw-switcher-thumb-img');
+        const label    = $('cw-switcher-label');
+        if (!bar || !trigger || !panel) return;
+
+        thumbImg.src = challenge.reference || challenge.cover || '';
+        label.textContent = t('challenge.eyebrow') + ' ' + padId(challenge.id);
+        bar.hidden = false;
+
+        let unlocked;
+        try {
+            unlocked = await window.gg.getUnlockedChallengeIds();
+        } catch (e) {
+            unlocked = new Set();
+        }
+
+        const entries = manifestList
+            .filter(c => unlocked.has(String(c.id)))
+            .sort((a, b) => Number(a.id) - Number(b.id));
+
+        if (entries.length <= 1) {
+            trigger.disabled = true;
+            return;
+        }
+
+        entries.forEach((c) => {
+            const isActive = String(c.id) === String(challenge.id);
+            const row = document.createElement(isActive ? 'span' : 'a');
+            row.className = 'cw-switcher-row' + (isActive ? ' cw-switcher-row--active' : '');
+            row.setAttribute('role', 'option');
+            if (isActive) row.setAttribute('aria-selected', 'true');
+            else row.href = 'challenge.html?c=' + encodeURIComponent(c.id);
+
+            const thumb = document.createElement('span');
+            thumb.className = 'cw-switcher-row-thumb';
+            const img = new Image();
+            img.loading = 'lazy';
+            img.alt = '';
+            img.src = c.reference || c.cover || '';
+            thumb.appendChild(img);
+
+            const rowLabel = document.createElement('span');
+            rowLabel.className = 'cw-switcher-row-label';
+            rowLabel.textContent = padId(c.id) + ' · ' + (c.photographer || '—');
+
+            row.appendChild(thumb);
+            row.appendChild(rowLabel);
+
+            if (isActive) {
+                const check = document.createElement('span');
+                check.className = 'cw-switcher-row-check';
+                check.textContent = '✓';
+                row.appendChild(check);
+            }
+
+            panel.appendChild(row);
+        });
+
+        function setOpen(v) {
+            panel.hidden = !v;
+            trigger.setAttribute('aria-expanded', v ? 'true' : 'false');
+        }
+
+        trigger.addEventListener('click', () => setOpen(panel.hidden));
+
+        document.addEventListener('click', (e) => {
+            if (!bar.contains(e.target)) setOpen(false);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !panel.hidden) {
+                setOpen(false);
+                trigger.focus();
+            }
+        });
     }
 
     /* =========================================================

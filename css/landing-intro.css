@@ -135,6 +135,25 @@ html.landing .bg-grade-tint {
             mask-image: linear-gradient(to bottom, transparent 0%, #000 34%);
 }
 
+/* =========================================================
+   Animation d'arrivée du hero — léger slide bas→haut + montée
+   d'opacité (0 → 100 %) sur 2 s à l'ouverture de la page.
+   ========================================================= */
+@keyframes intro-enter {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+html.landing .intro-hero-inner {
+    animation: intro-enter 6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* La pastille « explorer » apparaît juste après le contenu — fondu seul
+   (pas de transform, pour ne pas entrer en conflit avec le translateX
+   du bob). */
+@keyframes intro-scroll-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 .intro-hero-inner {
     width: 100%;
     max-width: 1180px;
@@ -374,13 +393,29 @@ html.landing .bg-grade-tint {
     background: rgba(212, 148, 107, 0.16);
     box-shadow: 0 6px 22px -6px rgba(212, 148, 107, 0.6);
 }
-/* The whole pill gently bobs to signal there's more below the fold. */
-.intro-scroll { animation: intro-bob 1.6s ease-in-out infinite; }
+/* The whole pill gently bobs to signal there's more below the fold —
+   et un fondu d'arrivée différé (~1,2 s) pour qu'elle entre après le
+   contenu du hero. Les deux animations cohabitent (transform vs opacity). */
+.intro-scroll {
+    animation: intro-bob 1.6s ease-in-out infinite,
+               intro-scroll-in 0.8s ease 0.8s both;
+}
 .intro-scroll:hover { animation-play-state: paused; }
 .intro-scroll-arrow { font-size: 14px; line-height: 1; }
 @keyframes intro-bob {
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50%      { transform: translateX(-50%) translateY(6px); }
+}
+
+/* Voile de transition : monte légèrement puis redescend pendant le scroll
+   animé déclenché par « explorer » (piloté en JS dans landing-intro.js). */
+.page-fade-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1800;
+    background: #08080a;
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* =========================================================
@@ -436,6 +471,7 @@ html.landing .bg-grade-tint {
 
 /* Honor reduced-motion */
 @media (prefers-reduced-motion: reduce) {
+    html.landing .intro-hero-inner { animation: none; }
     .intro-scroll { animation: none; }
     .intro-cta { transition: none; }
 }

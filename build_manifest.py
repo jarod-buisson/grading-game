@@ -76,8 +76,16 @@ def to_url(p: Path) -> str:
     return str(p.relative_to(ROOT)).replace("\\", "/")
 
 
-def build_entry(folder: Path) -> dict | None:
-    """Build a manifest entry for one folder, or None if no cover."""
+def build_entry(folder: Path, prev: dict | None = None) -> dict | None:
+    """Build a manifest entry for one folder, or None if no cover.
+
+    `prev` is the matching entry from the *existing* manifest (if any).
+    It lets us preserve the R2 `source` URL + `sourceSize` when the local
+    `source.*` file is absent — source files are gitignored and live only
+    on R2, so a rebuild on a machine without the local copies must NOT
+    clobber a perfectly good source URL with null. (This is the bug that
+    once wiped every download link.)
+    """
     folder_id = folder.name
 
     cover     = find_named(folder, "cover",     PREVIEW_EXTS)
@@ -104,6 +112,13 @@ def build_entry(folder: Path) -> dict | None:
     if source:
         source_url = f"{R2_SOURCE_BASE_URL}/{folder_id}/source{source.suffix}"
         source_size = source.stat().st_size
+    elif prev and prev.get("source"):
+        # No local source file, but the previous manifest had one — keep it.
+        # The file still lives on R2; only the local detection copy is gone.
+        source_url  = prev.get("source")
+        source_size = prev.get("sourceSize") or 0
+        print(f"  [keep] {folder_id}: no local source.* — preserving "
+              f"{source_url.split('/')[-1]} from existing manifest")
     else:
         source_url = None
         source_size = 0
@@ -181,12 +196,22 @@ def collect_entries() -> list[dict]:
     if not CHALLENGES_DIR.exists():
         print(f"[ERROR] Challenges directory not found: {CHALLENGES_DIR}")
         return []
+    # Load the existing manifest so we can preserve R2 source URLs for
+    # challenges whose local source.* copy is absent (see build_entry).
+    prev_by_id: dict[str, dict] = {}
+    if MANIFEST.exists():
+        try:
+            prev_data = json.loads(MANIFEST.read_text(encoding="utf-8"))
+            prev_by_id = {c["id"]: c for c in prev_data.get("challenges", [])}
+        except (json.JSONDecodeError, OSError) as e:
+            print(f"  [warn] couldn't read existing manifest to preserve sources: {e}")
+
     entries: list[dict] = []
     skipped: list[str]  = []
     for folder in sorted(CHALLENGES_DIR.iterdir()):
         if not folder.is_dir() or folder.name.startswith("."):
             continue
-        entry = build_entry(folder)
+        entry = build_entry(folder, prev_by_id.get(folder.name))
         if entry:
             entries.append(entry)
         else:
